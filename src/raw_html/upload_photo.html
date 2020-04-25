@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BeautyYou — Загрузить фото в галерею</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+	<link rel="manifest" href="favicon/site.webmanifest">
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap-grid.css">
+	<link rel="stylesheet" type="text/css" href="./css/styling.css">
+	<script src="./js/file_preview.js"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap" rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		<!-- reg form -->
+		<div class="row justify-content-center align-content-center margin-bot-xl margin-top-xl margin-lr-auto w80">
+			<div class="col bgr-grad-rad content-area">
+				<form class="col pad-zero pad-v-s margin-top-m margin-bot-s" name="edit_form">
+					<div class="row margin-left-s margin-right-s align-content-center">
+						<div class="col pad-zero">
+							<div class="header-md-thin txt-clr-white">Загрузить фото в галерею</div>
+						</div>
+						<div class="col pad-zero">
+							<div class="row margin-zero-lr justify-content-end">
+								<div class="upload-btn-wrapper">
+									<button class="btn bgr-plain-white txt-clr-purple">Выбрать файл</button>
+									<input accept="image/*" onchange="loadFile(event);" type="file" name="myfile"/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row margin-zero-lr justify-content-center">
+						<div class="col pad-zero content-area margin-left-s margin-right-s margin-top-s margin-bot-s">
+							<div class="row margin-zero-lr justify-content-center bgr-no content-area txt-center-algn" id="filler">
+								<div class="header-md-thin txt-clr-white margin-top-m">Здесь будет отображаться загруженное фото</div>
+								<div class="col-5 pad-zero margin-bot-m margin-top-m">
+									<img class="w100" src="./imgs/computer.svg">	
+								</div>								
+							</div>				
+							<div class="img_container content-area portrait-large" id="preview" style="display: none;">
+							</div>
+						</div>
+					</div>
+					<div class="row pad-v-m justify-content-center">
+						<div class="col-md-auto reg-bttn pad-zero">
+							<input type="submit" name="login" class="col align-self-center header-md auto-mg-t-b txt-clr-purple pad-zero btn bgr-plain-white margin-left-xs margin-right-xs" value="Сохранить">
+						</div>
+					</div>
+				</form>	
+			</div>
+		</div>
+	</div>
+</body>
+</html>

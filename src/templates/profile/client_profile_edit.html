@@ -1,0 +1,16 @@
+{% from "display_form_errors.html" import display_form_errors %}
+{% extends "layout.html" %}
+
+{% block content %}
+    {{ display_form_errors(edit_form) }}
+
+    <form method="post">
+        {{ edit_form.name.label() }}
+        {{ edit_form.name() }} <br>
+        {{ edit_form.surname.label() }}
+        {{ edit_form.surname() }} <br>
+        {{ edit_form.edit() }}
+        {{ edit_form.hidden_tag() }}
+    </form>
+
+{% endblock %}

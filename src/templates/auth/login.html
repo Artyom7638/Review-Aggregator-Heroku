@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% for field, error_list in login_form.errors.items() %}
+        {% for error in error_list %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <form method="post">
+        {{ login_form.email() }}
+        {{ login_form.password() }}
+        {{ login_form.log_in() }}
+        {{ login_form.hidden_tag() }}
+    </form>
+
+    <a href="{{url_for('auth.client_registration')}}" class="nav-link">Регистрация клиента</a>
+    <a href="{{url_for('auth.master_registration')}}" class="nav-link">Регистрация мастера</a>
+
+{% endblock %}

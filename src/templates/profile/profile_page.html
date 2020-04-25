@@ -1,0 +1,91 @@
+{% from "review.html" import render_review %}
+{% from "render_pagination.html" import render_pagination %}
+{% extends "layout.html" %}
+{% block content %}
+    {% include "navbar.html" %}
+    <br> <br> <br>
+
+    {% with errors = get_flashed_messages(category_filter=["error"]) %}
+        {% for msg in errors %}
+            <div class="alert alert-danger" role="alert">
+                <h1>{{ msg }}</h1>
+            </div>
+        {% endfor %}
+    {% endwith %}
+    {% with messages = get_flashed_messages(category_filter=["success"]) %}
+        {% for msg in messages %}
+            <div class="alert alert-success" role="alert">
+                <h1>{{ msg }}</h1>
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    {{ user.name + ' ' + user.surname }}
+    {% if user.type == 'master' %}
+        {% if user.average_rating %}
+            <h3>Рейтинг: {{ user.average_rating }}</h3>
+        {% else %}
+            <h3>Недостаточно отзывов для расчёта рейтинга</h3>
+        {% endif %}
+    {% endif %}
+    {% if user == current_user %}
+        <a href="{{ url_for('profile.profile_edit', id=user.id) }}">Настроить профиль</a>
+    {% endif %}
+    <br>
+    {% if user.type == 'master' %}
+        {{ user.short_description }} <br>
+        <hr>
+        {{ user.description}} <br>
+        <h2>Делает: </h2>
+        {% for service in user.services %}
+            {{ service.name }}
+        {% endfor %}
+        <h2>Работы</h2>
+    {% endif %}
+
+    {% if allowed_to_review %}
+        <form method="post" action="{{ url_for('review.post_review', id=user.id) }}">
+            {{ review_form.content() }}
+            {{ review_form.content.label() }} <br>
+            {{ review_form.rating() }}
+            {{ review_form.rating.label() }} <br>
+
+            {{ review_form.submit() }}
+            {{ review_form.hidden_tag() }}
+        </form>
+    {% endif %}
+
+    {% if user.type == 'master'  %}
+        {% if current_user == user %}
+            <h3>Отзывы о вас</h3>
+        {% else %}
+            <h3>Отзывы о мастере</h3>
+        {% endif %}
+        {% for review in reviews_about_master %}
+            {{ render_review(review, false) }}
+        {% endfor %}
+         {{ render_pagination(reviews_about_master_pagination, 'profile.profile_page', author='others', left_edge=1, left_current=2, right_current=3, right_edge=1, id=user.id) }}
+
+        {% if current_user == user %}
+            <h3>Ваши отзывы</h3>
+        {% else %}
+            <h3>Отзывы мастера</h3>
+        {% endif %}
+        {% for review in users_reviews %}
+            {{ render_review(review, true) }}
+        {% endfor %}
+        {{ render_pagination(users_reviews_pagination, 'profile.profile_page', author='user', left_edge=1, left_current=2, right_current=3, right_edge=1, id=user.id) }}
+    {% else %}
+        {% if current_user == user %}
+            <h3>Ваши отзывы</h3>
+        {% else %}
+            <h3>Отзывы пользователя</h3>
+        {% endif %}
+        {% for review in users_reviews %}
+            {{ render_review(review, true) }}
+        {% endfor %}
+        {{ render_pagination(users_reviews_pagination, 'profile.profile_page', author='user', left_edge=1, left_current=2, right_current=3, right_edge=1, id=user.id) }}
+    {% endif %}
+
+
+{% endblock %}

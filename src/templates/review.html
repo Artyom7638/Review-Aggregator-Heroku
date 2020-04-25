@@ -1,0 +1,10 @@
+{% macro render_review(review, add_about_master) -%}
+    <h3>
+        <a href="{{ url_for('profile.profile_page', id=review.author.id) }}"> {{ review.author.name }} </a>
+        {% if add_about_master %}
+            <span> про <a href="{{ url_for('profile.profile_page', id=review.master.id) }}">{{ review.master.name }} {{ review.master.surname }}</a> </span>
+        {% endif %}
+    </h3>
+    {{ review.content }} <br>
+    {{ review.rating }} <br>
+{%- endmacro %}

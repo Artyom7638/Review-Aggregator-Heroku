@@ -1,0 +1,22 @@
+<!-- left_current это без учёта данной страницы, right_current - с учётом данной -->
+{% macro render_pagination(pagination, endpoint, author, left_edge, left_current, right_current, right_edge) %}
+    {% if pagination %}
+        {% if pagination.page != 1 or pagination.has_next %}  <!-- если лишь одна страница, не отображать номер страницы -->
+            {%- for page in pagination.iter_pages(left_edge=left_edge, left_current=left_current, right_current=right_current, right_edge=right_edge) %}
+                {% if page %}
+                    {% if page != pagination.page %}
+                        {% if author %}
+                            <a href="{{ url_for(endpoint, author=author, page=page, **kwargs) }}">{{ page }}</a>
+                        {% else %}
+                            <a href="{{ url_for(endpoint, page=page, **kwargs) }}" class="page-button">{{ page }}</a>
+                        {% endif %}
+                    {% else %}
+                        <span>{{ page }}</span>
+                    {% endif %}
+                {% else %}
+                    <span>…</span>
+                {% endif %}
+            {%- endfor %}
+        {% endif %}
+    {% endif %}
+{% endmacro %}

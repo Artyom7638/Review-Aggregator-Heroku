@@ -1,0 +1,26 @@
+{% from "display_form_errors.html" import display_form_errors %}
+{% from "render_services.html" import render_services %}
+{% extends "layout.html" %}
+
+{% block content %}
+    {{ display_form_errors(edit_form) }}
+
+    <form method="post">
+        {{ edit_form.name.label() }}
+        {{ edit_form.name() }} <br>
+        {{ edit_form.surname.label() }}
+        {{ edit_form.surname() }} <br>
+        {{ edit_form.phone_number.label() }}
+        {{ edit_form.phone_number() }} <br>
+        {{ edit_form.short_description.label() }}
+        {{ edit_form.short_description() }} <br>
+        {{ edit_form.description.label() }}
+        {{ edit_form.description() }} <br>
+
+        {{ render_services(categories, edit_form.services) }}
+
+        {{ edit_form.edit() }}
+        {{ edit_form.hidden_tag() }}
+    </form>
+
+{% endblock %}

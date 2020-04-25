@@ -1,0 +1,47 @@
+{% from "review.html" import render_review %}
+{% from "render_pagination.html" import render_pagination %}
+{% extends "layout.html" %}
+{% block additional_libraries %}
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+{% endblock %}
+{% block content %}
+    {% include "navbar.html" %}
+    <br> <br> <br>
+
+<form method="get" id="search">
+    {{ search_filter_form.hidden_tag() }}
+    {{ search_filter_form.services() }}
+    {{ search_filter_form.sort() }} <br>
+    {{ search_filter_form.order() }} <br>
+</form>
+
+<button id="display">Показать</button> <br>
+
+{% if query %}
+    {% if masters %}
+         <h2>По запросу "{{ query }}" найдены следующие результаты:</h2>
+    {% else %}
+        <h2>По запросу "{{ query }}" ничего не найдено. Попробуйте задать новый запрос в строке поиска или выбрать требуемые вам услуги в меню слева.</h2>
+    {% endif %}
+{% endif %}
+
+{% for master in masters %}
+    <a href="{{ url_for('profile.profile_page', id=master.id) }}"> {{ master.name + ' ' + master.surname }} </a>
+    <h3>{{ master.average_rating }}</h3>
+{% endfor %}
+
+{{ render_pagination(pagination, 'search.search', author=None, left_edge=1, left_current=2, right_current=3, right_edge=1) }}
+<script>
+    {% set page = "#" + search_filter_form.page.id  %}
+    $('#display').click(function(evt) {
+        $('{{ page }}').val('1');
+        document.forms['search'].submit();
+    });
+    $(".page-button").click(function(evt) {
+        evt.preventDefault();
+        page_val = $(evt.target).text();
+        $('{{ page }}').val(page_val);
+        document.forms['search'].submit();
+    });
+</script>
+{% endblock %}

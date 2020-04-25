@@ -1,0 +1,26 @@
+{% macro render_category(category, services_field) -%}
+    {{ category.name }} <br>
+    {% for service in category.services %}
+        {% set id = services_field.name + '-' + (service.id - 1) | string %}
+        <input id="{{ id }}" name="{{ services_field.name }}" type="checkbox" value="{{ service.id }}" {{ 'checked' if services_field.data and service.id in services_field.data }} >
+        <label for="{{ id }}">{{ service.name }}</label>
+        <br>
+    {% endfor %}
+    <br> <br> <br>
+{%- endmacro %}
+
+
+{% macro render_services(categories, services_field) -%}
+    {% set hair_care = categories['Уход за волосами'] %}
+    {% set nail_care = categories['Уход за ногтями'] %}
+    {% set massage_spa = categories['Массаж, SPA'] %}
+    {% set skin_care = categories['Уход за кожей'] %}
+    {% set tattoos = categories['Татуировки'] %}
+    {% set piercing = categories['Пирсинг'] %}
+    {{ render_category(hair_care, services_field) }}
+    {{ render_category(nail_care, services_field) }}
+    {{ render_category(massage_spa, services_field) }}
+    {{ render_category(skin_care, services_field) }}
+    {{ render_category(tattoos, services_field) }}
+    {{ render_category(piercing, services_field) }}
+{%- endmacro %}

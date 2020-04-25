@@ -1,0 +1,22 @@
+{% from "display_form_errors.html" import display_form_errors %}
+{% extends "layout.html" %}
+
+{% block content %}
+    {{ display_form_errors(registration_form) }}
+
+    <form method="post">
+        {{ registration_form.email.label() }}
+        {{ registration_form.email() }} <br>
+        {{ registration_form.password.label() }}
+        {{ registration_form.password() }} <br>
+        {{ registration_form.repeat_password.label() }}
+        {{ registration_form.repeat_password() }} <br>
+        {{ registration_form.name.label() }}
+        {{ registration_form.name() }} <br>
+        {{ registration_form.surname.label() }}
+        {{ registration_form.surname() }} <br>
+        {{ registration_form.register() }}
+        {{ registration_form.hidden_tag() }}
+    </form>
+
+{% endblock %}

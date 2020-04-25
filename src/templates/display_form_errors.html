@@ -1,0 +1,9 @@
+{% macro display_form_errors(form) -%}
+    {% for field, error_list in form.errors.items() %}
+        {% for error in error_list %}
+            <div class="alert alert-danger" role="alert">
+                {{ form[field].label }}: {{ error }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{%- endmacro %}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BeautyYou — Главная</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+	<link rel="manifest" href="favicon/site.webmanifest">
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap-grid.css">
+	<link rel="stylesheet" type="text/css" href="./css/styling.css">
+	<link rel="stylesheet" type="text/css" href="./css/stars.css">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap" rel="stylesheet">
+</head>
+<body>
+	<!-- NAVBAR start -->
+	<div class="row margin-zero-lr">
+		<div class="navbar bgr-plain-purple row justify-content-center">
+			<div class="col-3 align-self-center">
+				<div class="row">
+					<img src="./imgs/eye-makeup.svg" class="filter-white icon-sm center-img cursor-ptr" onclick="window.location.href='/'">
+				</div>
+			</div>
+			<div class="col-4 align-self-center input-m bgr-plain-white">
+				<div class="row h100">
+					<div class="col align-self-center">
+						<form class="row" action="/LINK TO ACTION PAGE" method="get" name="search_form" id="search_form">
+							<div class="col-9 v-line-r-p pad-zero">
+								<input type="text" name="search_data" placeholder="Например, “мелирование”" class="col txt-suggest">
+							</div>
+							<div class="col-3 pad-zero">
+								<div class="row cursor-ptr margin-zero-lr" onclick="document.getElementById('search_form').submit();">
+									<div class="col text-center no-decor">
+										<a class="txt-clr-purple header-s">
+											<img src="./imgs/search.svg" class="filter-purple icon-xs large-only">
+											Поиск
+										</a>	
+									</div>							
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				
+			</div>
+			<div class="col-3 pad-zero align-self-center align-items-center">
+				<div class="row justify-content-center margin-zero-lr">
+					<div class="col-8 ">
+						<div class="row content-space-between align-items-center">
+							<!-- Авторизованная версия -->
+							<div class="col pad-zero">
+								<a class="txt-clr-white text-regular" href="">
+								<img src="./imgs/user.svg" class="filter-white icon-xs large-only">
+									Профиль
+								</a>
+							</div>
+							<div class="col pad-zero">
+								<a class="txt-clr-white text-regular" href="">
+									<img src="./imgs/logout.svg" class="filter-white icon-xs">				
+								</a>
+							</div>
+							<!-- Авторизованная версия - КОНЕЦ -->
+						</div>
+					</div>
+				</div>		
+			</div>
+		</div>
+	</div>
+	<!-- NAVBAR end -->
+</body>
+</html>

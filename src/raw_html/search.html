@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BeautyYou — Поиск</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+	<link rel="manifest" href="favicon/site.webmanifest">
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap-grid.css">
+	<link rel="stylesheet" type="text/css" href="./css/styling.css">
+	<link rel="stylesheet" type="text/css" href="./css/stars.css">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap" rel="stylesheet">
+</head>
+<body>
+	<!-- NAVBAR start -->
+	<div class="row margin-zero-lr">
+		<div class="navbar bgr-plain-purple row justify-content-center">
+			<div class="col-3 align-self-center">
+				<div class="row">
+					<img src="./imgs/eye-makeup.svg" class="filter-white icon-sm center-img cursor-ptr" onclick="window.location.href='/'">
+				</div>
+			</div>
+			<div class="col-4 align-self-center input-m bgr-plain-white">
+				<div class="row h100">
+					<div class="col align-self-center">
+						<form class="row" action="/LINK TO ACTION PAGE" method="get" name="search_form" id="search_form">
+							<div class="col-9 v-line-r-p pad-zero">
+								<input type="text" name="search_data" placeholder="Например, “мелирование”" class="col txt-suggest">
+							</div>
+							<div class="col-3 pad-zero">
+								<div class="row cursor-ptr margin-zero-lr" onclick="document.getElementById('search_form').submit();">
+									<div class="col text-center no-decor">
+										<a class="txt-clr-purple header-s">
+											<img src="./imgs/search.svg" class="filter-purple icon-xs large-only">
+											Поиск
+										</a>	
+									</div>							
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				
+			</div>
+			<div class="col-3 pad-zero align-self-center align-items-center">
+				<div class="row justify-content-center margin-zero-lr">
+					<div class="col-8 ">
+						<div class="row content-space-between align-items-center">
+							<!-- Авторизованная версия -->
+							<div class="col pad-zero">
+								<a class="txt-clr-white text-regular" href="">
+								<img src="./imgs/user.svg" class="filter-white icon-xs large-only">
+									Профиль
+								</a>
+							</div>
+							<div class="col pad-zero">
+								<a class="txt-clr-white text-regular" href="">
+									<img src="./imgs/logout.svg" class="filter-white icon-xs">				
+								</a>
+							</div>
+							<!-- Авторизованная версия - КОНЕЦ -->
+						</div>
+					</div>
+				</div>		
+			</div>
+		</div>
+	</div>
+	<!-- NAVBAR end -->
+	<div class="container margin-top-xl">
+		<div class="row justify-content-center margin-zero-lr">
+			<!-- checkboxes -->
+			<form id="filter" class="col-3 content-area bgr-plain-white pad-zero txt-clr-purple" style="height: fit-content;">
+				<div class="row margin-zero-lr pad-lr-s margin-top-s">
+					<div class="text-small bold">
+						Фильтровать по категориям:
+					</div>
+				</div>
+				<div class="row margin-zero-lr">
+					<div class="col-8 pad-zero margin-left-s">
+						<!-- Уход за волосами -->
+						<div class="col pad-zero">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" id="exampleCheck1">
+								<label class="form-check-label" for="exampleCheck1">Уход за волосами</label>
+							</div>
+							<div class="margin-left-s">
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck1">
+									<label class="form-check-label" for="exampleCheck1">Стрижка</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck2">
+									<label class="form-check-label" for="exampleCheck2">Окрашивание</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck2">
+									<label class="form-check-label" for="exampleCheck2">Мелирование</label>
+								</div>	
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck2">
+									<label class="form-check-label" for="exampleCheck2">Укладка</label>
+								</div>	
+							</div>
+						</div>
+						<!--  Уход за ногтями -->
+						<div class="col pad-zero">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" id="exampleCheck1">
+								<label class="form-check-label" for="exampleCheck1">Уход за ногтями</label>
+							</div>
+							<div class="margin-left-s">
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck1">
+									<label class="form-check-label" for="exampleCheck1">Маникюр</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck2">
+									<label class="form-check-label" for="exampleCheck2">Педикюр</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck2">
+									<label class="form-check-label" for="exampleCheck2">Наращивание</label>
+								</div>	
+							</div>
+						</div>
+						<!-- Массаж, SPA -->
+						<div class="col pad-zero">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" id="exampleCheck1">
+								<label class="form-check-label" for="exampleCheck1">Массаж, SPA</label>
+							</div>
+							<div class="margin-left-s">
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck1">
+									<label class="form-check-label" for="exampleCheck1">Массаж</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck2">
+									<label class="form-check-label" for="exampleCheck2">SPA</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck2">
+									<label class="form-check-label" for="exampleCheck2">Тайский массаж</label>
+								</div>	
+							</div>
+						</div>
+						<!-- Пирсинг -->
+						<div class="col pad-zero">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" id="exampleCheck1">
+								<label class="form-check-label" for="exampleCheck1">Пирсинг</label>
+							</div>
+							<div class="margin-left-s">
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck1">
+									<label class="form-check-label" for="exampleCheck1">Голова</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck2">
+									<label class="form-check-label" for="exampleCheck2">Тело</label>
+								</div>	
+							</div>
+						</div>	
+						<!-- Татуировки -->
+						<div class="col pad-zero">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" id="exampleCheck1">
+								<label class="form-check-label" for="exampleCheck1">Татуировки</label>
+							</div>
+							<div class="margin-left-s">
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck1">
+									<label class="form-check-label" for="exampleCheck1">Цветные</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck2">
+									<label class="form-check-label" for="exampleCheck2">Монохромные</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck2">
+									<label class="form-check-label" for="exampleCheck2">Удаление</label>
+								</div>	
+							</div>
+						</div>	
+						<!-- Уход за кожей -->
+						<div class="col pad-zero">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" id="exampleCheck1">
+								<label class="form-check-label" for="exampleCheck1">Уход за кожей</label>
+							</div>
+							<div class="margin-left-s">
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck1">
+									<label class="form-check-label" for="exampleCheck1">Удаление прыщей</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" id="exampleCheck2">
+									<label class="form-check-label" for="exampleCheck2">Чистка кожи</label>
+								</div>		
+							</div>
+						</div>											
+					</div>
+				</div>
+				<div class="row margin-zero-lr pad-lr-s margin-top-m margin-bot-s">
+					<div class="col pad-zero">
+						<div class="text-small bold">
+							Сортировать по:
+						</div>
+						<div class="form-check">
+							<input type="radio" class="form-check-input" name="reviews_rate">
+							<label class="form-check-label" for="exampleCheck1">По количеству отзывов</label>
+						</div>
+						<div class="form-check">
+							<input type="radio" class="form-check-input" name="reviews_rate">
+							<label class="form-check-label" for="exampleCheck1">По рейтингу</label>
+						</div>
+						<div class="form-check margin-top-s">
+							<input type="radio" class="form-check-input" name="asc_desc">
+							<label class="form-check-label" for="exampleCheck1">По возрастанию</label>
+						</div>
+						<div class="form-check margin-bot-s">
+							<input type="radio" class="form-check-input" name="asc_desc">
+							<label class="form-check-label" for="exampleCheck1">По убыванию</label>
+						</div>
+						<div class="col-md-auto input-sm bgr-plain-purple reg-bttn fit-content">
+							<input type="submit" name="show" class="col align-self-center text-regular auto-mg-t-b txt-clr-white" value="Показать">
+						</div>
+					</div>					
+				</div>
+			</form>
+			<!-- search results -->
+			<div class="col pad-zero margin-left-s">
+				<div class="row margin-zero-lr margin-bot-s">
+					<div class="header-md txt-clr-purple">
+						По запросу “Lorem ipsum” найдены следующие результаты:
+					</div>
+				</div>
+				<!-- search result template -->
+				<div class="row margin-zero-lr content-area bgr-plain-white margin-bot-m">
+					<div class="col-3 col-center pad-zero margin-left-xs margin-top-s margin-bot-s">
+						<!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
+						<a href="link-to-user-profile" class="img_container rounded" style="background-image: url('./imgs/2020_02_19_86981_1582093384._large.jpg');">
+						</a>
+					</div>
+					<div class="col margin-top-s margin-bot-s">
+						<div class="header-md txt-clr-purple">
+							 “Lorem Ipsum Hairstryle”
+						</div>
+						<div class="text-small">
+							Nullam quis eros nec leo mattis porttitor in in dui. Donec iaculis finibus ipsum. Ut nec purus non libero cursus cursus. Morbi maximus placerat neque. Maecenas hendrerit libero sem, eget facilisis elit hendrerit eu. Cras sit amet nisi neque.
+						</div>
+						<div class="row margin-zero-lr align-items-center margin-top-inh">
+							<div class="rating col-4 align-items-center margin-zero-lr pad-zero">
+								<div class="stars-gray col pad-zero">
+									<!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
+									<div class="stars-color" style="width: 110px"></div>
+								</div>
+							</div>
+							<div class="col-8 tags pad-zero">
+								<div class="row margin-zero-lr">
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Тайский массаж
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											SPA
+										</div>
+									</div>
+								</div>								
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row margin-zero-lr content-area bgr-plain-white margin-bot-m">
+					<div class="col-3 col-center pad-zero margin-left-xs margin-top-s margin-bot-s">
+						<!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
+						<a href="link-to-user-profile" class="img_container rounded" style="background-image: url('./imgs/2020_02_19_86981_1582093384._large.jpg');">
+						</a>
+					</div>
+					<div class="col margin-top-s margin-bot-s">
+						<div class="header-md txt-clr-purple">
+							 “Lorem Ipsum Hairstryle”
+						</div>
+						<div class="text-small">
+							Nullam quis eros nec leo mattis porttitor in in dui. Donec iaculis finibus ipsum. Ut nec purus non libero cursus cursus. Morbi maximus placerat neque. Maecenas hendrerit libero sem, eget facilisis elit hendrerit eu. Cras sit amet nisi neque.
+						</div>
+						<div class="row margin-zero-lr align-items-center margin-top-inh">
+							<div class="rating col-4 align-items-center margin-zero-lr pad-zero">
+								<div class="stars-gray col pad-zero">
+									<!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
+									<div class="stars-color" style="width: 110px"></div>
+								</div>
+							</div>
+							<div class="col-8 tags pad-zero">
+								<div class="row margin-zero-lr">
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Тайский массаж
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											SPA
+										</div>
+									</div>
+								</div>								
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row margin-zero-lr content-area bgr-plain-white margin-bot-m">
+					<div class="col-3 col-center pad-zero margin-left-xs margin-top-s margin-bot-s">
+						<!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
+						<a href="link-to-user-profile" class="img_container rounded" style="background-image: url('./imgs/2020_02_19_86981_1582093384._large.jpg');">
+						</a>
+					</div>
+					<div class="col margin-top-s margin-bot-s">
+						<div class="header-md txt-clr-purple">
+							 “Lorem Ipsum Hairstryle”
+						</div>
+						<div class="text-small">
+							Nullam quis eros nec leo mattis porttitor in in dui. Donec iaculis finibus ipsum. Ut nec purus non libero cursus cursus. Morbi maximus placerat neque. Maecenas hendrerit libero sem, eget facilisis elit hendrerit eu. Cras sit amet nisi neque.
+						</div>
+						<div class="row margin-zero-lr align-items-center margin-top-inh">
+							<div class="rating col-4 align-items-center margin-zero-lr pad-zero">
+								<div class="stars-gray col pad-zero">
+									<!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
+									<div class="stars-color" style="width: 110px"></div>
+								</div>
+							</div>
+							<div class="col-8 tags pad-zero">
+								<div class="row margin-zero-lr">
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Тайский массаж
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											SPA
+										</div>
+									</div>
+								</div>								
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row margin-zero-lr content-area bgr-plain-white margin-bot-m">
+					<div class="col-3 col-center pad-zero margin-left-xs margin-top-s margin-bot-s">
+						<!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
+						<a href="link-to-user-profile" class="img_container rounded" style="background-image: url('./imgs/2020_02_19_86981_1582093384._large.jpg');">
+						</a>
+					</div>
+					<div class="col margin-top-s margin-bot-s">
+						<div class="header-md txt-clr-purple">
+							 “Lorem Ipsum Hairstryle”
+						</div>
+						<div class="text-small">
+							Nullam quis eros nec leo mattis porttitor in in dui. Donec iaculis finibus ipsum. Ut nec purus non libero cursus cursus. Morbi maximus placerat neque. Maecenas hendrerit libero sem, eget facilisis elit hendrerit eu. Cras sit amet nisi neque.
+						</div>
+						<div class="row margin-zero-lr align-items-center margin-top-inh">
+							<div class="rating col-4 align-items-center margin-zero-lr pad-zero">
+								<div class="stars-gray col pad-zero">
+									<!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
+									<div class="stars-color" style="width: 110px"></div>
+								</div>
+							</div>
+							<div class="col-8 tags pad-zero">
+								<div class="row margin-zero-lr">
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Тайский массаж
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											SPA
+										</div>
+									</div>
+								</div>								
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row margin-zero-lr content-area bgr-plain-white margin-bot-m">
+					<div class="col-3 col-center pad-zero margin-left-xs margin-top-s margin-bot-s">
+						<!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
+						<a href="link-to-user-profile" class="img_container rounded" style="background-image: url('./imgs/2020_02_19_86981_1582093384._large.jpg');">
+						</a>
+					</div>
+					<div class="col margin-top-s margin-bot-s">
+						<div class="header-md txt-clr-purple">
+							 “Lorem Ipsum Hairstryle”
+						</div>
+						<div class="text-small">
+							Nullam quis eros nec leo mattis porttitor in in dui. Donec iaculis finibus ipsum. Ut nec purus non libero cursus cursus. Morbi maximus placerat neque. Maecenas hendrerit libero sem, eget facilisis elit hendrerit eu. Cras sit amet nisi neque.
+						</div>
+						<div class="row margin-zero-lr align-items-center margin-top-inh">
+							<div class="rating col-4 align-items-center margin-zero-lr pad-zero">
+								<div class="stars-gray col pad-zero">
+									<!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
+									<div class="stars-color" style="width: 110px"></div>
+								</div>
+							</div>
+							<div class="col-8 tags pad-zero">
+								<div class="row margin-zero-lr">
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Тайский массаж
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											SPA
+										</div>
+									</div>
+								</div>								
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row margin-zero-lr content-area bgr-plain-white margin-bot-m">
+					<div class="col-3 col-center pad-zero margin-left-xs margin-top-s margin-bot-s">
+						<!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
+						<a href="link-to-user-profile" class="img_container rounded" style="background-image: url('./imgs/2020_02_19_86981_1582093384._large.jpg');">
+						</a>
+					</div>
+					<div class="col margin-top-s margin-bot-s">
+						<div class="header-md txt-clr-purple">
+							 “Lorem Ipsum Hairstryle”
+						</div>
+						<div class="text-small">
+							Nullam quis eros nec leo mattis porttitor in in dui. Donec iaculis finibus ipsum. Ut nec purus non libero cursus cursus. Morbi maximus placerat neque. Maecenas hendrerit libero sem, eget facilisis elit hendrerit eu. Cras sit amet nisi neque.
+						</div>
+						<div class="row margin-zero-lr align-items-center margin-top-inh">
+							<div class="rating col-4 align-items-center margin-zero-lr pad-zero">
+								<div class="stars-gray col pad-zero">
+									<!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
+									<div class="stars-color" style="width: 110px"></div>
+								</div>
+							</div>
+							<div class="col-8 tags pad-zero">
+								<div class="row margin-zero-lr">
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Тайский массаж
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											Окрашивание
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+										<div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+											SPA
+										</div>
+									</div>
+								</div>								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row margin-zero-lr txt-clr-purple">
+			<div class="col pad-zero">
+				<div class="row text-regular justify-content-end margin-zero-lr">
+					<a href="">Предыдущая</a>
+				</div>
+			</div>
+			<div class="col pad-zero">
+				<div class="row text-small justify-content-center margin-zero-lr align-items-end">
+					<a href="" class="bold text-regular page-index">1</a>
+					<a href="" class="page-index">2</a>
+					<a href="" class="page-index">3</a>
+					<a href="" class="page-index">4</a>
+					<a href="" class="page-index">5</a>
+					<a href="" class="page-index">6</a>
+					<a href="" class="page-index">7</a>
+					<a href="" class="page-index">8</a>
+					<a href="" class="page-index">9</a>
+					<a href="" class="page-index">10</a>
+				</div>
+			</div>
+			<div class="col pad-zero">
+				<div class="row text-regular justify-content-start margin-zero-lr">
+					<a href="">Следующая</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
