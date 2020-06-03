@@ -1,39 +1,151 @@
 {% from "review.html" import render_review %}
 {% from "render_pagination.html" import render_pagination %}
+{% from "render_category.html" import render_category %}
 {% extends "layout.html" %}
 {% block additional_libraries %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/stars.css') }}">
     <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
 {% endblock %}
+
 {% block content %}
     {% include "navbar.html" %}
-    <br> <br> <br>
+    {% set hair_care = categories['Уход за волосами'] %}
+    {% set nail_care = categories['Уход за ногтями'] %}
+    {% set massage_spa = categories['Массаж, SPA'] %}
+    {% set skin_care = categories['Уход за кожей'] %}
+    {% set tattoos = categories['Татуировки'] %}
+    {% set piercing = categories['Пирсинг'] %}
 
-<form method="get" id="search">
-    {{ search_filter_form.hidden_tag() }}
-    {{ search_filter_form.services() }}
-    {{ search_filter_form.sort() }} <br>
-    {{ search_filter_form.order() }} <br>
-</form>
+	<div class="container margin-top-xl">
+		<div class="row justify-content-center margin-zero-lr">
+			<!-- checkboxes -->
+			<form method="get" id="search" class="col-3 content-area bgr-plain-white pad-zero txt-clr-purple" style="height: fit-content;">
+				<div class="row margin-zero-lr pad-lr-s margin-top-s">
+					<div class="text-small bold">
+						Фильтровать по категориям:
+					</div>
+				</div>
+				<div class="row margin-zero-lr">
+					<div class="col-8 pad-zero margin-left-s">
+						<!-- Уход за волосами -->
+                        {{ render_category(hair_care) }}
+						<!--  Уход за ногтями -->
+                        {{ render_category(nail_care) }}
+						<!-- Массаж, SPA -->
+                        {{ render_category(massage_spa) }}
+						<!-- Пирсинг -->
+                        {{ render_category(piercing) }}
+						<!-- Татуировки -->
+                        {{ render_category(tattoos) }}
+						<!-- Уход за кожей -->
+						{{ render_category(skin_care) }}
+					</div>
+				</div>
+				<div class="row margin-zero-lr pad-lr-s margin-top-m margin-bot-s">
+					<div class="col pad-zero">
+						<div class="text-small bold">
+							Сортировать по:
+						</div>
+                        {% for field in search_filter_form.sort %}
+                            <div class="form-check">
+                                {{ field(class="form-check-input") }}
+                                {{ field.label(class="form-check-label") }}
+                            </div>
+                        {% endfor %}
+                        {% for field in search_filter_form.order %}
+                            {% if loop.first %}
+                                <div class="form-check margin-top-s">
+                                    {{ field(class="form-check-input") }}
+                                    {{ field.label(class="form-check-label") }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        {% for field in search_filter_form.order %}
+                            {% if not loop.first %}
+                                <div class="form-check margin-bot-s">
+                                    {{ field(class="form-check-input") }}
+                                    {{ field.label(class="form-check-label") }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+						<div class="col">
+							<div class="row align-items-center justify-content-center">
+                                <!--
+                                <button id="display" class="input-auto bgr-plain-purple cursor-ptr text-regular pad-lr-s pad-tb-5 txt-clr-white">Показать</button>
+                                -->
 
-<button id="display">Показать</button> <br>
+                                <input type="submit" id="display" class="input-auto bgr-plain-purple cursor-ptr text-regular pad-lr-s pad-tb-5 txt-clr-white" value="Показать">
 
-{% if query %}
-    {% if masters %}
-         <h2>По запросу "{{ query }}" найдены следующие результаты:</h2>
-    {% else %}
-        <h2>По запросу "{{ query }}" ничего не найдено. Попробуйте задать новый запрос в строке поиска или выбрать требуемые вам услуги в меню слева.</h2>
-    {% endif %}
-{% endif %}
+							</div>
+						</div>
+					</div>					
+				</div>
+                {{ search_filter_form.hidden_tag() }}
+			</form>
+			<!-- search results -->
+			<div class="col pad-zero margin-left-s">
+				<div class="row margin-zero-lr margin-bot-s">
+					<div class="header-md txt-clr-purple">
+                        {% if query %}
+                            {% if masters %}
+                                 <h2>По запросу "{{ query }}" найдены следующие результаты:</h2>
+                            {% else %}
+                                <h2>По запросу "{{ query }}" ничего не найдено. Попробуйте задать новый запрос в строке поиска или выбрать требуемые вам услуги в меню слева.</h2>
+                            {% endif %}
+                        {% endif %}
+					</div>
+				</div>
+				<!-- search result template -->
+                {% for master in masters %}
+                    <div class="row margin-zero-lr content-area bgr-plain-white margin-bot-m">
+                        <div class="col-3 col-center pad-zero margin-left-xs margin-top-s margin-bot-s">
+                            <!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
+                            <a href="{{ url_for('profile.profile_page', id=master.id) }}" class="img_container rounded" style="background-image: url('{{ url_for('static', filename='imgs/2020_02_19_86981_1582093384._large.jpg') }}');">
+                            </a>
+                        </div>
+                        <div class="col margin-top-s margin-bot-s">
+                            <div class="header-md txt-clr-purple">
+                                <a href="{{ url_for('profile.profile_page', id=master.id) }}">“{{ master.name + ' ' + master.surname }}”</a>
+                            </div>
+                            <div class="text-small">
+                                {{ master.short_description }}
+                            </div>
+                            <div class="row margin-zero-lr align-items-center margin-top-inh">
+                                <div class="rating col-4 align-items-center margin-zero-lr pad-zero">
+                                    {% if master.average_rating %}
+                                        <div class="stars-gray col pad-zero">
+                                            <!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
+                                            <div class="stars-color" style="width: {{ master.average_rating / 5 * 140 }}px">
+                                            </div>
+                                         </div>
+                                    {% else %}
+                                        Недостаточно отзывов для расчёта рейтинга
+                                    {% endif %}
+                                </div>
+                                <div class="col-8 tags pad-zero">
+                                    <div class="row margin-zero-lr">
+                                        {% for service in master.services %}
+                                            <div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+                                                <div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+                                                    {{ service.name }}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+			</div>
+		</div>
+        {{ render_pagination() }}
+	</div>
 
-{% for master in masters %}
-    <a href="{{ url_for('profile.profile_page', id=master.id) }}"> {{ master.name + ' ' + master.surname }} </a>
-    <h3>{{ master.average_rating }}</h3>
-{% endfor %}
-
-{{ render_pagination(pagination, 'search.search', author=None, left_edge=1, left_current=2, right_current=3, right_edge=1) }}
 <script>
     {% set page = "#" + search_filter_form.page.id  %}
     $('#display').click(function(evt) {
+        evt.preventDefault();
         $('{{ page }}').val('1');
         document.forms['search'].submit();
     });

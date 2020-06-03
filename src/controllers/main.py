@@ -11,7 +11,7 @@ main = Blueprint('main', __name__, template_folder=os.path.join(Config.TEMPLATE_
 
 @main.route('/')
 def index():
-    return render_template('index.html', title='Агрегатор отзывов для индустрии красоты', search_form=SearchForm())
+    return render_template('index.html', title='Главная', search_form=SearchForm())
 
 
 def handle_exceptions(e):

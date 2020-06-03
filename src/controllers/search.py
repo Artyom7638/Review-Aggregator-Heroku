@@ -24,7 +24,7 @@ def smart_search():
     service = Service.query.filter(Service.name.ilike(query)).first()
     if service:
         return redirect(url_for('search.search', query=query, services='s' + str(service.id)))
-    category = Category.query.filter(Service.name.ilike(query)).first()
+    category = Category.query.filter(Category.name.ilike(query)).first()
     if category:
         return redirect(url_for('search.search', query=query, services='c' + str(category.id)))
     else:
@@ -44,11 +44,12 @@ def find_master_by_name(query, name, reverse_name):
 @search_blueprint.route('/search')
 def search():
     search_filter_form = SearchFilterForm(request.args)
+    categories_dict = search_filter_form.categories
     search_query = search_filter_form.query.data
     if search_query and not search_filter_form.services.data and not search_filter_form.master.data:
         search_filter_form.query.data = ''
         return render_template('search.html', title='Поиск', search_form=SearchForm(), query=search_query,
-                               search_filter_form=search_filter_form, masters=[])
+                               search_filter_form=search_filter_form, masters=[], categories=categories_dict)
     query = Master.query
     if search_filter_form.master.data:
         name = "%{}%".format(search_filter_form.master.data)
@@ -75,4 +76,5 @@ def search():
         search_filter_form.page.data = '1'
     pagination = query.paginate(int(search_filter_form.page.data), Config.SEARCH_MASTERS_PER_PAGE, True)
     return render_template('search.html', title='Поиск', search_form=SearchForm(), query=search_query,
-                           search_filter_form=search_filter_form, masters=pagination.items, pagination=pagination)
+                           search_filter_form=search_filter_form, masters=pagination.items, pagination=pagination,
+                           categories=categories_dict)

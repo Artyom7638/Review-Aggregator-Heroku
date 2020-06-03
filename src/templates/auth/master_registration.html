@@ -1,28 +1,144 @@
 {% from "display_form_errors.html" import display_form_errors %}
 {% from "render_services.html" import render_services %}
 {% extends "layout.html" %}
-
+{% block additional_libraries %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="{{ url_for('static', filename='js/jquery.inputmask.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/validations.js') }}"></script>
+{% endblock %}
 {% block content %}
     {{ display_form_errors(registration_form) }}
+	<div class="container">
+		<!-- reg form -->
+		<div class="row justify-content-center align-content-center margin-bot-xl margin-top-xl margin-lr-auto w80">
+			<div class="col bgr-grad-rad content-area">
+				<div class="col pad-h-m pad-v-s margin-top-m margin-bot-m">
+					<div class="row">
+						<div class="header-lg txt-clr-white">Регистрация</div>
+					</div>
+					<!-- data input -->
+					<form method="post" name="reg_form">
+						<!-- Login -->
+						<div class="row pad-v-xs">
+							<div class="row margin-bot-top-10">
+								<div class="col input-lg bgr-plain-white">
+									<div class="row h100">
+                                        {{ registration_form.email(class="col align-self-center txt-suggest", placeholder=registration_form.email.label.text, maxlength="50", minlength="5") }} <br>
+									</div>
+								</div>
+								<div class="col">
+									<div class="text-regular txt-clr-white">
+										— Ваша почта потребуется нам для подтверждения вашего аккаунта. В дальнейшем она будет использоваться Вами для входа на сайт.
+										<span class="txt-clr-red">*</span>
+									</div>					
+								</div>
+							</div>
+						</div>
+						<!-- Password -->
+						<div class="row pad-v-xs">
+							<div class="row margin-bot-top-10 w100">
+								<div class="col input-lg bgr-plain-white">
+									<div class="row h100">
+                                        {{ registration_form.password(class="col align-self-center txt-suggest", oninput="isFirstPasswordEqual(this);", placeholder=registration_form.password.label.text, maxlength="50", minlength="5") }}
+									</div>
+								</div>
+								<div class="col">
+									<div class="text-regular txt-clr-white">
+										— Пароль для входа на сайт.
+										<span class="txt-clr-red">*</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Confirm password -->
+						<div class="row pad-v-xs">
+							<div class="row margin-bot-top-10 w100">
+								<div class="col input-lg bgr-plain-white">
+									<div class="row h100">
+                                        {{ registration_form.repeat_password(class="col align-self-center txt-suggest", oninput="isSecondPasswordEqual(this);", placeholder=registration_form.repeat_password.label.text, maxlength="50", minlength="5") }}
+									</div>
+								</div>
+								<div class="col">
+								</div>
+							</div>
+						</div>
+						<div class="row pad-v-xs margin-top-m">
+							<div class="row margin-bot-top-10 w100">
+								<div class="col input-lg bgr-plain-white">
+									<div class="row h100">
+                                        {{ registration_form.name(class="col align-self-center txt-suggest", placeholder=registration_form.name.label.text, maxlength="25", minlength="2") }}
+									</div>
+								</div>
+								<div class="col">
+									<div class="text-regular txt-clr-white">
+										— Ваше имя. Так пользователи будут видеть Вас на сайте.
+										<span class="txt-clr-red">*</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row pad-v-xs">
+							<div class="row margin-bot-top-10 w100">
+								<div class="col input-lg bgr-plain-white">
+									<div class="row h100">
+                                        {{ registration_form.surname(class="col align-self-center txt-suggest", placeholder=registration_form.surname.label.text, maxlength="25", minlength="2") }}
+									</div>
+								</div>
+								<div class="col">
+									<div class="text-regular txt-clr-white">
+										— Ваша фамилия.
+										<span class="txt-clr-red">*</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Phone number -->
+						<div class="row pad-v-xs">
+							<div class="row margin-bot-top-10 w100">
+								<div class="col input-lg bgr-plain-white">
+									<div class="row h100">
+									    {{ registration_form.phone_number(**{'data-inputmask': "'mask': '+7 (999) 999-99-99'", 'placeholder': "+7 (999) 999-99-99", 'class': "col align-self-center txt-suggest"}) }}
+                                    </div>
+								</div>
+								<div class="col">
+									<div class="text-regular txt-clr-white">
+										— Ваш номер телефона. По нему Ваши будущие клиенты смогут записаться к Вам на прием.
+										<span class="txt-clr-red">*</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row pad-v-xs v-line-t-w margin-top-m">
+							<div class="row margin-bot-top-10">
+								<div class="col">
+									<div class="text-regular txt-clr-white">								
+										— Какой вид услуг вы будете оказывать? Выберите хотя бы один вариант.<span class="txt-clr-red">*</span>				
+									</div>
+								</div>
+							</div>
+						</div>
 
-    <form method="post">
-        {{ registration_form.email.label() }}
-        {{ registration_form.email() }} <br>
-        {{ registration_form.password.label() }}
-        {{ registration_form.password() }} <br>
-        {{ registration_form.repeat_password.label() }}
-        {{ registration_form.repeat_password() }} <br>
-        {{ registration_form.name.label() }}
-        {{ registration_form.name() }} <br>
-        {{ registration_form.surname.label() }}
-        {{ registration_form.surname() }} <br>
-        {{ registration_form.phone_number.label() }}
-        {{ registration_form.phone_number() }} <br>
+						{{ render_services(categories, registration_form.services) }}
 
-        {{ render_services(categories, registration_form.services) }}
-
-        {{ registration_form.register() }}
-        {{ registration_form.hidden_tag() }}
-    </form>
-
+						<div class="row pad-v-xs">
+							<div class="row margin-bot-top-10">
+								<div class="col">
+									<div class="text-regular txt-clr-white">
+										<span class="txt-clr-red">*</span>
+										— Поля, обязательные для заполнения.										
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row pad-v-m justify-content-center">
+							<div class="col-md-auto reg-bttn pad-zero">
+                                {{ registration_form.register(class="col align-self-center header-md auto-mg-t-b txt-clr-purple btn bgr-plain-white pad-lr-s" ) }}
+							</div>
+						</div>
+                    {{ registration_form.hidden_tag() }}
+					</form>
+				</div>	
+			</div>
+		</div>
+	</div>
 {% endblock %}

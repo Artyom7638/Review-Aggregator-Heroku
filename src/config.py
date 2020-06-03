@@ -13,8 +13,8 @@ class Config:
     TEMP_UPLOAD_FOLDER = os.path.join(UPLOAD_FOLDER, 'temp')
     # IMAGES_RESOLUTION = (500, 500)
     MAX_CONTENT_LENGTH = 1024 * 1024 * 10  # 1024^2 = MB
-    REVIEWS_PER_PAGE = 1
-    SEARCH_MASTERS_PER_PAGE = 1
+    REVIEWS_PER_PAGE = 3
+    SEARCH_MASTERS_PER_PAGE = 6
     SECRET_KEY = "bv-=534[]{}ho{]423[]gd!@#&^%@!"  # исправить плюс проверить отключение дебага
     BCRYPT_LOG_ROUNDS = 11
     MIN_AMOUNT_OF_REVIEWS_FOR_RATING = 2

@@ -19,6 +19,21 @@ class SearchFilterForm(FlaskForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.services.choices = [('s' + str(service.id), service.name) for service in Service.query.all()]
-        categories = [('c' + str(category.id), category.name) for category in Category.query.all()]
-        self.services.choices.extend(categories)
+        choices = []
+        c = {}
+        i = 0
+        for cat in Category.query.all():
+            selected = True if self.services.data and 'c' + str(cat.id) in self.services.data else False
+            l = [{'name': cat.name, 'val': 'c' + str(cat.id), 'id': self.services.name + '-' + str(i),
+                  'selected': selected}]
+            choices.append(('c' + str(cat.id), cat.name))
+            i += 1
+            for service in cat.services:
+                selected = True if self.services.data and 's' + str(service.id) in self.services.data else False
+                l.append({'name': service.name, 'val': 's' + str(service.id), 'id': self.services.name + '-' + str(i),
+                          'selected': selected})
+                choices.append(('s' + str(service.id), service.name))
+                i += 1
+            c[cat.name] = l
+        self.services.choices = choices
+        self.categories = c

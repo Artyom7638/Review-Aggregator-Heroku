@@ -3,14 +3,67 @@
 
 {% block content %}
     {{ display_form_errors(edit_form) }}
-
-    <form method="post">
-        {{ edit_form.name.label() }}
-        {{ edit_form.name() }} <br>
-        {{ edit_form.surname.label() }}
-        {{ edit_form.surname() }} <br>
-        {{ edit_form.edit() }}
-        {{ edit_form.hidden_tag() }}
-    </form>
-
+	<div class="container">
+		<!-- reg form -->
+		<div class="row justify-content-center align-content-center margin-bot-xl margin-top-xl margin-lr-auto w80">
+			<div class="col bgr-grad-rad content-area">
+				<div class="col pad-h-m pad-v-s margin-top-m margin-bot-m">
+					<div class="row">
+						<div class="header-lg txt-clr-white">Редактирование</div>
+					</div>
+					<!-- data input -->
+					<form method="post" name="edit_form">
+						<div class="row pad-v-xs margin-top-m">
+							<div class="row margin-bot-top-10 w100">
+								<!-- задать имя заранее -->
+								<div class="col input-lg bgr-plain-white">
+									<div class="row h100">
+                                        {{ edit_form.name(class="col align-self-center txt-suggest", placeholder=edit_form.name.label.text, maxlength="25", minlength="2") }}
+									</div>
+								</div>
+								<div class="col">
+									<div class="text-regular txt-clr-white">
+										— Ваше имя. Так пользователи будут видеть Вас на сайте.
+										<span class="txt-clr-red">*</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row pad-v-xs">
+							<div class="row margin-bot-top-10 w100">
+								<!-- задать фамилию заранее -->
+								<div class="col input-lg bgr-plain-white">
+									<div class="row h100">
+                                        {{ edit_form.surname(class="col align-self-center txt-suggest", placeholder=edit_form.surname.label.text, maxlength="25", minlength="2") }}
+									</div>
+								</div>
+								<div class="col">
+									<div class="text-regular txt-clr-white">
+										— Ваша фамилия.
+										<span class="txt-clr-red">*</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row pad-v-xs">
+							<div class="row margin-bot-top-10">
+								<div class="col">
+									<div class="text-regular txt-clr-white">
+										<span class="txt-clr-red">*</span>
+										— Поля, обязательные для заполнения.										
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row pad-v-m justify-content-center">
+							<div class="col-md-auto reg-bttn pad-zero">
+                                {{ edit_form.edit(class="col align-self-center header-md auto-mg-t-b txt-clr-purple btn bgr-plain-white pad-lr-s") }}
+							</div>
+						</div>
+                    {{ edit_form.hidden_tag() }}
+					</form>
+				</div>	
+			</div>
+		</div>
+	</div>
 {% endblock %}

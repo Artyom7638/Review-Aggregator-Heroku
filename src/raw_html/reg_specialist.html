@@ -8,6 +8,9 @@
 	<link rel="manifest" href="favicon/site.webmanifest">
 	<link rel="stylesheet" type="text/css" href="./css/bootstrap-grid.css">
 	<link rel="stylesheet" type="text/css" href="./css/styling.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="./js/jquery.inputmask.js"></script>
+	<script src="./js/validations.js"></script>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -25,11 +28,13 @@
 						<div class="row pad-v-xs">
 							<div class="row margin-bot-top-10">
 								<div class="col input-lg bgr-plain-white">
-									<input type="text" name="login" placeholder="Почта" class="col align-self-center txt-suggest">
+									<div class="row h100">
+										<input type="email" name="login" placeholder="Почта" class="col align-self-center txt-suggest" required>
+									</div>
 								</div>
 								<div class="col">
 									<div class="text-regular txt-clr-white">
-										— Etiam nec massa id odio facilisis euismod vulputate. Donec ac diam ultrices, bibendum massa et, faucibus nunc.
+										— Ваша почта потребуется нам для подтверждения вашего аккаунта. В дальнейшем она будет использоваться Вами для входа на сайт.
 										<span class="txt-clr-red">*</span>
 									</div>					
 								</div>
@@ -39,11 +44,13 @@
 						<div class="row pad-v-xs">
 							<div class="row margin-bot-top-10 w100">
 								<div class="col input-lg bgr-plain-white">
-									<input type="text" name="password" placeholder="Пароль" class="col align-self-center txt-suggest">
+									<div class="row h100">
+										<input type="password" id="pw1" name="password" placeholder="Пароль" class="col align-self-center txt-suggest" required oninput="isFirstPasswordEqual(this);">
+									</div>
 								</div>
 								<div class="col">
 									<div class="text-regular txt-clr-white">
-										— Ac diam ultrices, bibendum massa et, faucibus nunc.
+										— Пароль для входа на сайт.
 										<span class="txt-clr-red">*</span>
 									</div>
 								</div>
@@ -53,7 +60,9 @@
 						<div class="row pad-v-xs">
 							<div class="row margin-bot-top-10 w100">
 								<div class="col input-lg bgr-plain-white">
-									<input type="text" name="conf_password" placeholder="Подтвердите пароль" class="col align-self-center txt-suggest">
+									<div class="row h100">
+										<input type="password" id="pw2" name="conf_password" placeholder="Подтвердите пароль" class="col align-self-center txt-suggest" required oninput="isSecondPasswordEqual(this);">
+									</div>
 								</div>
 								<div class="col">
 								</div>
@@ -62,11 +71,13 @@
 						<div class="row pad-v-xs margin-top-m">
 							<div class="row margin-bot-top-10 w100">
 								<div class="col input-lg bgr-plain-white">
-									<input type="text" name="name" placeholder="Имя" class="col align-self-center txt-suggest">
+									<div class="row h100">
+										<input type="text" name="name" placeholder="Имя" class="col align-self-center txt-suggest" required>
+									</div>
 								</div>
 								<div class="col">
 									<div class="text-regular txt-clr-white">
-										— Ac diam ultrices, bibendum massa et, faucibus nunc.
+										— Ваше имя. Так пользователи будут видеть Вас на сайте.
 										<span class="txt-clr-red">*</span>
 									</div>
 								</div>
@@ -75,17 +86,35 @@
 						<div class="row pad-v-xs">
 							<div class="row margin-bot-top-10 w100">
 								<div class="col input-lg bgr-plain-white">
-									<input type="text" name="surname" placeholder="Фамилия" class="col align-self-center txt-suggest">
+									<div class="row h100">
+										<input type="text" name="surname" placeholder="Фамилия" class="col align-self-center txt-suggest" required>
+									</div>
 								</div>
 								<div class="col">
 									<div class="text-regular txt-clr-white">
-										— Integer in maximus purus.
+										— Ваша фамилия.
 										<span class="txt-clr-red">*</span>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="row pad-v-xs v-line-t-w margin-top-xl">
+						<!-- Phone number -->
+						<div class="row pad-v-xs">
+							<div class="row margin-bot-top-10 w100">
+								<div class="col input-lg bgr-plain-white">
+									<div class="row h100">
+										<input type="text" id="phone" data-inputmask="'mask': '+7 (999) 999-99-99'" name="phone" placeholder="+7 (999) 999-99-99" class="col align-self-center txt-suggest" required>
+									</div>
+								</div>
+								<div class="col">
+									<div class="text-regular txt-clr-white">
+										— Ваш номер телефона. По нему Ваши будущие клиенты смогут записаться к Вам на прием.
+										<span class="txt-clr-red">*</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row pad-v-xs v-line-t-w margin-top-m">
 							<div class="row margin-bot-top-10">
 								<div class="col">
 									<div class="text-regular txt-clr-white">								
@@ -273,7 +302,7 @@
 						</div>
 						<div class="row pad-v-m justify-content-center">
 							<div class="col-md-auto reg-bttn pad-zero">
-								<input type="submit" name="login" class="col align-self-center header-md auto-mg-t-b txt-clr-purple pad-zero btn bgr-plain-white margin-left-xs margin-right-xs" value="Зарегистрироваться">
+								<input type="submit" name="login" class="col align-self-center header-md auto-mg-t-b txt-clr-purple btn bgr-plain-white pad-lr-s" value="Зарегистрироваться">
 							</div>
 						</div>
 					</form>

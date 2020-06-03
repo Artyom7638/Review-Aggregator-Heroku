@@ -1,91 +1,434 @@
 {% from "review.html" import render_review %}
 {% from "render_pagination.html" import render_pagination %}
 {% extends "layout.html" %}
+{% block additional_libraries %}
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">   <!-- было только в профиле клиента почему-то, и с этим немного ломается профиль мастера, надеюсь без этого тоже будет работать. Работает всё, кроме модалов -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styling.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/stars.css') }}">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>    <!-- это из профиля клиента, ни на что не влияет -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->  <!-- это из профиля мастера, надеюсь будет работать с любой версией -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/profile_functions.js') }}"></script>
+{% endblock %}
+
 {% block content %}
     {% include "navbar.html" %}
-    <br> <br> <br>
 
-    {% with errors = get_flashed_messages(category_filter=["error"]) %}
-        {% for msg in errors %}
-            <div class="alert alert-danger" role="alert">
-                <h1>{{ msg }}</h1>
+	<div class="container margin-top-xl">
+		<div class="row justify-content-center margin-zero-lr">
+			<!-- аватар и тэги --> 
+			<div class="col-4 pad-zero margin-right-s">
+				<div class="row margin-zero-lr content-area">
+					<div class="img_container content-area portrait-large" style="background-image: url('{{ url_for('static', filename='imgs/2019-05-29_19-38-07__232f5808-8230-11e9-bf77-002590aa0fe7.jpg') }}');">
+					</div>
+				</div>
+				<div class="row margin-zero-lr justify-content-end">
+					<div class="col-md-auto pad-zero">
+						<div class="text-small txt-clr-purple margin-top-xs">
+							<div class="row margin-zero-lr align-items-center justify-content-end">
+                                {% if user == current_user %}
+                                    <img src="{{ url_for('static', filename='imgs/pencil.svg') }}" class="filter-purple icon-xs">
+                                    <a href="link_to_edit_profile_photo">Изменить фото профиля</a>
+                                {% endif %}
+							</div>
+						</div>
+					</div>	
+				</div>
+
+
+				<!-- тэги; не показывать в профиле пользователя -->
+                {% if user.type == 'master' %}
+                    <div class="row margin-zero-lr content-area bgr-plain-white margin-top-xs">
+                        <div class="col-12 margin-top-s pad-zero margin-left-xs">
+                            <div class="text-regular txt-clr-purple">
+                                Делает
+                            </div>
+                        </div>
+                        {% for service in user.services %}
+                            <div class="col-md-auto pad-zero tag input-sm bgr-plain-purple align-items-center justify-content-center margin-right-xs margin-left-xs">
+                                <div class="txt-clr-white text-xsmall margin-right-xs margin-left-xs">
+                                    {{ service.name }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="col-12 margin-bot-s"></div>
+                    </div>
+                {% endif %}
+
+
+			</div>
+			<!-- Описание, работы, отзывы -->
+			<div class="col pad-zero">
+				<div class="row margin-zero-lr content-area bgr-plain-white">
+					<div class="col pad-zero {{ 'margin-bot-s' if user.type != 'master' }}">
+						<div class="row margin-zero-lr align-items-center">
+							<div class="col pad-zero">
+								<div class="header-md bold txt-clr-purple margin-left-s margin-top-xs">
+                                    {{ user.name + ' ' + user.surname }}
+								</div>
+							</div>
+
+                            <div class="col pad-zero">
+                                {% if True %}
+                                    <div class="text-small txt-clr-purple margin-right-s margin-top-xs">
+                                        <div class="row margin-zero-lr align-items-center justify-content-end">
+                                            {% if user == current_user %}
+                                                <img src="{{ url_for('static', filename='imgs/gear.svg') }}" class="filter-purple icon-xs">
+                                                <a href="{{ url_for('profile.profile_edit', id=user.id) }}">Настроить профиль</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="text-small txt-clr-red margin-right-s margin-top-xs">
+                                        <div class="row margin-zero-lr justify-content-end">
+                                            <div class="col pad-zero text-right margin-right-s">
+                                                <button type="button" data-toggle="modal" data-target="#blockUserModal" class="admin-btn txt-clr-red" onclick="setBlockInfo(1);">
+                                                    Заблокировать
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+						</div>
+                        {% if user.type == 'master' %}
+                            <div class="row margin-zero-lr margin-top-s">
+                                <div class="text-small margin-left-s">
+                                    {{ user.short_description }}
+                                </div>
+                            </div>
+                            <div class="row v-line-t-p margin-left-s margin-right-s margin-top-xs"></div>
+                            <div class="row margin-zero-lr margin-top-s margin-bot-s">
+                                <div class="text-small margin-left-s margin-right-s">Телефон: {{ user.phone_number }}</div>
+                            </div>
+                            <div class="row margin-zero-lr margin-top-s margin-bot-s">
+                                <div class="text-small margin-left-s margin-right-s">
+                                    {{ user.description}}
+                                </div>
+                            </div>
+                        {% endif %}
+					</div>
+				</div>
+
+
+				<!-- работы не показывать в профиле пользователя -->
+                {% if user.type == 'master' %}
+                    <div class="row margin-zero-lr content-area bgr-plain-white margin-top-m">
+                        <div class="col pad-zero">
+                            <div class="row margin-zero-lr">
+                                <div class="col pad-zero">
+                                    <div class="text-regular txt-clr-purple margin-left-s margin-top-xs margin-bot-xs">
+                                        Работы
+                                    </div>
+                                </div>
+                                <div class="col pad-zero">
+                                    <div class="text-small txt-clr-purple margin-right-s margin-top-xs">
+                                        <div class="row margin-zero-lr align-items-center justify-content-end">
+                                            {% if user == current_user %}
+                                                <img src="{{ url_for('static', filename='imgs/upload.svg') }}" class="filter-purple icon-xs">
+                                                <a href="link_to_upload_photo_page">Загрузить фото</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- ИЗОБРАЖЕНИЯ -->
+                            <div class="row margin-left-10 margin-right-0">
+                                <div class="col tags pad-zero margin-bot-s">
+                                    <div class="row margin-zero-lr justify-content-evenly">
+                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
+                                            <div class="margin-right-xs margin-left-xs">
+                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
+                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/__medium_троянская_д.фуфаев.JPG.jpg') }}');" onclick="showPhoto(this);">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
+                                            <div class="margin-right-xs margin-left-xs">
+                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
+                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/__medium_троянская_д.фуфаев.JPG.jpg') }}');" onclick="showPhoto(this);">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
+                                            <div class="margin-right-xs margin-left-xs">
+                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
+                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/4-Cool-Short-Haircuts-for-Girls-451.jpg') }}');" onclick="showPhoto(this);">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
+                                            <div class="margin-right-xs margin-left-xs">
+                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
+                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/__medium_троянская_д.фуфаев.JPG.jpg') }}');" onclick="showPhoto(this);">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
+                                            <div class="margin-right-xs margin-left-xs">
+                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
+                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/4-Cool-Short-Haircuts-for-Girls-451.jpg') }}');" onclick="showPhoto(this);">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
+                                            <div class="margin-right-xs margin-left-xs">
+                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
+                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/dream-interpretation-hairdresser-coiffeur_1200x0-825x510.jpg') }}');" onclick="showPhoto(this);">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
+                                            <div class="margin-right-xs margin-left-xs">
+                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
+                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/nikolai.jpg') }}');" onclick="showPhoto(this);">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
+                                            <div class="margin-right-xs margin-left-xs">
+                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
+                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/nikolai.jpg') }}');" onclick="showPhoto(this);">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
+                                            <div class="margin-right-xs margin-left-xs">
+                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
+                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/nikolai.jpg') }}');" onclick="showPhoto(this);">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
+                                            <div class="margin-right-xs margin-left-xs">
+                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
+                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/test_large.jpg') }}');" onclick="showPhoto(this);">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ИЗОБРАЖЕНИЯ -->
+                        </div>
+                    </div>
+                {% endif %}
+
+
+
+                {% if user.type == 'master' %}
+                    <!-- переключение между типами отзывов -->
+                    <div class="row margin-zero-lr margin-top-s align-items-center">
+                        <div class="col-md-auto pad-zero v-line-r-p">
+                            <div class="text-regular txt-clr-purple margin-right-s" id="reviews_about_user_title" style="font-weight: bold;">
+                                <a onclick="switchReviews('reviews_about_user', 'user_reviews')">
+                                    {% if current_user == user %}
+                                        Отзывы о вас
+                                    {% else %}
+                                        Отзывы о мастере
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-auto pad-zero">
+                            <div class="text-regular txt-clr-purple margin-left-xs" id="user_reviews_title">
+                                <a onclick="switchReviews('user_reviews', 'reviews_about_user')">
+                                    {% if current_user == user %}
+                                        Ваши отзывы
+                                    {% else %}
+                                        Отзывы мастера
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row align-items-center justify-content-end">
+                                <div class="input-auto bgr-plain-purple txt-clr-white text-small cursor-ptr" onclick="switchBlock('review_form', 'flex')">
+                                    {% if allowed_to_review %}
+                                        <div class="margin-lr-xs margin-bot-xs margin-top-xs">
+                                            Добавить отзыв
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="row margin-zero-lr margin-top-s align-items-center">
+                        <div class="col-md-auto pad-zero">
+                            <div class="text-regular txt-clr-purple margin-right-s" id="reviews_about_user_title" style="font-weight: bold;">
+                                {% if current_user == user %}
+                                    Ваши отзывы
+                                {% else %}
+                                    Отзывы пользователя
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+				<!-- отзывы о пользователе -->
+				<div class="row margin-zero-lr margin-top-s" id="reviews_about_user">
+                    <div class="col pad-zero">
+						<!-- отзыв начало -->
+                        {% for review in reviews_about_master %}
+                            {{ render_review(review, False) }}
+                        {% endfor %}
+                    </div>
+				</div>
+
+
+
+
+
+				<!-- отзывы пользователя -->
+				<div class="row margin-zero-lr margin-top-s" id="user_reviews" style="display: none;">
+                    <div class="col pad-zero">
+                        {% for review in users_reviews %}
+                            {{ render_review(review, True) }}
+                        {% endfor %}
+                    </div>
+				</div>
+
+
+
+
+			</div>
+		</div>
+
+
+        {{ render_pagination() }}
+
+
+
+        {% if allowed_to_review %}
+            <!-- comment field -->
+            <div class="row justify-content-center margin-zero-lr" id="review_form" style="display: none;">
+                <form method="post" action="{{ url_for('review.post_review', id=user.id) }}" id="left_review" class="col-10 pad-zero content-area bgr-grad-linear always-bottom review-area margin-bot-s">
+                    <div class="row margin-zero-lr justify-content-end margin-top-xs">
+                        <img src="{{ url_for('static', filename='imgs/close.svg') }}" class="filter-white icon-xs margin-right-s cursor-ptr" onclick="switchBlock('review_form', 'none')">
+                    </div>
+                    <div class="row margin-zero-lr justify-content-center margin-top-s">
+                        {{ review_form.content(class="content-area", placeholder="Напишите здесь текст Вашего отзыва...", minlength="10", maxlength="300" ) }}
+                    </div>
+                    <div class="row align-items-center w80 justify-content-between margin-lr-auto margin-top-m margin-bot-s">
+                        <div class="col pad-zero">
+                            <div class="text-regular txt-clr-white">
+                                Ваша оценка:
+                            </div>
+                        </div>
+                        <div class="col pad-zero"></div>
+                    </div>
+                    <div class="row align-items-center w80 justify-content-between margin-lr-auto margin-top-s margin-bot-s">
+                        <div class="col-md-auto pad-zero">
+                            <div class="rating row align-items-center margin-zero-lr">
+                                <div class="stars-gray col pad-zero">
+                                    <div class="stars-color" style="width: 0px" id="bright-stars">
+                                        <div class="row margin-zero-lr h100" id="ratebar">
+                                            <div class="star" id="s1" onmouseenter="setLastStar(this);" onclick="submitScore(this);"></div>
+                                            <div class="star" id="s2" onmouseenter="setLastStar(this);" onclick="submitScore(this);"></div>
+                                            <div class="star" id="s3" onmouseenter="setLastStar(this);" onclick="submitScore(this);"></div>
+                                            <div class="star" id="s4" onmouseenter="setLastStar(this);" onclick="submitScore(this);"></div>
+                                            <div class="star" id="s5" onmouseenter="setLastStar(this);" onclick="submitScore(this);"></div>
+                                        </div>
+                                        <!-- отсюда брать оценку пользователя -->
+                                        <div style="display: none;">
+                                            {{ review_form.rating(max="5", min="1") }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-auto pad-zero bgr-plain-white input-m">
+                            <div class="row margin-zero-lr justify-content-end h100">
+                                {{ review_form.submit(class="col align-self-center text-regular auto-mg-t-b txt-clr-purple") }}
+                            </div>
+                        </div>
+                    </div>
+                {{ review_form.hidden_tag() }}
+                </form>
             </div>
-        {% endfor %}
-    {% endwith %}
-    {% with messages = get_flashed_messages(category_filter=["success"]) %}
-        {% for msg in messages %}
-            <div class="alert alert-success" role="alert">
-                <h1>{{ msg }}</h1>
+        {% endif %}
+
+
+
+	</div>
+    {% if user.type == 'master' %}
+        <!-- large img dynamic -->
+        <div class="dark-cover full-screen always-center" id="preview" style="display: none;">
+            <div class="row margin-zero-lr justify-content-center">
+                <div class="col-6 pad-zero bgr-plain-white content-area margin-top-m margin-bot-m">
+                    <div class="row margin-zero-lr justify-content-center">
+                        <div class="col pad-zero content-area margin-left-s margin-right-s margin-top-s margin-bot-s justify-content-center" id="imgParent">
+                            <div class="img_container image-view margin-lr-auto" id="photo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-small txt-clr-purple margin-right-s margin-bot-xs">
+                        <div class="row margin-zero-lr align-items-center justify-content-end">
+                            {% if user == current_user %}
+                                <img src="{{ url_for('static', filename='imgs/trash.svg') }}" class="filter-purple icon-xs">
+                                <a href="remove photo">Удалить фотографию</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-auto pad-zero margin-top-m top-right">
+                    <div class="row margin-zero-lr justify-content-end">
+                        <img src="{{ url_for('static', filename='imgs/close.svg') }}" class="filter-white icon-xs margin-right-s cursor-ptr" onclick="hidePhoto()">
+                    </div>
+                </div>
             </div>
-        {% endfor %}
-    {% endwith %}
-
-    {{ user.name + ' ' + user.surname }}
-    {% if user.type == 'master' %}
-        {% if user.average_rating %}
-            <h3>Рейтинг: {{ user.average_rating }}</h3>
-        {% else %}
-            <h3>Недостаточно отзывов для расчёта рейтинга</h3>
-        {% endif %}
-    {% endif %}
-    {% if user == current_user %}
-        <a href="{{ url_for('profile.profile_edit', id=user.id) }}">Настроить профиль</a>
-    {% endif %}
-    <br>
-    {% if user.type == 'master' %}
-        {{ user.short_description }} <br>
-        <hr>
-        {{ user.description}} <br>
-        <h2>Делает: </h2>
-        {% for service in user.services %}
-            {{ service.name }}
-        {% endfor %}
-        <h2>Работы</h2>
-    {% endif %}
-
-    {% if allowed_to_review %}
-        <form method="post" action="{{ url_for('review.post_review', id=user.id) }}">
-            {{ review_form.content() }}
-            {{ review_form.content.label() }} <br>
-            {{ review_form.rating() }}
-            {{ review_form.rating.label() }} <br>
-
-            {{ review_form.submit() }}
-            {{ review_form.hidden_tag() }}
-        </form>
-    {% endif %}
-
-    {% if user.type == 'master'  %}
-        {% if current_user == user %}
-            <h3>Отзывы о вас</h3>
-        {% else %}
-            <h3>Отзывы о мастере</h3>
-        {% endif %}
-        {% for review in reviews_about_master %}
-            {{ render_review(review, false) }}
-        {% endfor %}
-         {{ render_pagination(reviews_about_master_pagination, 'profile.profile_page', author='others', left_edge=1, left_current=2, right_current=3, right_edge=1, id=user.id) }}
-
-        {% if current_user == user %}
-            <h3>Ваши отзывы</h3>
-        {% else %}
-            <h3>Отзывы мастера</h3>
-        {% endif %}
-        {% for review in users_reviews %}
-            {{ render_review(review, true) }}
-        {% endfor %}
-        {{ render_pagination(users_reviews_pagination, 'profile.profile_page', author='user', left_edge=1, left_current=2, right_current=3, right_edge=1, id=user.id) }}
-    {% else %}
-        {% if current_user == user %}
-            <h3>Ваши отзывы</h3>
-        {% else %}
-            <h3>Отзывы пользователя</h3>
-        {% endif %}
-        {% for review in users_reviews %}
-            {{ render_review(review, true) }}
-        {% endfor %}
-        {{ render_pagination(users_reviews_pagination, 'profile.profile_page', author='user', left_edge=1, left_current=2, right_current=3, right_edge=1, id=user.id) }}
+        </div>
     {% endif %}
 
 
+
+
+
+    <!-- MODALS -->
+	<div class="modal fade" id="deleteReviewModal" tabindex="-1" role="dialog" aria-labelledby="deleteReviewModal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				    <h5 class="modal-title">Удалить отзыв?</h5>
+				    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				      <span aria-hidden="true">&times;</span>
+				    </button>
+				</div>
+				<div class="modal-body">
+				    <p>Вы уверены, что хотите удалить отзыв?</p>
+				</div>
+				<div class="modal-footer">
+				    <button type="button" class="btn bgr-plain-purple txt-clr-white" id="deleteReviewConfirm">Удалить</button>
+				    <button type="button" class="btn bgr-plain-gray txt-clr-white" data-dismiss="modal">Отмена</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="blockUserModal" tabindex="-1" role="dialog" aria-labelledby="blockUserModal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				    <h5 class="modal-title">Заблокирвоать пользователя?</h5>
+				    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				      <span aria-hidden="true">&times;</span>
+				    </button>
+				</div>
+				<div class="modal-body">
+				    <p>Вы уверены, что хотите заблокировать пользователя?</p>
+				</div>
+				<div class="modal-footer">
+				    <button type="button" class="btn bgr-plain-purple txt-clr-white" id="blockUserConfirm">Заблокировать</button>
+				    <button type="button" class="btn bgr-plain-gray txt-clr-white" data-dismiss="modal">Отмена</button>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

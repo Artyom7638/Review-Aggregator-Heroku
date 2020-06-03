@@ -1,0 +1,21 @@
+{% macro render_category(objects) -%}
+    <div class="col pad-zero">
+        <div class="form-check">
+            {% set cat = objects[0] %}
+            <input id="{{ cat['id'] }}" class="form-check-input" name="services"
+                   type="checkbox" value="{{ cat['val'] }}" {{ ' checked' if cat['selected'] }}>
+            <label class="form-check-label" for="{{ cat['id'] }}">{{ cat['name'] }}</label>
+        </div>
+        <div class="margin-left-s">
+            {% for obj in objects %}
+                {% if not loop.first %}
+                    <div class="form-check">
+                        <input type="checkbox" name="services" class="form-check-input"
+                               id="{{ obj['id'] }}" value="{{ obj['val'] }}" {{ ' checked' if obj['selected'] }}>
+                        <label class="form-check-label" for="{{ obj['id'] }}">{{ obj['name'] }}</label>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{%- endmacro %}

@@ -1,10 +1,62 @@
 {% macro render_review(review, add_about_master) -%}
-    <h3>
-        <a href="{{ url_for('profile.profile_page', id=review.author.id) }}"> {{ review.author.name }} </a>
-        {% if add_about_master %}
-            <span> про <a href="{{ url_for('profile.profile_page', id=review.master.id) }}">{{ review.master.name }} {{ review.master.surname }}</a> </span>
-        {% endif %}
-    </h3>
-    {{ review.content }} <br>
-    {{ review.rating }} <br>
+    <div class="row margin-zero-lr margin-tb-s">
+        <div class="content-area bgr-plain-white row margin-zero-lr content-space-between align-items-top">
+            <div class="col-1 col-center pad-zero margin-left-s margin-top-s margin-bot-s">
+                <!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
+                <a href="{{ url_for('profile.profile_page', id=review.author.id) }}" class="img_container portrait rounded-circle" style="background-image: url('{{ url_for('static', filename='imgs/2019-05-29_19-38-07__232f5808-8230-11e9-bf77-002590aa0fe7.jpg') }}');">
+                </a>
+            </div>
+            <div class="col-10 pad-zero margin-left-xs margin-top-s">
+                <div class="row align-items-center margin-zero-lr margin-neg-right-s justify-content-between w100">
+                    <div class="col-md-auto pad-zero">
+                        <div class="row margin-zero-lr">
+                            <div class="text-small pad-zero txt-clr-purple margin-left-xs">
+                                <!-- Имя пользователя -->
+                                <a href="{{ url_for('profile.profile_page', id=review.author.id) }}"> {{ review.author.name }} </a>
+                            </div>
+                            <div class="text-small txt-clr-black margin-right-xs margin-left-xs">
+                                {% if add_about_master %}
+                                    про
+                                {% endif %}
+                            </div>
+                            <div class="text-small bold pad-zero txt-clr-purple">
+                                <!-- Имя мастера, о котором написан отзыв -->
+                                {% if add_about_master %}
+                                    <a href="{{ url_for('profile.profile_page', id=review.master.id) }}">{{ review.master.name }} {{ review.master.surname }}</a>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-auto pad-zero text-small txt-clr-red margin-right-s">
+                        <div class="row margin-zero-lr justify-content-end">
+                            <div class="col pad-zero text-right margin-right-s">
+                                {% if False %}
+                                    <button type="button" data-toggle="modal" data-target="#deleteReviewModal" class="admin-btn txt-clr-red" onclick="setDeleteInfo(1);">
+                                        Удалить отзыв
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Текст отзыва -->
+                <div class="text-small txt-clr-black">
+                    <div class="row margin-left-xs margin-right-s">
+                        {{ review.content }}
+                    </div>
+                    <div class="rating row align-items-center margin-zero-lr margin-top-s">
+                        <!-- -->
+                        <div class="stars-gray col pad-zero margin-bot-s">
+
+                            <div class="stars-color" style="width: {{ review.rating / 5 * 140 }}px"></div>
+                            <!-- <div class="stars-color" style="width: 110px">  -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {%- endmacro %}

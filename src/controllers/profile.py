@@ -15,6 +15,7 @@ from src.models.client import Client
 from src.models.category import Category
 from src.models.review import Review
 from src.models.service import Service
+from src.models.user import User
 
 profile = Blueprint('profile', __name__, template_folder=os.path.join(Config.TEMPLATE_FOLDER, 'profile'),
                     url_prefix='/users')
@@ -22,7 +23,7 @@ profile = Blueprint('profile', __name__, template_folder=os.path.join(Config.TEM
 
 @profile.route('/<int:id>')
 def profile_page(id):
-    user = Client.query.get_or_404(id)
+    user = User.query.get_or_404(id)
     if user.type == 'moderator':
         abort(404)
     users_reviews = user.reviews.order_by(Review.creation_date.desc())
@@ -36,12 +37,14 @@ def profile_page(id):
     users_reviews_pagination = users_reviews.paginate(users_page, Config.REVIEWS_PER_PAGE, True)
     reviews_about_master_pagination = reviews_about_master.paginate(about_master_page, Config.REVIEWS_PER_PAGE, True) \
         if reviews_about_master else None
-    reviews_about_master = reviews_about_master_pagination.items if reviews_about_master else None
+    reviews_about_master = reviews_about_master_pagination.items if reviews_about_master else []
+    # template = 'profile_page.html' # if user.type == 'master' else 'client_profile.html'
     return render_template('profile_page.html', title=user.name + ' ' + user.surname, search_form=SearchForm(),
                            user=user, review_form=ReviewForm(), allowed_to_review=is_allowed_to_review(user),
                            users_reviews_pagination=users_reviews_pagination,
                            reviews_about_master_pagination=reviews_about_master_pagination,
-                           users_reviews=users_reviews_pagination.items, reviews_about_master=reviews_about_master)
+                           users_reviews=users_reviews_pagination.items, reviews_about_master=reviews_about_master,
+                           dont_insert_libraries=True)
 
 
 @profile.route('/<int:id>/edit', methods=['GET', 'POST'])
@@ -73,3 +76,7 @@ def profile_edit(id):
                            categories=categories)
 
 
+@profile.route('/<int:id>/upload-SOMETHING', methods=['GET', 'POST'])
+@login_required
+def uploadSOMETHING(id):
+    pass  # форма есть, на upload_photo добавить оба поля из формы, как-то объединить аватар и загрузку фото работы

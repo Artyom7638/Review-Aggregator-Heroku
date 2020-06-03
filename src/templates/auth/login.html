@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
+    <!-- да, здесь не нужно макро рендеринга ошибок -->
     {% for field, error_list in login_form.errors.items() %}
         {% for error in error_list %}
             <div class="alert alert-danger" role="alert">
@@ -9,14 +10,68 @@
         {% endfor %}
     {% endfor %}
 
-    <form method="post">
-        {{ login_form.email() }}
-        {{ login_form.password() }}
-        {{ login_form.log_in() }}
-        {{ login_form.hidden_tag() }}
-    </form>
-
-    <a href="{{url_for('auth.client_registration')}}" class="nav-link">Регистрация клиента</a>
-    <a href="{{url_for('auth.master_registration')}}" class="nav-link">Регистрация мастера</a>
-
+	<div class="container">
+		<!-- Icon -->
+		<div class="row justify-content-center pad-v-m">
+			<div class="row round bgr-plain-purple align-content-center cursor-ptr" onclick="window.location.href='{{ url_for('main.index') }}'">
+				<img src="{{ url_for('static', filename='imgs/eye-makeup.svg') }}" class="filter-white icon center-img cursor-ptr" >
+			</div>
+		</div>
+		<!-- reg form -->
+		<div class="row">
+			<div class="row align-self-center bgr-grad-rad content-area">
+				<div class="col v-line-r-w pad-h-m pad-v-s margin-top-m margin-bot-m">
+					<div class="row">
+						<div class="header-lg txt-clr-white">Вход</div>
+					</div>
+					<!-- data input -->
+					<form method="post" name="login_form">
+						<div class="row pad-v-xs">
+							<div class="row input-lg bgr-plain-white margin-bot-top-10">
+                                {{ login_form.email(class="col align-self-center txt-suggest", placeholder=login_form.email.label.text, maxlength="50") }}
+							</div>
+						</div>
+						<div class="row pad-v-xs">
+							<div class="row input-lg bgr-plain-white margin-bot-top-10">
+                                {{ login_form.password(class="col align-self-center txt-suggest", placeholder=login_form.password.label.text, maxlength="100") }}
+							</div>
+						</div>
+						<div class="row pad-v-m justify-content-end">
+							<div class="col-md-auto reg-bttn margin-bot-top-10 pad-zero-lr form-check">
+                                {{ login_form.log_in(class="col input-lg bgr-plain-white align-self-center header-md margin-zero-tb txt-clr-purple margin-left-s margin-right-s") }}
+                            </div>
+						</div>
+                    {{ login_form.hidden_tag() }}
+					</form>
+				</div>
+				<!-- links to sign up pages -->
+				<div class="col pad-h-m pad-v-s">
+					<div class="row pad-v-s">
+						<div class="col">
+							<div class="content-area bgr-plain-white content-area pad-l-s pad-v-xs">
+								<div class="header-md auto-mg-t-b txt-left-algn pad-v-xs">
+									<a href="{{url_for('auth.client_registration')}}" class="txt-clr-purple">Регистрация клиента</a>
+								</div>
+								<div class="text-regular txt-clr-purple">
+									Зарегистрируйтесь как клиент и получите доступ к расширенным возможностям нашего сайта.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row pad-v-s">
+						<div class="col">
+							<div class="content-area bgr-plain-white content-area pad-l-s pad-v-xs">
+								<div class="header-md auto-mg-t-b txt-clr-purple txt-left-algn pad-v-xs">
+									<a href="{{url_for('auth.master_registration')}}" class="txt-clr-purple">Регистрация мастера</a>
+								</div>
+								<div class="text-regular txt-clr-purple">
+									Зарегистрируйтесь как мастер и получайте новых клиентов, а также доступ к расширенным возможностям сайта.
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

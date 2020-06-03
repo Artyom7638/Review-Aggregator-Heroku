@@ -32,7 +32,7 @@
 							<div class="col-3 pad-zero">
 								<div class="row cursor-ptr margin-zero-lr" onclick="document.getElementById('search_form').submit();">
 									<div class="col text-center no-decor">
-										<a class="txt-clr-purple header-s">
+										<a class="txt-clr-purple header-s text-icon-container">
 											<img src="./imgs/search.svg" class="filter-purple icon-xs large-only">
 											Поиск
 										</a>	
@@ -50,13 +50,13 @@
 						<div class="row content-space-between align-items-center">
 							<!-- Авторизованная версия -->
 							<div class="col pad-zero">
-								<a class="txt-clr-white text-regular" href="">
-								<img src="./imgs/user.svg" class="filter-white icon-xs large-only">
+								<a class="txt-clr-white text-regular text-icon-container" href="">
+									<img src="./imgs/user.svg" class="filter-white icon-xs large-only">
 									Профиль
 								</a>
 							</div>
 							<div class="col pad-zero">
-								<a class="txt-clr-white text-regular" href="">
+								<a class="txt-clr-white text-regular text-icon-container" href="">
 									<img src="./imgs/logout.svg" class="filter-white icon-xs">				
 								</a>
 							</div>
@@ -179,9 +179,9 @@
 								</div>
 							</div>					
 						</div>
-						<div class="row margin-zero-lr">
+						<div class="row margin-left-10 margin-right-0">
 							<div class="col tags pad-zero margin-bot-s">
-								<div class="row margin-zero-lr justify-content-between">
+								<div class="row margin-zero-lr justify-content-evenly">
 									<div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
 										<div class="margin-right-xs margin-left-xs">
 											<!-- Cсылка на изображение в style="background-image: url(...);" -->
@@ -231,6 +231,27 @@
 											</div>
 										</div>
 									</div>
+									<div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
+										<div class="margin-right-xs margin-left-xs">
+											<!-- Cсылка на изображение в style="background-image: url(...);" -->
+											<div class="img_container content-area portrait" style="background-image: url('./imgs/nikolai.jpg');" onclick="showPhoto(this);">
+											</div>
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
+										<div class="margin-right-xs margin-left-xs">
+											<!-- Cсылка на изображение в style="background-image: url(...);" -->
+											<div class="img_container content-area portrait" style="background-image: url('./imgs/nikolai.jpg');" onclick="showPhoto(this);">
+											</div>
+										</div>
+									</div>
+									<div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
+										<div class="margin-right-xs margin-left-xs">
+											<!-- Cсылка на изображение в style="background-image: url(...);" -->
+											<div class="img_container content-area portrait" style="background-image: url('./imgs/test_large.jpg');" onclick="showPhoto(this);">
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>								
 						</div>
@@ -244,14 +265,14 @@
 						</div>
 					</div>
 					<div class="col-md-auto pad-zero">
-						<div class="text-regular txt-clr-purple margin-left-s" id="user_reviews_title">
+						<div class="text-regular txt-clr-purple margin-left-xs" id="user_reviews_title">
 							<a onclick="switchReviews('user_reviews', 'reviews_about_user')">Отзывы мастера</a>
 						</div>
 					</div>
 					<div class="col">
 						<div class="row align-items-center justify-content-end">
 							<div class="input-auto bgr-plain-purple txt-clr-white text-small cursor-ptr" onclick="switchBlock('review_form', 'flex')">
-								<div class="margin-right-xs margin-left-xs margin-bot-xs margin-top-xs">
+								<div class="margin-lr-xs margin-bot-xs margin-top-xs">
 									Добавить отзыв
 								</div>								
 							</div>
@@ -390,6 +411,32 @@
 				</div>
 			</div>	
 		</div>
+		<div class="row margin-zero-lr txt-clr-purple justify-content-center">
+			<div class="col-2 pad-zero">
+				<div class="row text-regular justify-content-end margin-zero-lr">
+					<a href="">Предыдущая</a>
+				</div>
+			</div>
+			<div class="col-2 pad-zero">
+				<div class="row text-small justify-content-center margin-zero-lr align-items-end">
+					<a href="" class="bold text-regular page-index">1</a>
+					<a href="" class="page-index">2</a>
+					<a href="" class="page-index">3</a>
+					<a href="" class="page-index">4</a>
+					<a href="" class="page-index">5</a>
+					<a href="" class="page-index">6</a>
+					<a href="" class="page-index">7</a>
+					<a href="" class="page-index">8</a>
+					<a href="" class="page-index">9</a>
+					<a href="" class="page-index">10</a>
+				</div>
+			</div>
+			<div class="col-2 pad-zero">
+				<div class="row text-regular justify-content-start margin-zero-lr">
+					<a href="">Следующая</a>
+				</div>
+			</div>
+		</div>
 		<!-- comment field -->
 		<div class="row justify-content-center margin-zero-lr" id="review_form" style="display: none;">
 			<form id="left_review" class="col-10 pad-zero content-area bgr-grad-linear always-bottom review-area margin-bot-s">
@@ -441,8 +488,8 @@
 		<div class="row margin-zero-lr justify-content-center">
 			<div class="col-6 pad-zero bgr-plain-white content-area margin-top-m margin-bot-m">
 				<div class="row margin-zero-lr justify-content-center">
-					<div class="col pad-zero content-area margin-left-s margin-right-s margin-top-s margin-bot-s">
-						<div class="img_container content-area portrait-large" id="photo">
+					<div class="col pad-zero content-area margin-left-s margin-right-s margin-top-s margin-bot-s justify-content-center" id="imgParent">
+						<div class="img_container image-view margin-lr-auto" id="photo">
 						</div>
 					</div>
 				</div>

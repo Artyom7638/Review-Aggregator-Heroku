@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
     <head>
         <meta charset="UTF-8">
-		<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-        <title>{{ title }}</title>
+        <title>BeautyYou {{ "— " + title if title}}</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap" rel="stylesheet">
+        {% if not dont_insert_libraries %}
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.css') }}">
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styling.css') }}">
+        {% endif %}
 
         {% block additional_libraries %}
 

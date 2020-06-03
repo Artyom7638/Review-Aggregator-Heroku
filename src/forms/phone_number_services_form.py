@@ -7,7 +7,7 @@ from src.forms.multi_checkbox_field import MultiCheckboxField
 
 
 class PhoneNumberServicesForm(FlaskForm):
-    phone_number = TelField('Телефон', validators=[InputRequired(), Length(min=7, max=15)])
+    phone_number = TelField('Телефон', validators=[InputRequired()])
     services = MultiCheckboxField('Услуги', choices=[], coerce=int, validators=[InputRequired()])
 
     def __init__(self, *args, **kwargs):

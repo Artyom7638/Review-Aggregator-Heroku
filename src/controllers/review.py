@@ -7,6 +7,7 @@ from src import Config
 from src.forms.review.review_form import ReviewForm
 from src.models.client import Client
 from src.models.review import Review
+from src.models.user import User
 
 review = Blueprint('review', __name__,)
 
@@ -14,7 +15,7 @@ review = Blueprint('review', __name__,)
 @review.route('/users/<int:id>/review', methods=['POST'])
 @login_required
 def post_review(id):
-    user = Client.query.get_or_404(id)
+    user = User.query.get_or_404(id)
     allowed_to_review = is_allowed_to_review(user)
     if not allowed_to_review:
         abort(403)

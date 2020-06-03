@@ -36,7 +36,7 @@ def login():
             # return redirect('https://test.name' + url_for('main.index'))
             return redirect(url_for('main.index'))
         login_form.errors['form'] = ['Неверный логин или пароль']
-    return render_template('login.html', title='Войти', login_form=login_form)
+    return render_template('login.html', title='Авторизация', login_form=login_form)
 
 
 @auth.route("/logout")
@@ -59,7 +59,7 @@ def client_registration():
         db.session.commit()
         login_user(client)
         return redirect(url_for('main.index'))
-    return render_template('client_registration.html', title='Регистрация', registration_form=registration_form)
+    return render_template('client_registration.html', title='Регистрация пользователя', registration_form=registration_form)
 
 
 @auth.route('/registration/master', methods=['GET', 'POST'])
@@ -77,5 +77,5 @@ def master_registration():
         login_user(master)
         return redirect(url_for('main.index'))
     categories = {category.name: category for category in Category.query.all()}
-    return render_template('master_registration.html', title='Регистрация', categories=categories,
+    return render_template('master_registration.html', title='Регистрация мастера', categories=categories,
                            registration_form=registration_form)

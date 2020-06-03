@@ -4,5 +4,5 @@ from wtforms.validators import InputRequired, Length
 
 
 class SearchForm(FlaskForm):
-    query = StringField('Запрос')  # validators=[InputRequired(), Length(min=2, max=50)]
-    search = SubmitField('Поиск')
+    query = StringField('Запрос', description="Например, “мелирование”")  # validators=[InputRequired(), Length(min=2, max=50)]
+    # search = SubmitField('Поиск')

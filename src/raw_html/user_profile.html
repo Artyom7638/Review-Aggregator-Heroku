@@ -7,13 +7,55 @@
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
 	<link rel="manifest" href="favicon/site.webmanifest">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="./css/bootstrap-grid.css">
 	<link rel="stylesheet" type="text/css" href="./css/styling.css">
 	<link rel="stylesheet" type="text/css" href="./css/stars.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	<script src="./js/profile_functions.js"></script>
 </head>
 <body>
+	<!-- MODALS -->
+	<div class="modal fade" id="deleteReviewModal" tabindex="-1" role="dialog" aria-labelledby="deleteReviewModal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				    <h5 class="modal-title">Удалить отзыв?</h5>
+				    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				      <span aria-hidden="true">&times;</span>
+				    </button>
+				</div>
+				<div class="modal-body">
+				    <p>Вы уверены, что хотите удалить отзыв?</p>
+				</div>
+				<div class="modal-footer">
+				    <button type="button" class="btn bgr-plain-purple txt-clr-white" id="deleteReviewConfirm">Удалить</button>
+				    <button type="button" class="btn bgr-plain-gray txt-clr-white" data-dismiss="modal">Отмена</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="blockUserModal" tabindex="-1" role="dialog" aria-labelledby="blockUserModal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				    <h5 class="modal-title">Заблокирвоать пользователя?</h5>
+				    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				      <span aria-hidden="true">&times;</span>
+				    </button>
+				</div>
+				<div class="modal-body">
+				    <p>Вы уверены, что хотите заблокировать пользователя?</p>
+				</div>
+				<div class="modal-footer">
+				    <button type="button" class="btn bgr-plain-purple txt-clr-white" id="blockUserConfirm">Заблокировать</button>
+				    <button type="button" class="btn bgr-plain-gray txt-clr-white" data-dismiss="modal">Отмена</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- NAVBAR start -->
 	<div class="row margin-zero-lr">
 		<div class="navbar bgr-plain-purple row justify-content-center">
@@ -97,11 +139,14 @@
 								</div>
 							</div>
 							<div class="col pad-zero">
-								<div class="text-small txt-clr-purple margin-right-s margin-top-xs">
-									<div class="row margin-zero-lr align-items-center justify-content-end">
-										<img src="./imgs/gear.svg" class="filter-purple icon-xs">
-										<a href="link_to_edit_profile">Настроить профиль</a>
-									</div>									
+								<div class="text-small txt-clr-red margin-right-s margin-top-xs">
+									<div class="row margin-zero-lr justify-content-end">
+										<div class="col pad-zero text-right margin-right-s">
+											<button type="button" data-toggle="modal" data-target="#blockUserModal" class="admin-btn txt-clr-red" onclick="setBlockInfo(1);">
+												Заблокировать
+											</button>
+										</div>
+									</div>		
 								</div>
 							</div>						
 						</div>
@@ -119,7 +164,7 @@
 				<div class="row margin-zero-lr margin-top-s" id="user_reviews">
 					<div class="col pad-zero">
 						<!-- отзыв начало -->		
-						<div class="row margin-zero-lr margin-bot-s">
+						<div class="row margin-zero-lr margin-tb-s">
 							<div class="content-area bgr-plain-white row margin-zero-lr content-space-between align-items-top">
 								<div class="col-1 col-center pad-zero margin-left-s margin-top-s margin-bot-s">
 									<!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
@@ -127,36 +172,52 @@
 									</a>
 								</div>
 								<div class="col-10 pad-zero margin-left-xs margin-top-s">
-									<div class="row align-items-center margin-zero-lr margin-neg-right-s">
-										<div class="text-small pad-zero txt-clr-purple">
-											<!-- Имя пользователя -->
-											<a href="link-to-user-profile">Мария Плющева</a>
+									<div class="row align-items-center margin-zero-lr margin-neg-right-s justify-content-between w100">
+										<div class="col-md-auto pad-zero">
+											<div class="row margin-zero-lr">
+												<div class="text-small pad-zero txt-clr-purple margin-left-xs">
+													<!-- Имя пользователя -->
+													<a href="link-to-user-profile">Мария Плющева</a>
+												</div>
+												<div class="text-small txt-clr-black margin-right-xs margin-left-xs">
+													про
+												</div>
+												<div class="text-small bold pad-zero txt-clr-purple">
+													<!-- Имя мастера, о котором написан отзыв -->
+													<a href="link-to-user-profile">Мастер Один</a>
+												</div>
+											</div>
 										</div>
-										<div class="text-small txt-clr-black margin-right-xs margin-left-xs">
-											про
-										</div>
-										<div class="text-smal bold pad-zero txt-clr-purple">
-											<!-- Имя мастера, о котором написан отзыв -->
-											<a href="link-to-user-profile">Мастер Один</a>
+										<div class="col-md-auto pad-zero text-small txt-clr-red margin-right-s">
+											<div class="row margin-zero-lr justify-content-end">
+												<div class="col pad-zero text-right margin-right-s">
+													<button type="button" data-toggle="modal" data-target="#deleteReviewModal" class="admin-btn txt-clr-red" onclick="setDeleteInfo(1);">
+														Удалить отзыв
+													</button>
+												</div>
+											</div>
 										</div>
 									</div>					
 									<!-- Текст отзыва -->				
 									<div class="text-small txt-clr-black">
-										Etiam nec massa id odio facilisis euismod vulputate vel dui. Nunc nec odio pretium mauris interdum pulvinar. Cras consequat sodales scelerisque. Etiam cursus placerat suscipit. Vivamus sed luctus elit. Cras imperdiet accumsan aliquam. Quisque eu magna ac erat lacinia auctor. Aliquam diam leo, consectetur in consequat malesuada, fermentum nec ipsum!!!
-									</div>
-									<div class="rating row align-items-center margin-zero-lr margin-top-s">
-										<!-- -->
-										<div class="stars-gray col pad-zero">
-										<!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
-											<div class="stars-color" style="width: 140px"></div>
+										<div class="row margin-left-xs margin-right-s">
+											Etiam nec massa id odio facilisis euismod vulputate vel dui. Nunc nec odio pretium mauris interdum pulvinar. Cras consequat sodales scelerisque. Etiam cursus placerat suscipit. Vivamus sed luctus elit. Cras imperdiet accumsan aliquam. Quisque eu magna ac erat lacinia auctor. Aliquam diam leo, consectetur in consequat malesuada, fermentum nec ipsum.  Fusce ac eros a purus dictum vulputate vitae at nulla. Aliquam vitae orci in tortor accumsan lobortis ac nec dolor.
+										</div>
+										<div class="rating row align-items-center margin-zero-lr margin-top-s">
+											<!-- -->
+											<div class="stars-gray col pad-zero margin-bot-s">
+											<!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
+												<div class="stars-color" style="width: 110px">
+													
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
 						<!-- отзыв конец -->
 						<!-- отзыв начало -->		
-						<div class="row margin-zero-lr margin-bot-s">
+						<div class="row margin-zero-lr margin-tb-s">
 							<div class="content-area bgr-plain-white row margin-zero-lr content-space-between align-items-top">
 								<div class="col-1 col-center pad-zero margin-left-s margin-top-s margin-bot-s">
 									<!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
@@ -164,27 +225,45 @@
 									</a>
 								</div>
 								<div class="col-10 pad-zero margin-left-xs margin-top-s">
-										<div class="row align-items-center margin-zero-lr margin-neg-right-s">
-											<div class="text-small pad-zero txt-clr-purple">
-												<!-- Имя пользователя -->
-												<a href="link-to-user-profile">Мария Плющева</a>
+									<div class="row align-items-center margin-zero-lr margin-neg-right-s justify-content-between w100">
+										<div class="col-md-auto pad-zero">
+											<div class="row margin-zero-lr">
+												<div class="text-small pad-zero txt-clr-purple margin-left-xs">
+													<!-- Имя пользователя -->
+													<a href="link-to-user-profile">Мария Плющева</a>
+												</div>
+												<div class="text-small txt-clr-black margin-right-xs margin-left-xs">
+													про
+												</div>
+												<div class="text-small bold pad-zero txt-clr-purple">
+													<!-- Имя мастера, о котором написан отзыв -->
+													<a href="link-to-user-profile">Мастер Один</a>
+												</div>
 											</div>
-											<div class="text-small txt-clr-black margin-right-xs margin-left-xs">
-												про
+										</div>
+										<div class="col-md-auto pad-zero text-small txt-clr-red margin-right-s">
+											<div class="row margin-zero-lr justify-content-end">
+												<div class="col pad-zero text-right margin-right-s">
+													<div class="col pad-zero text-right margin-right-s">
+														<button type="button" data-toggle="modal" data-target="#deleteReviewModal" class="admin-btn txt-clr-red" onclick="setDeleteInfo(1);">
+															Удалить отзыв
+														</button>
+													</div>
+												</div>
 											</div>
-											<div class="text-smal bold pad-zero txt-clr-purple">
-												<!-- Имя мастера, о котором написан отзыв -->
-												<a href="link-to-user-profile">Мастер Один</a>
-											</div>
-										</div>					
-										<!-- Текст отзыва -->				
-										<div class="text-small txt-clr-black">
+										</div>
+									</div>					
+									<!-- Текст отзыва -->				
+									<div class="text-small txt-clr-black">
+										<div class="row margin-left-xs margin-right-s">
 											Etiam nec massa id odio facilisis euismod vulputate vel dui. Nunc nec odio pretium mauris interdum pulvinar. Cras consequat sodales scelerisque. Etiam cursus placerat suscipit. Vivamus sed luctus elit. Cras imperdiet accumsan aliquam. Quisque eu magna ac erat lacinia auctor. Aliquam diam leo, consectetur in consequat malesuada, fermentum nec ipsum.  Fusce ac eros a purus dictum vulputate vitae at nulla. Aliquam vitae orci in tortor accumsan lobortis ac nec dolor.
+										</div>
 										<div class="rating row align-items-center margin-zero-lr margin-top-s">
 											<!-- -->
-											<div class="stars-gray col pad-zero">
+											<div class="stars-gray col pad-zero margin-bot-s">
 											<!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
-												<div class="stars-color" style="width: 84px"></div>
+												<div class="stars-color" style="width: 84px">	
+												</div>
 											</div>
 										</div>
 									</div>

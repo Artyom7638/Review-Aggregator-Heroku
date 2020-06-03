@@ -1,12 +1,26 @@
-{% macro render_category(category, services_field) -%}
-    {{ category.name }} <br>
-    {% for service in category.services %}
-        {% set id = services_field.name + '-' + (service.id - 1) | string %}
-        <input id="{{ id }}" name="{{ services_field.name }}" type="checkbox" value="{{ service.id }}" {{ 'checked' if services_field.data and service.id in services_field.data }} >
-        <label for="{{ id }}">{{ service.name }}</label>
-        <br>
-    {% endfor %}
-    <br> <br> <br>
+{% macro render_category(category, services_field, img) -%}
+    <div class="col pad-zero">
+        <!-- Single type of service -->
+        <div class="row margin-top-m margin-bot-m">
+            <div class="col pad-zero">
+                <div class="row align-items-center margin-zero-lr justify-content-end">
+                    <img src="{{ url_for('static', filename='imgs/' + img) }}" class="filter-white icon-md">
+                </div>
+            </div>
+            <div class="col-8 txt-clr-white">
+                <div class="text-regular">
+                    {{ category.name }}
+                </div>
+                {% for service in category.services %}
+                    {% set id = services_field.name + '-' + (service.id - 1) | string %}
+                    <div class="form-check">
+                        <input class="form-check-input" id="{{ id }}" name="{{ services_field.name }}" type="checkbox" value="{{ service.id }}" {{ 'checked' if services_field.data and service.id in services_field.data }} >
+                        <label class="form-check-label" for="{{ id }}">{{ service.name }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {%- endmacro %}
 
 
@@ -17,10 +31,20 @@
     {% set skin_care = categories['Уход за кожей'] %}
     {% set tattoos = categories['Татуировки'] %}
     {% set piercing = categories['Пирсинг'] %}
-    {{ render_category(hair_care, services_field) }}
-    {{ render_category(nail_care, services_field) }}
-    {{ render_category(massage_spa, services_field) }}
-    {{ render_category(skin_care, services_field) }}
-    {{ render_category(tattoos, services_field) }}
-    {{ render_category(piercing, services_field) }}
+    <div class="row pad-v-xs margin-top-m justify-content-center">
+        <div class="col pad-zero">
+            <div class="row">
+                {{ render_category(hair_care, services_field, 'hair-styler.svg') }}
+                {{ render_category(nail_care, services_field, 'fashion.svg') }}
+            </div>
+            <div class="row">
+                {{ render_category(massage_spa, services_field, 'spa.svg') }}
+                {{ render_category(skin_care, services_field, 'spa (1).svg') }}
+            </div>
+            <div class="row">
+                {{ render_category(tattoos, services_field, 'tattoo.svg') }}
+                {{ render_category(piercing, services_field, 'ear.svg') }}
+            </div>
+        </div>
+    </div>
 {%- endmacro %}

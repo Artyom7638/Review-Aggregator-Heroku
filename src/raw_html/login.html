@@ -30,17 +30,17 @@
 					<form action="/LINK TO ACTION PAGE" method="get" name="login_form">
 						<div class="row pad-v-xs">
 							<div class="row input-lg bgr-plain-white margin-bot-top-10">
-								<input type="text" name="login" placeholder="Логин" class="col align-self-center txt-suggest">
+								<input type="text" name="login" placeholder="Логин" minlength="4" maxlength="64" class="col align-self-center txt-suggest">
 							</div>
 						</div>
 						<div class="row pad-v-xs">
 							<div class="row input-lg bgr-plain-white margin-bot-top-10">
-								<input type="text" name="password" placeholder="Пароль" class="col align-self-center txt-suggest">
+								<input type="password" name="password" placeholder="Пароль" minlength="6" maxlength="32" class="col align-self-center txt-suggest">
 							</div>
 						</div>
-						<div class="row pad-v-m">
-							<div class="col-md-auto input-lg bgr-plain-white reg-bttn margin-bot-top-10 pad-zero-lr">
-								<input type="submit" name="login" class="col align-self-center header-md auto-mg-t-b txt-clr-purple" value="Вход">
+						<div class="row pad-v-m justify-content-end w100 margin-zero-lr">
+							<div class="col-md-auto reg-bttn pad-zero">
+								<input type="submit" name="login" class="col align-self-center header-md auto-mg-t-b txt-clr-purple btn bgr-plain-white pad-lr-s" value="Вход">
 							</div>
 						</div>
 					</form>
@@ -54,7 +54,7 @@
 									<a href="/" class="txt-clr-purple">Регистрация клиента</a>
 								</div>
 								<div class="text-regular txt-clr-purple">
-									Etiam nec massa id odio facilisis euismod vulputate vel dui. Nunc nec odio pretium mauris interdum pulvinar. Cras consequat sodales scelerisque. Etiam cursus placerat suscipit.
+									Зарегистрируйтесь как клиент и получите доступ к расширенным возможностям нашего сайта.
 								</div>
 							</div>
 						</div>
@@ -66,7 +66,7 @@
 									<a href="/" class="txt-clr-purple">Регистрация мастера</a>
 								</div>
 								<div class="text-regular txt-clr-purple">
-									Etiam nec massa id odio facilisis euismod vulputate vel dui. Nunc nec odio pretium mauris interdum pulvinar. Cras consequat sodales 	scelerisque. Etiam cursus placerat suscipit.
+									Зарегистрируйтесь как мастер и получайте новых клиентов, а также доступ к расширенным возможностям сайта.
 								</div>
 							</div>
 						</div>
