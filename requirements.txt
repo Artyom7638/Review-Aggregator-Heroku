@@ -25,3 +25,4 @@ WTForms==2.2.1
 PyJWT==1.7.1
 pyOpenSSL==19.1.0
 flask-talisman==0.7.0
+mysqlclient==1.4.6
