@@ -1,7 +1,7 @@
 {% macro render_review(review, add_about_master) -%}
-    <div class="row ml-0">
-        <div class="row margin-zero-lr margin-tb-s">
-            <div class="content-area bgr-plain-white row margin-zero-lr content-space-between align-items-top">
+    <div class="row margin-zero-lr">
+        <div class="row margin-zero-lr margin-tb-s w100">
+            <div class="content-area bgr-plain-white row margin-zero-lr content-space-between align-items-top w100">
                 <div class="col-1 col-center pad-zero margin-left-s margin-top-s margin-bot-s">
                     <!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
                     <a href="{{ url_for('profile.profile_page', id=review.author.id) }}" class="img_container portrait rounded-circle" style="background-image: url('{{ url_for('profile.avatar', id=review.author.id) }}');">
