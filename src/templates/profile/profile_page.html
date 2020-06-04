@@ -1,4 +1,4 @@
-{% from "review.html" import render_review %}
+{% from "review.html" import render_review with context %}
 {% from "render_pagination.html" import render_pagination %}
 {% extends "layout.html" %}
 {% block additional_libraries %}
@@ -23,16 +23,16 @@
 			<!-- аватар и тэги --> 
 			<div class="col-4 pad-zero margin-right-s">
 				<div class="row margin-zero-lr content-area">
-					<div class="img_container content-area portrait-large" style="background-image: url('{{ url_for('static', filename='imgs/2019-05-29_19-38-07__232f5808-8230-11e9-bf77-002590aa0fe7.jpg') }}');">
+					<div class="img_container content-area portrait-large" style="background-image: url('{{ user.get_avatar_url() }}');">
 					</div>
 				</div>
 				<div class="row margin-zero-lr justify-content-end">
 					<div class="col-md-auto pad-zero">
 						<div class="text-small txt-clr-purple margin-top-xs">
 							<div class="row margin-zero-lr align-items-center justify-content-end">
-                                {% if user == current_user %}
+                                {% if user == current_user and current_user.is_not_blocked %}
                                     <img src="{{ url_for('static', filename='imgs/pencil.svg') }}" class="filter-purple icon-xs">
-                                    <a href="link_to_edit_profile_photo">Изменить фото профиля</a>
+                                    <a {% if current_user.email_confirmed %} href="{{ url_for('profile.upload_avatar', id=user.id) }}" {% else %} data-toggle="modal" data-target="#confirmEmailModal" {% endif %}>Изменить фото профиля</a>
                                 {% endif %}
 							</div>
 						</div>
@@ -73,20 +73,20 @@
 							</div>
 
                             <div class="col pad-zero">
-                                {% if True %}
+                                {% if current_user.type != 'moderator' %}
                                     <div class="text-small txt-clr-purple margin-right-s margin-top-xs">
                                         <div class="row margin-zero-lr align-items-center justify-content-end">
-                                            {% if user == current_user %}
+                                            {% if user == current_user and current_user.is_not_blocked %}
                                                 <img src="{{ url_for('static', filename='imgs/gear.svg') }}" class="filter-purple icon-xs">
-                                                <a href="{{ url_for('profile.profile_edit', id=user.id) }}">Настроить профиль</a>
+                                                <a {% if current_user.email_confirmed %} href="{{ url_for('profile.profile_edit', id=user.id) }}" {% else %} data-toggle="modal" data-target="#confirmEmailModal" {% endif %}>Настроить профиль</a>
                                             {% endif %}
                                         </div>
                                     </div>
-                                {% else %}
+                                {% elif user.is_not_blocked %}
                                     <div class="text-small txt-clr-red margin-right-s margin-top-xs">
                                         <div class="row margin-zero-lr justify-content-end">
                                             <div class="col pad-zero text-right margin-right-s">
-                                                <button type="button" data-toggle="modal" data-target="#blockUserModal" class="admin-btn txt-clr-red" onclick="setBlockInfo(1);">
+                                                <button type="button" data-toggle="modal" data-target="#blockUserModal" class="admin-btn txt-clr-red" onclick="setBlockInfo('{{ url_for('moderator.block_user', id=user.id) }}');">
                                                     Заблокировать
                                                 </button>
                                             </div>
@@ -106,9 +106,7 @@
                                 <div class="text-small margin-left-s margin-right-s">Телефон: {{ user.phone_number }}</div>
                             </div>
                             <div class="row margin-zero-lr margin-top-s margin-bot-s">
-                                <div class="text-small margin-left-s margin-right-s">
-                                    {{ user.description}}
-                                </div>
+                                <div class="text-small margin-left-s margin-right-s" style="white-space: pre-line">{{ user.description}}</div>
                             </div>
                         {% endif %}
 					</div>
@@ -128,9 +126,9 @@
                                 <div class="col pad-zero">
                                     <div class="text-small txt-clr-purple margin-right-s margin-top-xs">
                                         <div class="row margin-zero-lr align-items-center justify-content-end">
-                                            {% if user == current_user %}
+                                            {% if user == current_user and current_user.is_not_blocked %}
                                                 <img src="{{ url_for('static', filename='imgs/upload.svg') }}" class="filter-purple icon-xs">
-                                                <a href="link_to_upload_photo_page">Загрузить фото</a>
+                                                <a {% if current_user.email_confirmed %} href="{{ url_for('profile.upload_photo', id=user.id) }}" {% else %} data-toggle="modal" data-target="#confirmEmailModal" {% endif %}>Загрузить фото</a>
                                             {% endif %}
                                         </div>
                                     </div>
@@ -142,76 +140,15 @@
                             <div class="row margin-left-10 margin-right-0">
                                 <div class="col tags pad-zero margin-bot-s">
                                     <div class="row margin-zero-lr justify-content-evenly">
-                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
-                                            <div class="margin-right-xs margin-left-xs">
-                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
-                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/__medium_троянская_д.фуфаев.JPG.jpg') }}');" onclick="showPhoto(this);">
+                                        {% for photo in user.photos %}
+                                            <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
+                                                <div class="margin-right-xs margin-left-xs">
+                                                    <!-- Cсылка на изображение в style="background-image: url(...);" -->
+                                                    <div class="img_container content-area portrait" style="background-image: url('{{ photo.get_photo_url() }}');" onclick="showPhoto(this, '{{ url_for('profile.delete_photo', id=photo.id) }}');">
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
-                                            <div class="margin-right-xs margin-left-xs">
-                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
-                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/__medium_троянская_д.фуфаев.JPG.jpg') }}');" onclick="showPhoto(this);">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
-                                            <div class="margin-right-xs margin-left-xs">
-                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
-                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/4-Cool-Short-Haircuts-for-Girls-451.jpg') }}');" onclick="showPhoto(this);">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
-                                            <div class="margin-right-xs margin-left-xs">
-                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
-                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/__medium_троянская_д.фуфаев.JPG.jpg') }}');" onclick="showPhoto(this);">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
-                                            <div class="margin-right-xs margin-left-xs">
-                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
-                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/4-Cool-Short-Haircuts-for-Girls-451.jpg') }}');" onclick="showPhoto(this);">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
-                                            <div class="margin-right-xs margin-left-xs">
-                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
-                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/dream-interpretation-hairdresser-coiffeur_1200x0-825x510.jpg') }}');" onclick="showPhoto(this);">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
-                                            <div class="margin-right-xs margin-left-xs">
-                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
-                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/nikolai.jpg') }}');" onclick="showPhoto(this);">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
-                                            <div class="margin-right-xs margin-left-xs">
-                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
-                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/nikolai.jpg') }}');" onclick="showPhoto(this);">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
-                                            <div class="margin-right-xs margin-left-xs">
-                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
-                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/nikolai.jpg') }}');" onclick="showPhoto(this);">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-auto pad-zero tag align-items-center justify-content-center margin-right-xs margin-left-xs cursor-ptr">
-                                            <div class="margin-right-xs margin-left-xs">
-                                                <!-- Cсылка на изображение в style="background-image: url(...);" -->
-                                                <div class="img_container content-area portrait" style="background-image: url('{{ url_for('static', filename='imgs/test_large.jpg') }}');" onclick="showPhoto(this);">
-                                                </div>
-                                            </div>
-                                        </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
@@ -249,11 +186,17 @@
                         </div>
                         <div class="col">
                             <div class="row align-items-center justify-content-end">
-                                <div class="input-auto bgr-plain-purple txt-clr-white text-small cursor-ptr" onclick="switchBlock('review_form', 'flex')">
+                                <div class="input-auto bgr-plain-purple txt-clr-white text-small cursor-ptr" {% if allowed_to_review and current_user.email_confirmed %} onclick="switchBlock('review_form', 'flex')" {% endif %}>
                                     {% if allowed_to_review %}
-                                        <div class="margin-lr-xs margin-bot-xs margin-top-xs">
-                                            Добавить отзыв
-                                        </div>
+                                        {% if current_user.email_confirmed %}
+                                            <div class="margin-lr-xs margin-bot-xs margin-top-xs">
+                                                Добавить отзыв
+                                            </div>
+                                        {% else %}
+                                            <div class="margin-lr-xs margin-bot-xs margin-top-xs" data-toggle="modal" data-target="#confirmEmailModal">
+                                                Добавить отзыв
+                                            </div>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </div>
@@ -288,7 +231,7 @@
 
 
 				<!-- отзывы пользователя -->
-				<div class="row margin-zero-lr margin-top-s" id="user_reviews" style="display: none;">
+				<div class="row margin-zero-lr margin-top-s" id="user_reviews" {% if user.type == 'master' %} style="display: none;" {% endif %} >
                     <div class="col pad-zero">
                         {% for review in users_reviews %}
                             {{ render_review(review, True) }}
@@ -302,8 +245,14 @@
 			</div>
 		</div>
 
-
-        {{ render_pagination() }}
+        <div id="pagination_div">
+            <div id="reviews_about_user_pagination" style="display: block">
+                {{ render_pagination(reviews_about_master_pagination, 'profile.profile_page', author='others', left_edge=1, left_current=10, right_current=10, right_edge=1, id=user.id) }}
+            </div>
+            <div id="user_reviews_pagination" style="display: none">
+                {{ render_pagination(users_reviews_pagination, 'profile.profile_page', author='user', left_edge=1, left_current=10, right_current=10, right_edge=1, id=user.id) }}
+            </div>
+        </div>
 
 
 
@@ -315,7 +264,7 @@
                         <img src="{{ url_for('static', filename='imgs/close.svg') }}" class="filter-white icon-xs margin-right-s cursor-ptr" onclick="switchBlock('review_form', 'none')">
                     </div>
                     <div class="row margin-zero-lr justify-content-center margin-top-s">
-                        {{ review_form.content(class="content-area", placeholder="Напишите здесь текст Вашего отзыва...", minlength="10", maxlength="300" ) }}
+                        {{ review_form.content(class="content-area", placeholder="Напишите здесь текст Вашего отзыва...", minlength="10", maxlength="1000" ) }}
                     </div>
                     <div class="row align-items-center w80 justify-content-between margin-lr-auto margin-top-m margin-bot-s">
                         <div class="col pad-zero">
@@ -374,7 +323,7 @@
                         <div class="row margin-zero-lr align-items-center justify-content-end">
                             {% if user == current_user %}
                                 <img src="{{ url_for('static', filename='imgs/trash.svg') }}" class="filter-purple icon-xs">
-                                <a href="remove photo">Удалить фотографию</a>
+                                <a id="delete_link" {% if current_user.email_confirmed %} href="remove photo" {% else %} data-toggle="modal" data-target="#confirmEmailModal" {% endif %}>Удалить фотографию</a>
                             {% endif %}
                         </div>
                     </div>
@@ -397,7 +346,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-				    <h5 class="modal-title">Удалить отзыв?</h5>
+				    <h5 class="modal-title">Удалить отзыв</h5>
 				    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				      <span aria-hidden="true">&times;</span>
 				    </button>
@@ -416,7 +365,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-				    <h5 class="modal-title">Заблокирвоать пользователя?</h5>
+				    <h5 class="modal-title">Заблокировать пользователя</h5>
 				    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				      <span aria-hidden="true">&times;</span>
 				    </button>
@@ -431,4 +380,27 @@
 			</div>
 		</div>
 	</div>
+
+
+    <div class="modal fade" id="confirmEmailModal" tabindex="-1" role="dialog" aria-labelledby="deleteReviewModal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+				    <p>Данная функция недоступна без подтверждения почты. Проверьте почту, адрес которой вы использовали при регистрации. </p>
+                    <p>Если письмо долго не приходит, мы можем отправить вам письмо повторно. </p>
+                    <a href="{{ url_for('auth.resend_email')}}" role="button" class="btn btn-secondary w-100">Отправить письмо повторно</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+    <script>
+        $(document).ready(function(){
+            var switch_tab_to_users_reviews = {{ 'true' if switch_tab_to_users_reviews else 'false' }};
+            if (switch_tab_to_users_reviews)
+                switchReviews('user_reviews', 'reviews_about_user');
+        });
+    </script>
 {% endblock %}

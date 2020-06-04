@@ -5,6 +5,6 @@ from wtforms.validators import InputRequired, Length, NumberRange
 
 
 class ReviewForm(FlaskForm):
-    content = TextAreaField('Текст отзыва', validators=[InputRequired(), Length(min=10, max=2000)])
+    content = TextAreaField('Текст отзыва', validators=[InputRequired(), Length(min=10, max=1000)])
     rating = IntegerField('Оценка', validators=[InputRequired(), NumberRange(min=1, max=5)])
     submit = SubmitField('Оставить отзыв')

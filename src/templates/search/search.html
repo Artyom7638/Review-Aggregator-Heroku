@@ -88,9 +88,23 @@
 					<div class="header-md txt-clr-purple">
                         {% if query %}
                             {% if masters %}
-                                 <h2>По запросу "{{ query }}" найдены следующие результаты:</h2>
+                                 По запросу "{{ query }}" найдены следующие результаты:
                             {% else %}
-                                <h2>По запросу "{{ query }}" ничего не найдено. Попробуйте задать новый запрос в строке поиска или выбрать требуемые вам услуги в меню слева.</h2>
+                                {% if master_found %}
+                                    По запросу "{{ query }}" после фильтрации ничего не найдено. Попробуйте выбрать меньше услуг в меню слева.
+                                {% else %}
+                                    {% if filters %}  <!-- когда задан запрос название категории а потом из-за фильтрации ничего не найдено -->
+                                        По запросу "{{ query }}" после фильтрации ничего не найдено. Попробуйте выбрать меньше услуг в меню слева.
+                                    {% else %} <!-- когда задан запрос по которому ничего не найдено -->
+                                        По запросу "{{ query }}" ничего не найдено. Попробуйте задать новый запрос в строке поиска или выберите требуемые вам услуги в меню слева.
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% else %}
+                            {% if masters %}
+                                 Найдены следующие результаты:
+                            {% else %}
+                                Ничего не найдено. Попробуйте выбрать меньше услуг в меню слева.
                             {% endif %}
                         {% endif %}
 					</div>
@@ -100,7 +114,7 @@
                     <div class="row margin-zero-lr content-area bgr-plain-white margin-bot-m">
                         <div class="col-3 col-center pad-zero margin-left-xs margin-top-s margin-bot-s">
                             <!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
-                            <a href="{{ url_for('profile.profile_page', id=master.id) }}" class="img_container rounded" style="background-image: url('{{ url_for('static', filename='imgs/2020_02_19_86981_1582093384._large.jpg') }}');">
+                            <a href="{{ url_for('profile.profile_page', id=master.id) }}" class="img_container rounded" style="background-image: url('{{ master.get_avatar_url() }}');">
                             </a>
                         </div>
                         <div class="col margin-top-s margin-bot-s">
@@ -139,7 +153,7 @@
                 {% endfor %}
 			</div>
 		</div>
-        {{ render_pagination() }}
+        {{ render_pagination(pagination, 'search.search', author=None, left_edge=1, left_current=10, right_current=10, right_edge=1) }}
 	</div>
 
 <script>
@@ -153,6 +167,18 @@
         evt.preventDefault();
         page_val = $(evt.target).text();
         $('{{ page }}').val(page_val);
+        document.forms['search'].submit();
+    });
+    $(".prev-page").click(function(evt) {
+        evt.preventDefault();
+        current = $('{{ page }}').val();
+        $('{{ page }}').val(current - 1);// почему-то работает без преобразования в int в отличие от следующей страницы
+        document.forms['search'].submit();
+    });
+    $(".next-page").click(function(evt) {
+        evt.preventDefault();
+        var current = parseInt($('{{ page }}').val());
+        $('{{ page }}').val(current + 1);
         document.forms['search'].submit();
     });
 </script>

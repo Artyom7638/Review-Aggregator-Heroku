@@ -7,12 +7,12 @@
 	<script src="{{ url_for('static', filename='js/validations.js') }}"></script>
 {% endblock %}
 {% block content %}
-    {{ display_form_errors(registration_form) }}
 	<div class="container">
 		<!-- reg form -->
 		<div class="row justify-content-center align-content-center margin-bot-xl margin-top-xl margin-lr-auto w80">
 			<div class="col bgr-grad-rad content-area">
 				<div class="col pad-h-m pad-v-s margin-top-m margin-bot-m">
+                    {{ display_form_errors(registration_form) }}
 					<div class="row">
 						<div class="header-lg txt-clr-white">Регистрация</div>
 					</div>

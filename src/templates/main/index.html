@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block additional_libraries %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/stars.css') }}">
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -13,19 +14,19 @@
 					<div class="col v-line-r-w margin-top-s margin-bot-s">
 						<div class="row align-items-center margin-left">
 							<img src="{{ url_for('static', filename='imgs/hair-styler.svg') }}" class="filter-white icon-md margin-right-s">
-							<a href="">Уход за волосами</a>
+							<a class="search-page-redirect">Уход за волосами</a>
 						</div>	
 					</div>
 					<div class="col v-line-r-w margin-top-s margin-bot-s">
 						<div class="row align-items-center margin-left">
 							<img src="{{ url_for('static', filename='imgs/fashion.svg') }}" class="filter-white icon-md margin-right-s">
-							<a href="">Уход за ногтями</a>
+							<a class="search-page-redirect">Уход за ногтями</a>
 						</div>
 					</div>
 					<div class="col margin-top-s margin-bot-s">
 						<div class="row align-items-center margin-left">
 							<img src="{{ url_for('static', filename='imgs/spa.svg') }}" class="filter-white icon-md margin-right-s">
-							<a href="">Массаж, SPA</a>
+							<a class="search-page-redirect">Массаж, SPA</a>
 						</div>
 					</div>
 				</div>
@@ -33,19 +34,19 @@
 					<div class="col v-line-r-w margin-top-s margin-bot-s">
 						<div class="row align-items-center margin-left">
 							<img src="{{ url_for('static', filename='imgs/ear.svg') }}" class="filter-white icon-md margin-right-s">
-							<a href="">Пирсинг</a>
+							<a class="search-page-redirect">Пирсинг</a>
 						</div>
 					</div>
 					<div class="col v-line-r-w margin-top-s margin-bot-s">
 						<div class="row align-items-center margin-left">
 							<img src="{{ url_for('static', filename='imgs/tattoo.svg') }}" class="filter-white icon-md margin-right-s">
-							<a href="">Татуировки</a>
+							<a class="search-page-redirect">Татуировки</a>
 						</div>
 					</div>
 					<div class="col margin-top-s margin-bot-s">
 						<div class="row align-items-center margin-left">
 							<img src="{{ url_for('static', filename='imgs/spa (1).svg') }}" class="filter-white icon-md margin-right-s">
-							<a href="">Уход за кожей</a>
+							<a class="search-page-redirect">Уход за кожей</a>
 						</div>
 					</div>
 				</div>
@@ -57,90 +58,38 @@
 					<div class="header-lg">ПОПУЛЯРНЫЕ МАСТЕРА</div>
 				</div>
 				<div class="row content-space-between">
-					<div class="col col-32 pad-zero">
-						<div class="row margin-zero-lr">
-							<div class="content-area bgr-plain-white row margin-zero-lr content-space-between">
-								<div class="col-6 pad-zero">
-									<a href="link-to-user-profile">
-										<img class="sqr-pic" src="{{ url_for('static', filename='imgs/2020_02_19_86981_1582093384._large.jpg') }}">
-									</a>
-								</div>
-								<div class="col-5 pad-zero margin-right-s">
-									<div class="header-md pad-zero">
-										<a href="link-to-user-profile">Мастер Один</a>
-									</div>
-									<div class="txt-clr-black">
-										Nullam quis eros nec leo mattis porttitor in in dui. 
-										Donec iaculis finibus ipsum. 
-										Ut nec purus non libero cursus cursus.
-									</div>
-									<div class="rating row align-items-center margin-zero-lr">
-										<!-- -->
-										<div class="stars-gray col pad-zero">
-										<!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
-											<div class="stars-color" style="width: 110px"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col col-32 pad-zero">
-						<div class="row margin-zero-lr">
-							<div class="content-area bgr-plain-white row margin-zero-lr content-space-between">
-								<div class="col-6 pad-zero">
-									<a href="link-to-user-profile">
-										<img class="sqr-pic" src="{{ url_for('static', filename='imgs/2020_02_19_86981_1582093384._large.jpg') }}">
-									</a>
-								</div>
-								<div class="col-5 pad-zero margin-right-s">
-									<div class="header-md pad-zero">
-										<a href="link-to-user-profile">Мастер Один</a>
-									</div>
-									<div class="txt-clr-black">
-										Nullam quis eros nec leo mattis porttitor in in dui. 
-										Donec iaculis finibus ipsum. 
-										Ut nec purus non libero cursus cursus.
-									</div>
-									<div class="rating row align-items-center margin-zero-lr">
-										<!-- -->
-										<div class="stars-gray col pad-zero">
-										<!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
-											<div class="stars-color" style="width: 70.95px"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col col-32 pad-zero">
-						<div class="row margin-zero-lr">
-							<div class="content-area bgr-plain-white row margin-zero-lr content-space-between">
-								<div class="col-6 pad-zero">
-									<a href="link-to-user-profile">
-										<img class="sqr-pic" src="{{ url_for('static', filename='imgs/2020_02_19_86981_1582093384._large.jpg') }}">
-									</a>
-								</div>
-								<div class="col-5 pad-zero margin-right-s">
-									<div class="header-md">
-										<a href="link-to-user-profile">Мастер Один</a>
-									</div>
-									<div class="txt-clr-black">
-										Nullam quis eros nec leo mattis porttitor in in dui. 
-										Donec iaculis finibus ipsum. 
-										Ut nec purus non libero cursus cursus.
-									</div>
-									<div class="rating row align-items-center margin-zero-lr">
-										<!-- -->
-										<div class="stars-gray col pad-zero">
-										<!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
-											<div class="stars-color" style="width: 140px"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+                    {% for master in masters %}
+                        <div class="col col-32 pad-zero">
+                            <div class="row margin-zero-lr">
+                                <div class="content-area bgr-plain-white row margin-zero-lr content-space-between">
+                                    <div class="col-6 pad-zero">
+                                        <a href="{{ url_for('profile.profile_page', id=master.id) }}">
+                                            <img class="sqr-pic" src="{{ master.get_avatar_url() }}">
+                                        </a>
+                                    </div>
+                                    <div class="col-5 pad-zero margin-right-s">
+                                        <div class="header-md pad-zero">
+                                            <a href="{{ url_for('profile.profile_page', id=master.id) }}">{{ master.name + ' ' + master.surname }}</a>
+                                        </div>
+                                        <div class="txt-clr-black">
+                                            {{ master.short_description }}
+                                        </div>
+                                        <div class="rating row align-items-center margin-zero-lr">
+                                            {% if master.average_rating %}
+                                                <div class="stars-gray col pad-zero">
+                                                    <!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
+                                                    <div class="stars-color" style="width: {{ master.average_rating / 5 * 140 }}px">
+                                                    </div>
+                                                 </div>
+                                            {% else %}
+                                                Недостаточно отзывов для расчёта рейтинга
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
 				</div>
 			</div>
 		</div>
@@ -151,119 +100,57 @@
 				</div>
 				<div class="row content-space-between">
 					<!-- Каждый блок - отзыв -->
-					<div class="col col-32 pad-zero">
-						<div class="row margin-zero-lr">
-							<div class="content-area bgr-plain-white row margin-zero-lr content-space-between align-items-center">
-								<div class="col-3 col-center pad-zero margin-left-xs">
-									<!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
-									<a href="link-to-user-profile" class="img_container portrait rounded rounded" style="background-image: url('{{ url_for('static', filename='imgs/2020_02_19_86981_1582093384._large.jpg') }}');">
-									</a>
-								</div>
-								<div class="col-8 pad-zero margin-left-xs">
-									<div class="row align-items-center margin-zero-lr margin-neg-right-s">
-										<div class="text-small pad-zero txt-clr-purple">
-											<!-- Имя пользователя -->
-											<a href="link-to-user-profile">User1234</a>
-										</div>
-										<div class="text-small txt-clr-black margin-right-xs margin-left-xs">
-											про
-										</div>
-										<div class="text-smal bold pad-zero">
-											<!-- Имя мастера, о котором написан отзыв -->
-											<a href="link-to-user-profile">Мастер Один</a>
-										</div>
-									</div>					
-									<!-- Текст отзыва -->				
-									<div class="text-small txt-clr-black">
-										Nullam quis eros nec leo mattis porttitor in in dui. 
-										Donec iaculis finibus ipsum. 
-										Ut nec purus non libero cursus cursus.
-									</div>
-									<div class="rating row align-items-center margin-zero-lr">
-										<!-- -->
-										<div class="stars-gray col pad-zero">
-										<!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
-											<div class="stars-color" style="width: 65px"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col col-32 pad-zero">
-						<div class="row margin-zero-lr">
-							<div class="content-area bgr-plain-white row margin-zero-lr content-space-between align-items-center">
-								<div class="col-3 col-center pad-zero margin-left-xs">
-									<!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
-									<a href="link-to-user-profile" class="img_container portrait rounded" style="background-image: url('{{ url_for('static', filename='imgs/2020_02_19_86981_1582093384._large.jpg') }}');">
-									</a>
-								</div>
-								<div class="col-8 pad-zero margin-left-xs">
-									<div class="row align-items-center margin-zero-lr margin-neg-right-s">
-										<div class="text-small pad-zero txt-clr-purple">
-											<a href="link-to-user-profile">User1234</a>
-										</div>
-										<div class="text-small txt-clr-black margin-right-xs margin-left-xs">
-											про
-										</div>
-										<div class="text-smal bold pad-zero">
-											<a href="link-to-user-profile">Мастер Один</a>
-										</div>
-									</div>									
-									<div class="text-small txt-clr-black">
-										Nullam quis eros nec leo mattis porttitor in in dui. 
-										Donec iaculis finibus ipsum. 
-										Ut nec purus non libero cursus cursus.
-									</div>
-									<div class="rating row align-items-center margin-zero-lr">
-										<!-- -->
-										<div class="stars-gray col pad-zero">
-										<!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
-											<div class="stars-color" style="width: 33px"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col col-32 pad-zero">
-						<div class="row margin-zero-lr">
-							<div class="content-area bgr-plain-white row margin-zero-lr content-space-between align-items-center">
-								<div class="col-3 col-center pad-zero margin-left-xs">
-									<!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
-									<a href="link-to-user-profile" class="img_container portrait rounded" style="background-image: url('{{ url_for('static', filename='imgs/2020_02_19_86981_1582093384._large.jpg') }}');">
-									</a>
-								</div>
-								<div class="col-8 pad-zero margin-left-xs">
-									<div class="row align-items-center margin-zero-lr margin-neg-right-s">
-										<div class="text-small pad-zero txt-clr-purple">
-											<a href="link-to-user-profile">User1234</a>
-										</div>
-										<div class="text-small txt-clr-black margin-right-xs margin-left-xs">
-											про
-										</div>
-										<div class="text-smal bold pad-zero">
-											<a href="link-to-user-profile">Мастер Один</a>
-										</div>
-									</div>									
-									<div class="text-small txt-clr-black">
-										Nullam quis eros nec leo mattis porttitor in in dui. 
-										Donec iaculis finibus ipsum. 
-										Ut nec purus non libero cursus cursus.
-									</div>
-									<div class="rating row align-items-center margin-zero-lr">
-										<!-- -->
-										<div class="stars-gray col pad-zero">
-										<!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
-											<div class="stars-color" style="width: 98.75px"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+                    {% for review in reviews %}
+                        <div class="col col-32 pad-zero">
+                            <div class="row margin-zero-lr">
+                                <div class="content-area bgr-plain-white row margin-zero-lr content-space-between align-items-center">
+                                    <div class="col-3 col-center pad-zero margin-left-xs">
+                                        <!-- Аватар пользователя; Cсылка на изображение в style="background-image: url(...);" -->
+                                        <a href="{{ url_for('profile.profile_page', id=review.author.id) }}" class="img_container portrait rounded rounded" style="background-image: url('{{ review.author.get_avatar_url() }}');">
+                                        </a>
+                                    </div>
+                                    <div class="col-8 pad-zero margin-left-xs">
+                                        <div class="row align-items-center margin-zero-lr margin-neg-right-s">
+                                            <div class="text-small pad-zero txt-clr-purple">
+                                                <!-- Имя пользователя -->
+                                                <a href="{{ url_for('profile.profile_page', id=review.author.id) }}">{{ review.author.name }}</a>
+                                            </div>
+                                            <div class="text-small txt-clr-black margin-right-xs margin-left-xs">
+                                                про
+                                            </div>
+                                            <div class="text-smal bold pad-zero">
+                                                <!-- Имя мастера, о котором написан отзыв -->
+                                                <a href="{{ url_for('profile.profile_page', id=review.master.id) }}">{{ review.master.name + ' ' + review.master.surname }}</a>
+                                            </div>
+                                        </div>
+                                        <!-- Текст отзыва -->
+                                        <div class="text-small txt-clr-black">
+                                            {{ review.content }}
+                                        </div>
+                                        <div class="rating row align-items-center margin-zero-lr">
+                                            <!-- -->
+                                            <div class="stars-gray col pad-zero">
+                                            <!-- <div class="stars-color" style="width: ВЫЧИСЛЯТЬ ШИРИНУ, СОГЛАСНО РЕЙТИНГУ (current_rate/max_rate)*140px"></div> -->
+                                                <div class="stars-color" style="width: {{ review.rating / 5 * 140 }}px"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
 				</div>
 			</div>
 		</div>
 	</div>
+    {% set id = "#" + search_form.query.id %}
+    <script>
+        $(document).ready(function(){
+            $(".search-page-redirect").click(function(evt){
+                category = $(evt.target).text();
+                $('{{ id }}').val(category);
+                document.forms['search_form'].submit();
+            });
+        });
+    </script>
 {% endblock %}

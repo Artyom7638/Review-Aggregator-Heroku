@@ -1,54 +1,50 @@
 <!-- left_current это без учёта данной страницы, right_current - с учётом данной -->
-{% macro render_pagination_old(pagination, endpoint, author, left_edge, left_current, right_current, right_edge) %}
+{% macro render_pagination(pagination, endpoint, author, left_edge, left_current, right_current, right_edge) %}
     {% if pagination %}
         {% if pagination.page != 1 or pagination.has_next %}  <!-- если лишь одна страница, не отображать номер страницы -->
-            {%- for page in pagination.iter_pages(left_edge=left_edge, left_current=left_current, right_current=right_current, right_edge=right_edge) %}
-                {% if page %}
-                    {% if page != pagination.page %}
-                        {% if author %}
-                            <a href="{{ url_for(endpoint, author=author, page=page, **kwargs) }}">{{ page }}</a>
-                        {% else %}
-                            <a href="{{ url_for(endpoint, page=page, **kwargs) }}" class="page-button">{{ page }}</a>
+            <div class="row margin-zero-lr txt-clr-purple justify-content-center">
+                <div class="col-2 pad-zero">
+                    <div class="row text-regular justify-content-end margin-zero-lr">
+                        {% if pagination.has_prev %}
+                            {% if author %}  <!-- если это страница профиля -->
+                                <a href="{{ url_for(endpoint, author=author, page=pagination.page - 1, **kwargs) }}">Предыдущая</a>
+                            {% else %}   <!-- если это страница поиска -->
+                                <a class="prev-page">Предыдущая</a>
+                            {% endif %}
                         {% endif %}
-                    {% else %}
-                        <span>{{ page }}</span>
-                    {% endif %}
-                {% else %}
-                    <span>…</span>
-                {% endif %}
-            {%- endfor %}
+                    </div>
+                </div>
+                <div class="col-2 pad-zero">
+                    <div class="row text-small justify-content-center margin-zero-lr align-items-end">
+                        {%- for page in pagination.iter_pages(left_edge=left_edge, left_current=left_current, right_current=right_current, right_edge=right_edge) %}
+                            {% if page %}
+                                {% if page != pagination.page %}
+                                    {% if author %}  <!-- если это страница профиля -->
+                                        <a class="page-index" href="{{ url_for(endpoint, author=author, page=page, **kwargs) }}">{{ page }}</a>
+                                    {% else %}   <!-- если это страница поиска -->
+                                        <a class="page-index page-button">{{ page }}</a>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="bold text-regular page-index">{{ page }}</span>
+                                {% endif %}
+                            {% else %}
+                                <span>…</span>
+                            {% endif %}
+                        {%- endfor %}
+                    </div>
+                </div>
+                <div class="col-2 pad-zero">
+                    <div class="row text-regular justify-content-start margin-zero-lr">
+                        {% if pagination.has_next %}
+                            {% if author %}  <!-- если это страница профиля -->
+                                <a href="{{ url_for(endpoint, author=author, page=pagination.page + 1, **kwargs) }}">Следующая</a>
+                            {% else %}   <!-- если это страница поиска -->
+                                <a class="next-page">Следующая</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         {% endif %}
     {% endif %}
-{% endmacro %}
-
-
-
-
-{% macro render_pagination() %}
-    <div class="row margin-zero-lr txt-clr-purple justify-content-center">
-        <div class="col-2 pad-zero">
-            <div class="row text-regular justify-content-end margin-zero-lr">
-                <a href="">Предыдущая</a>
-            </div>
-        </div>
-        <div class="col-2 pad-zero">
-            <div class="row text-small justify-content-center margin-zero-lr align-items-end">
-                <a href="" class="bold text-regular page-index">1</a>
-                <a href="" class="page-index">2</a>
-                <a href="" class="page-index">3</a>
-                <a href="" class="page-index">4</a>
-                <a href="" class="page-index">5</a>
-                <a href="" class="page-index">6</a>
-                <a href="" class="page-index">7</a>
-                <a href="" class="page-index">8</a>
-                <a href="" class="page-index">9</a>
-                <a href="" class="page-index">10</a>
-            </div>
-        </div>
-        <div class="col-2 pad-zero">
-            <div class="row text-regular justify-content-start margin-zero-lr">
-                <a href="">Следующая</a>
-            </div>
-        </div>
-    </div>
 {% endmacro %}

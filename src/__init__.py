@@ -1,14 +1,15 @@
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
-
+import os
 from b_crypt import bcrypt
 from login_manager import login_manager
+from mail import mail
 from src.config import Config
 from flask import Flask
 from database import db
+from src.controllers.moderator import moderator
 from src.controllers.review import review
 from src.controllers.search import search_blueprint
 from src.controllers.auth import auth
-from src.controllers.main import main, handle_exceptions
+from src.controllers.main import main
 from src.controllers.profile import profile
 from src.models.service import Service
 from src.models.category import Category
@@ -57,30 +58,28 @@ db.init_app(app)
 login_manager.init_app(app)
 with app.app_context():
     db.create_all()
-    categories = Category.query.all()
-    if not categories:
+    if not Category.query.all():
         init_db_categories_and_services()
-    '''
-    moder = Moderator(email='t3@ya.ru')
-    moder.set_password('ttttt')
-    db.session.add(moder)
+    if not Moderator.query.filter_by(email='admin@ya.ru').first():
+        moder = Moderator(email='admin@ya.ru')
+        moder.set_password('admin')
+        db.session.add(moder)
     db.session.commit()
-    '''
 bcrypt.init_app(app)
+mail.init_app(app)
 app.register_blueprint(main)
 app.register_blueprint(search_blueprint)
 app.register_blueprint(auth)
 app.register_blueprint(profile)
 app.register_blueprint(review)
+app.register_blueprint(moderator)
 # app.register_error_handler(404, lambda x: render_error(404))
 # app.register_error_handler(500, lambda x: render_error(500))
-app.register_error_handler(Exception, handle_exceptions)
+if not os.path.isdir(Config.UPLOAD_FOLDER):
+    os.mkdir(Config.UPLOAD_FOLDER, 0o744)
 
-
+'''
 @app.errorhandler(404)
 def not_found(e):
     return "404"
-'''
-if not os.path.isdir(Config.UPLOAD_FOLDER):
-    os.mkdir(Config.UPLOAD_FOLDER, 0o744)
 '''

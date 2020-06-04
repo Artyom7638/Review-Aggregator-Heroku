@@ -1,13 +1,13 @@
 from flask_wtf import FlaskForm
 from wtforms.fields.html5 import TelField
-from wtforms.validators import InputRequired, Length
+from wtforms.validators import InputRequired, Regexp
 
 from src.models.service import Service
 from src.forms.multi_checkbox_field import MultiCheckboxField
 
 
 class PhoneNumberServicesForm(FlaskForm):
-    phone_number = TelField('Телефон', validators=[InputRequired()])
+    phone_number = TelField('Телефон', validators=[InputRequired(), Regexp(r"\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}")])
     services = MultiCheckboxField('Услуги', choices=[], coerce=int, validators=[InputRequired()])
 
     def __init__(self, *args, **kwargs):

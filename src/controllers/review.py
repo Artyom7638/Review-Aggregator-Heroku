@@ -1,13 +1,11 @@
 from flask import Blueprint, abort, url_for, redirect, flash
 from flask_login import login_required, current_user
 from sqlalchemy import func
-
 from database import db
 from src import Config
 from src.forms.review.review_form import ReviewForm
-from src.models.client import Client
+from src.models import Master
 from src.models.review import Review
-from src.models.user import User
 
 review = Blueprint('review', __name__,)
 
@@ -15,8 +13,8 @@ review = Blueprint('review', __name__,)
 @review.route('/users/<int:id>/review', methods=['POST'])
 @login_required
 def post_review(id):
-    user = User.query.get_or_404(id)
-    allowed_to_review = is_allowed_to_review(user)
+    user = Master.query.get_or_404(id)
+    allowed_to_review = is_allowed_to_review(user) and current_user.email_confirmed
     if not allowed_to_review:
         abort(403)
     review_form = ReviewForm()
@@ -36,7 +34,7 @@ def post_review(id):
 
 
 def is_allowed_to_review(user):
-    if current_user.is_authenticated and user.type == 'master' \
-            and user != current_user and current_user.type != 'moderator':
+    if current_user.is_authenticated and user.type == 'master' and user != current_user and \
+            current_user.type != 'moderator' and current_user.is_not_blocked:
         return current_user.reviews.filter(Review.master_id == user.id).first() is None
     return False

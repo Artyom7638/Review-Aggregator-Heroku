@@ -1,5 +1,5 @@
-<div class="row margin-zero-lr">
-    <div class="navbar bgr-plain-purple row justify-content-center">
+<div class="row margin-zero-lr ">
+    <div class="navbar bgr-plain-purple row justify-content-center p-0">
         <div class="col-3 align-self-center">
             <div class="row">
                 <img src="{{ url_for('static', filename='imgs/eye-makeup.svg') }}" class="filter-white icon-sm center-img cursor-ptr" onclick="window.location.href='{{ url_for('main.index') }}'">
@@ -10,14 +10,15 @@
                 <div class="col align-self-center">
                     <form class="row" action="{{ url_for('search.smart_search') }}" method="post" name="search_form" id="search_form">
                         <div class="col-9 v-line-r-p pad-zero">
-                            {{ search_form.query(class="col txt-suggest", placeholder=search_form.query.description) }}
+                            {{ search_form.query(class="col txt-suggest", placeholder=search_form.query.description, maxlength=100) }}
                         </div>
                         <div class="col-3 pad-zero">
-                            <div class="row cursor-ptr margin-zero-lr" onclick="document.getElementById('search_form').submit();">
+                            <div class="row cursor-ptr margin-zero-lr" onclick="document.getElementById('{{ search_form.submit.id }}').click();">
                                 <div class="col text-center no-decor">
                                     <a class="txt-clr-purple header-s text-icon-container">
                                         <img src="{{ url_for('static', filename='imgs/search.svg') }}" class="filter-purple icon-xs large-only">
                                         Поиск
+                                        {{ search_form.submit(hidden='') }}
                                     </a>
                                 </div>
                             </div>
@@ -34,10 +35,12 @@
                         {% if current_user.is_authenticated %}
 
                         <div class="col pad-zero">
-                            <a class="txt-clr-white text-regular text-icon-container" href="{{ url_for('profile.profile_page', id=current_user.id) }}">
-                            <img src="{{ url_for('static', filename='imgs/user.svg') }}" class="filter-white icon-xs large-only">
-                                Профиль
-                            </a>
+                            {% if current_user.type != 'moderator' %}
+                                <a class="txt-clr-white text-regular text-icon-container" href="{{ url_for('profile.profile_page', id=current_user.id) }}">
+                                <img src="{{ url_for('static', filename='imgs/user.svg') }}" class="filter-white icon-xs large-only">
+                                    Профиль
+                                </a>
+                            {% endif %}
                         </div>
                         <div class="col pad-zero">
                             <a class="txt-clr-white text-regular text-icon-container" href="{{ url_for('auth.logout') }}">

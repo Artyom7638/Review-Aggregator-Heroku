@@ -1,5 +1,5 @@
 from wtforms import TextAreaField, StringField
-from wtforms.validators import InputRequired, Length, Optional
+from wtforms.validators import Length, Optional
 
 from src.forms.phone_number_services_form import PhoneNumberServicesForm
 from src.forms.profile.client_profile_edit_form import ClientProfileEditForm

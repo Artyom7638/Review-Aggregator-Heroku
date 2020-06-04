@@ -1,17 +1,14 @@
 from cheroot.wsgi import Server as WSGIServer
 from cheroot.ssl.builtin import BuiltinSSLAdapter
 from cheroot.ssl.pyopenssl import pyOpenSSLAdapter
-
 from src import app
 
 
-# app.subdomain_matching = True
-
 server = WSGIServer(('0.0.0.0', 8100), app)
 # adapter = BuiltinSSLAdapter(certificate="certificate.pem", private_key="certificate_private_key.pem")
-# adapter = pyOpenSSLAdapter(certificate="certificate.pem", private_key="certificate_private_key.pem")
+adapter = pyOpenSSLAdapter(certificate="certificate.pem", private_key="certificate_private_key.pem")
 
-# server.ssl_adapter = adapter
+server.ssl_adapter = adapter
 
 
 if __name__ == '__main__':

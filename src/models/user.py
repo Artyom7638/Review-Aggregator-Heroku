@@ -1,11 +1,10 @@
 from flask_login import UserMixin
-
 from b_crypt import bcrypt
 from database import db
 
 
 class User(UserMixin, db.Model):
-    __tablename__ = 'client'
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), index=True, unique=True)
     type = db.Column(db.String(20))

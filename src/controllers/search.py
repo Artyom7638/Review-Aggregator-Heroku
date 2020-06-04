@@ -61,6 +61,7 @@ def search():
     categories = [int(category[1:]) for category in search_filter_form.services.data if category[0] == 'c']
     for category_id in categories:
         query = query.filter(Master.services.any(Service.category_id == category_id))
+    query = query.filter(Master.is_not_blocked.is_(True))
     if search_filter_form.sort.data == 'rating':
         if search_filter_form.order.data == 'desc':
             query = query.order_by(Master.average_rating.desc())
@@ -77,4 +78,5 @@ def search():
     pagination = query.paginate(int(search_filter_form.page.data), Config.SEARCH_MASTERS_PER_PAGE, True)
     return render_template('search.html', title='Поиск', search_form=SearchForm(), query=search_query,
                            search_filter_form=search_filter_form, masters=pagination.items, pagination=pagination,
-                           categories=categories_dict)
+                           categories=categories_dict, master_found=search_filter_form.master.data != '',
+                           filters=True if search_filter_form.services.data else False)

@@ -1,4 +1,5 @@
-Загрузить фото в галерею
+{% from "display_form_errors.html" import display_form_errors %}
+{% extends 'layout.html' %}
 {% block additional_libraries %}
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="{{ url_for('static', filename='js/file_preview.js') }}"></script>
@@ -9,16 +10,18 @@
 		<!-- reg form -->
 		<div class="row justify-content-center align-content-center margin-bot-xl margin-top-xl margin-lr-auto w80">
 			<div class="col bgr-grad-rad content-area">
-				<form class="col pad-zero pad-v-s margin-top-m margin-bot-s" name="edit_form">
-					<div class="row margin-left-s margin-right-s align-content-center">
+                {{ display_form_errors(photo_form, dont_display_name=True) }}
+				<form method="post" enctype="multipart/form-data" class="col pad-zero pad-v-s margin-top-m margin-bot-s" name="edit_form" >
+                    <div class="row margin-left-s margin-right-s align-content-center">
 						<div class="col pad-zero">
 							<div class="header-md-thin txt-clr-white">{{ title }}</div>
 						</div>
 						<div class="col pad-zero">
 							<div class="row margin-zero-lr justify-content-end">
 								<div class="upload-btn-wrapper">
-									<button class="btn bgr-plain-white txt-clr-purple">Выбрать фото</button>
-									<input accept="image/*" onchange="loadFile(event);" type="file" name="myfile"/>
+									<button class="btn bgr-plain-white txt-clr-purple">Выбрать файл</button>
+                                    <!-- {{ photo_form.photo(onchange="loadFile(event);", accept="image/*") }} -->
+                                    {{ photo_form.photo(onchange="loadFile(event);", accept=".png, .jpg, .jpeg") }}
 								</div>
 							</div>
 						</div>
@@ -27,6 +30,9 @@
 						<div class="col pad-zero content-area margin-left-s margin-right-s margin-top-s margin-bot-s">
 							<div class="row margin-zero-lr justify-content-center bgr-no content-area txt-center-algn" id="filler">
 								<div class="header-md-thin txt-clr-white margin-top-m">Здесь будет отображаться загруженное фото</div>
+								<div class="col-5 pad-zero margin-bot-m margin-top-m">
+									<img class="w100" src="{{ url_for('static', filename='imgs/computer.svg') }}">
+								</div>
 							</div>				
 							<div class="col pad-zero content-area margin-lr-auto margin-top-s margin-bot-s justify-content-center" id="imgParent">
 								<div class="img_container image-view margin-lr-auto" id="preview">
@@ -34,11 +40,12 @@
 							</div>
 						</div>
 					</div>
-					<div class="row pad-v-m justify-content-center">
+					<div class="row pad-v-xs justify-content-center">
 						<div class="col-md-auto reg-bttn pad-zero">
-							<input type="submit" name="login" class="col align-self-center header-md auto-mg-t-b txt-clr-purple pad-zero btn bgr-plain-white margin-left-xs margin-right-xs" value="Сохранить">
+                            {{ photo_form.save(class="col align-self-center header-md auto-mg-t-b txt-clr-purple btn bgr-plain-white pad-lr-s") }}
 						</div>
 					</div>
+                    {{ photo_form.hidden_tag() }}
 				</form>	
 			</div>
 		</div>

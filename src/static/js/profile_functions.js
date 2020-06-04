@@ -17,6 +17,12 @@ function switchReviews(show, hide) {
 
 	block_show.style.display = "flex";
 	block_hide.style.display = "none";
+
+
+	var pagination_show = document.getElementById(show + "_pagination");
+	var pagination_hide = document.getElementById(hide + "_pagination");
+	pagination_show.style.display = "block";
+	pagination_hide.style.display = "none";
 }
 
 function switchBlock(id, state) {
@@ -24,7 +30,11 @@ function switchBlock(id, state) {
 	block.style.display = state;
 }
 
-function showPhoto(clickedElement) {
+function showPhoto(clickedElement, link) {
+	var a = document.getElementById( "delete_link");
+	if (a)
+		{a.href = link;}
+
 	window.onresize = resizeImage;
 	clicked = clickedElement;
 
@@ -130,7 +140,14 @@ function setDeleteInfo(link) {
 	if(btn == null)
 		return;
 
-	btn.onclick = function() { fetch(link); };
+	$("#deleteReviewConfirm").click(function(){ window.location.href=link; });
+	/*
+	function redirect() {
+	  fetch(link);
+	}
+	btn.on( "click", redirect );
+
+	btn.onclick = function() { fetch(link); };*/
 }
 
 
@@ -139,7 +156,8 @@ function setBlockInfo(link) {
 	if(btn == null)
 		return;
 
-	btn.onclick = function() { fetch(link); };
+	$("#blockUserConfirm").click(function(){ window.location.href=link; });
+	// btn.onclick = function() { fetch(link); };
 }
 
 function resizeImage() {

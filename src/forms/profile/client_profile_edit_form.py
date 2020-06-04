@@ -1,5 +1,4 @@
-from wtforms import SubmitField, StringField
-from wtforms.validators import InputRequired, Length
+from wtforms import SubmitField
 
 from src.forms.name_surname_form import NameSurnameForm
 

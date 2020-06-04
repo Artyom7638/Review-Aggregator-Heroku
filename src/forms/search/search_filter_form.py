@@ -1,7 +1,5 @@
 from flask_wtf import FlaskForm
 from wtforms import RadioField, HiddenField
-
-from src.models.service import Service
 from src.forms.multi_checkbox_field import MultiCheckboxField
 from src.models.category import Category
 

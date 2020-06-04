@@ -1,8 +1,7 @@
 from flask import url_for, request
 from flask_login import LoginManager
 from werkzeug.utils import redirect
-
-from src.models.client import Client
+from src.models.user import User
 
 login_manager = LoginManager()
 
@@ -14,4 +13,4 @@ def unauthorized_callback():
 
 @login_manager.user_loader
 def load_user(id):
-    return Client.query.get(int(id))
+    return User.query.get(int(id))
