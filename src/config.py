@@ -8,8 +8,7 @@ class Config:
     # SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://user:password@localhost/schema'
     SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://b090720cd8f1d9:4580a67d@eu-cdbr-west-03.cleardb.net/heroku_bdc795ab95daab9'
     SQLALCHEMY_ENGINE_OPTIONS = {
-        "pool_pre_ping": True,
-        "pool_recycle": 600,
+        "pool_pre_ping": True
     }
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_EXTENSIONS = {'png', 'jpg', 'jpeg'}
