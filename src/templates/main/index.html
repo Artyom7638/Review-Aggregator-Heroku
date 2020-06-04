@@ -149,7 +149,9 @@
             $(".search-page-redirect").click(function(evt){
                 category = $(evt.target).text();
                 $('{{ id }}').val(category);
-                document.forms['search_form'].submit();
+                // $('#search_form').submit();
+                // document.forms['search_form'].submit();
+                document.getElementById('{{ search_form.submit.id }}').click();
             });
         });
     </script>
