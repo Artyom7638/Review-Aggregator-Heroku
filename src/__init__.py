@@ -14,6 +14,7 @@ from src.controllers.profile import profile
 from src.models.service import Service
 from src.models.category import Category
 from src.models.moderator import Moderator
+from flask_talisman import Talisman
 
 
 def init_db_categories_and_services():
@@ -67,6 +68,7 @@ with app.app_context():
     db.session.commit()
 bcrypt.init_app(app)
 mail.init_app(app)
+Talisman(app, content_security_policy=None)
 app.register_blueprint(main)
 app.register_blueprint(search_blueprint)
 app.register_blueprint(auth)
