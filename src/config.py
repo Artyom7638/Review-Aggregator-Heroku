@@ -25,4 +25,3 @@ class Config:
     MAIL_PASSWORD = 'password'
     EMAIL_ADDRESS = 'name@gmail.com'  # необходимо чтоб знать с какой почты отправлять
     EMAIL_CONFIRMATIONS_DISABLED = True
-    TEST = True
