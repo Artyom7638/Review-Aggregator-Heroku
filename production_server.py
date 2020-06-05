@@ -1,6 +1,6 @@
 import os
 from cheroot.wsgi import Server as WSGIServer
-from cheroot.ssl import BuiltinSSLAdapter
+from cheroot.ssl.builtin import BuiltinSSLAdapter
 from cheroot.ssl.pyopenssl import pyOpenSSLAdapter
 from src import app
 import cheroot.ssl.builtin
