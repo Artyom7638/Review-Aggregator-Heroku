@@ -14,8 +14,9 @@ from src.controllers.profile import profile
 from src.models.service import Service
 from src.models.category import Category
 from src.models.moderator import Moderator
+# from flask_sslify import SSLify
+from flasgger import Swagger
 from flask_talisman import Talisman
-from flask_sslify import SSLify
 
 
 def init_db_categories_and_services():
@@ -69,7 +70,7 @@ with app.app_context():
     db.session.commit()
 bcrypt.init_app(app)
 mail.init_app(app)
-Talisman(app, content_security_policy=[])
+Talisman(app, content_security_policy=None)
 # sslify = SSLify(app)
 app.register_blueprint(main)
 app.register_blueprint(search_blueprint)
@@ -81,6 +82,8 @@ app.register_blueprint(moderator)
 # app.register_error_handler(500, lambda x: render_error(500))
 if not os.path.isdir(Config.UPLOAD_FOLDER):
     os.mkdir(Config.UPLOAD_FOLDER, 0o744)
+swagger = Swagger(app)
+
 
 '''
 @app.errorhandler(404)
