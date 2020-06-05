@@ -1,0 +1,62 @@
+Страница регистрации мастера
+  ---
+  parameters:
+  - in: formData
+    name: email
+    type: string
+    description: Электронная почта
+    required: true
+  - in: formData
+    name: password
+    type: string
+    description: Пароль
+    required: true
+  - in: formData
+    name: repeat_password
+    type: string
+    description: Повторите пароль
+    required: true
+  - in: formData
+    name: name
+    type: string
+    description: Имя
+    required: true
+  - in: formData
+    name: surname
+    type: string
+    description: Фамилия
+    required: true
+  - in: formData
+    name: phone_number
+    type: string
+    description: Телефон
+    required: true
+  - in: formData
+    name: services
+    description: Оказываемые услуги
+    required: true
+    type: array
+    items:
+      type: string
+      enum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+    collectionFormat: multi
+
+
+
+  consumes:
+    application/x-www-form-urlencoded
+  produces:
+  - text/html
+
+  responses:
+    302:
+      description: |-
+        Если форма прошла валидацию и в системе нет пользователя с такой электронной почтой, регистрирует пользователя, авторизует его, отправляет письмо с ссылкой для подтверждения почты и перенаправляет на главную страницу.
+        Перенаправляет на главную страницу если пользователь авторизован.
+    200:
+      description: |-
+        Возвращает страницу регистрации, если форма не прошла валидацию или в системе уже существует пользователь с такой электронной почтой
+      content:
+        text/html:
+          schema:
+            type: string

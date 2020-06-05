@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block additional_libraries %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">   <!-- было только в профиле клиента почему-то, и с этим немного ломается профиль мастера, надеюсь без этого тоже будет работать. Работает всё, кроме модалов -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styling.css') }}">
 {% endblock %}

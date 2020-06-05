@@ -1,0 +1,46 @@
+Страница регистрации клиента
+  ---
+  parameters:
+  - in: formData
+    name: email
+    type: string
+    description: Электронная почта
+    required: true
+  - in: formData
+    name: password
+    type: string
+    description: Пароль
+    required: true
+  - in: formData
+    name: repeat_password
+    type: string
+    description: Повторите пароль
+    required: true
+  - in: formData
+    name: name
+    type: string
+    description: Имя
+    required: true
+  - in: formData
+    name: surname
+    type: string
+    description: Фамилия
+    required: true
+
+  consumes:
+    application/x-www-form-urlencoded
+  produces:
+  - text/html
+
+  responses:
+    302:
+      description: |-
+        Если форма прошла валидацию и в системе нет пользователя с такой электронной почтой, регистрирует пользователя, авторизует его, отправляет письмо с ссылкой для подтверждения почты и перенаправляет на главную страницу.
+        Перенаправляет на главную страницу если пользователь авторизован.
+    200:
+      description: |-
+        Возвращает страницу регистрации, если форма не прошла валидацию или в системе уже существует пользователь с такой электронной почтой
+      content:
+        text/html:
+          schema:
+            type: string

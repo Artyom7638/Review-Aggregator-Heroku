@@ -1,4 +1,6 @@
 import os
+
+from flasgger import swag_from
 from flask import Blueprint, render_template, redirect, url_for, request, current_app
 from flask_login import current_user, login_user, logout_user, login_required
 from database import db
@@ -24,6 +26,8 @@ auth = Blueprint('auth', __name__, template_folder=os.path.join(Config.TEMPLATE_
 
 
 @auth.route('/login', methods=['GET', 'POST'])
+@swag_from('yml/login_get.yml', methods=['GET'])
+@swag_from('yml/login_post.yml', methods=['POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
@@ -44,12 +48,15 @@ def login():
 
 @auth.route("/logout")
 @login_required
+@swag_from('yml/logout.yml')
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
 
 
 @auth.route('/registration/client', methods=['GET', 'POST'])
+@swag_from('yml/registration_client_get.yml', methods=['GET'])
+@swag_from('yml/registration_client_post.yml', methods=['POST'])
 def client_registration():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
@@ -76,10 +83,13 @@ def client_registration():
 
 
 @auth.route('/registration/master', methods=['GET', 'POST'])
+@swag_from('yml/registration_master_get.yml', methods=['GET'])
+@swag_from('yml/registration_master_post.yml', methods=['POST'])
 def master_registration():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
     registration_form = MasterRegistrationForm()
+    t = request
     if registration_form.validate_on_submit():
         user = User.query.filter_by(email=registration_form.email.data).first()
         if not user:
@@ -105,9 +115,8 @@ def master_registration():
 
 @auth.route('/confirm-email/<token>')
 @login_required
+@swag_from('yml/confirm_email.yml')
 def confirm_email(token):
-    if not current_user.is_authenticated:
-        return "<h1>Вы должны быть авторизованы чтобы подтвердить адрес почты.</h1>"
     id = verify_reset_password_token(token)
     confirmed = False
     if id:
@@ -122,7 +131,10 @@ def confirm_email(token):
 
 @auth.route('/resend-email')
 @login_required
+@swag_from('yml/resend_email.yml')
 def resend_email():
+    if current_user.email_confirmed:
+        return redirect(url_for('main.index'))
     delta = datetime.now() - current_user.email_confirmation_sent_date
     successfully_sent = False
     if delta.total_seconds() > 3600:

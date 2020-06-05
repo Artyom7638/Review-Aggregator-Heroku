@@ -1,0 +1,36 @@
+Страница авторизации
+  ---
+  parameters:
+  - in: query
+    name: next
+    schema:
+      type: string
+    description: URL на который перенаправить после авторизации (относительно корня сайта). Например, "/search".
+  - in: formData
+    name: email
+    type: string
+    description: Электронная почта
+    required: true
+  - in: formData
+    name: password
+    type: string
+    description: Пароль
+    required: true
+
+  consumes:
+    application/x-www-form-urlencoded
+  produces:
+  - text/html
+
+  responses:
+    302:
+      description: |-
+        Если введённые логин и пароль правильные, авторизует пользователя и перенаправляет на главную страницу или по URL в параметре "next" при его наличии и если он не является динамическим и не является внешним URL (ведущим за пределы сайта).
+        Если пользователь уже авторизован, перенаправляет на главную страницу.
+    200:
+      description: |-
+        Возвращает страницу авторизации, если форма не прошла валидацию или введён неверный логин или пароль
+      content:
+        text/html:
+          schema:
+            type: string

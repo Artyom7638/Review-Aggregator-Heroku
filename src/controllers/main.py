@@ -15,7 +15,7 @@ main = Blueprint('main', __name__, template_folder=os.path.join(Config.TEMPLATE_
 
 
 @main.route('/')
-@swag_from('index.yml')
+@swag_from('yml/index.yml')
 def index():
     m = db.session.query(Master, func.count(Review.id).label('total')).outerjoin(Review).\
         filter(Master.is_not_blocked.is_(True)).group_by(Master).order_by(text('total DESC')).limit(3).all()

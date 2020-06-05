@@ -1,0 +1,24 @@
+Страница подтверждения почты
+  ---
+  parameters:
+  - in: path
+    name: token
+    schema:
+      type: string
+    description: Token подтверждения почты
+    required: true
+
+  produces:
+  - text/html
+
+  responses:
+    302:
+      description: |-
+        Если пользователь не авторизован, перенаправляет на страницу авторизации.
+    200:
+      description: |-
+        Возвращает страницу с информацией о том, удалось ли подтвердить почту.
+      content:
+        text/html:
+          schema:
+            type: string
