@@ -8,8 +8,8 @@ import cheroot.ssl.builtin
 
 port = int(os.environ.get('PORT', 8100))
 server = WSGIServer(('0.0.0.0', port), app)
-adapter = BuiltinSSLAdapter(certificate="certificate.pem", private_key="certificate_private_key.pem")
 cheroot.ssl.builtin.IS_BELOW_PY37 = True
+adapter = BuiltinSSLAdapter(certificate="certificate.pem", private_key="certificate_private_key.pem")
 # adapter = pyOpenSSLAdapter(certificate="certificate.pem", private_key="certificate_private_key.pem")
 server.ssl_adapter = adapter
 
