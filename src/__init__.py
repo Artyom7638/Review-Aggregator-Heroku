@@ -101,6 +101,16 @@ swagger_config = {
 # swagger = Swagger(app)
 swagger = Swagger(app, config=swagger_config)
 
+
+def _force_https(app):
+    def wrapper(environ, start_response):
+        environ['wsgi.url_scheme'] = 'https'
+        return app(environ, start_response)
+    return wrapper
+
+
+app = _force_https(app)
+
 '''
 @app.errorhandler(404)
 def not_found(e):
