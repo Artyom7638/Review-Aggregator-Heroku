@@ -64,7 +64,8 @@ def client_registration():
         return redirect(url_for('main.index'))
     registration_form = ClientRegistrationForm()
     if registration_form.validate_on_submit():
-        user = User.query.filter_by(email=registration_form.email.data).first()
+        # user = User.query.filter_by(email=registration_form.email.data).first()
+        user = None
         if not user:
             client = Client(email=registration_form.email.data, name=registration_form.name.data,
                             surname=registration_form.surname.data)
