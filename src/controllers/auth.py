@@ -175,7 +175,7 @@ def send_email(subject, sender, recipients, text_body, html_body):
     to_email = To(recipients[0])
     subject = subject
     plain_text_content = PlainTextContent(text_body)
-    html_content = HtmlContent(render_template(html_body))
+    html_content = HtmlContent(html_body)
     mail = Mail(from_email, to_email, subject, plain_text_content, html_content)
     '''
     msg = Message(subject, sender=sender, recipients=recipients)
