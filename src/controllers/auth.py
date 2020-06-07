@@ -137,7 +137,7 @@ def resend_email():
         return redirect(url_for('main.index'))
     delta = datetime.now() - current_user.email_confirmation_sent_date
     successfully_sent = False
-    if delta.total_seconds() > 3600:
+    if delta.total_seconds() > 600:
         send_email_confirmation()
         current_user.email_confirmation_sent_date = datetime.now()
         db.session.commit()
