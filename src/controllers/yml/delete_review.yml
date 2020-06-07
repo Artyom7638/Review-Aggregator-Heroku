@@ -1,11 +1,11 @@
-Удаление отзыва
+Удалить отзыв
   ---
   parameters:
   - in: path
     name: id
-    schema:
-      type: string
-    description: ID отзыва для удаления
+    type: integer
+    minimum: 1
+    description: ID отзыва для удаления (не менее 1)
     required: true
 
   produces:

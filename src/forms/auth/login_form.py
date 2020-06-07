@@ -5,6 +5,6 @@ from wtforms.validators import InputRequired, Email, Length
 
 
 class LogInForm(FlaskForm):
-    email = EmailField('Логин', validators=[InputRequired(), Email(), Length(max=50)])
-    password = PasswordField('Пароль', validators=[InputRequired(), Length(max=50)])
+    email = EmailField('Логин', validators=[InputRequired(), Email(), Length(min=5, max=50)])
+    password = PasswordField('Пароль', validators=[InputRequired(), Length(min=5, max=50)])
     log_in = SubmitField('Войти')

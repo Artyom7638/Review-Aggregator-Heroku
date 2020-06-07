@@ -8,7 +8,7 @@ class SearchFilterForm(FlaskForm):
     class Meta:
         csrf = False
     services = MultiCheckboxField('Услуги', choices=[])
-    sort = RadioField('Сортировка', choices=[('review_count', 'По количеству отзывов'), ('rating', 'По рейтингу')],
+    sort = RadioField('Сортировка', choices=[('review-count', 'По количеству отзывов'), ('rating', 'По рейтингу')],
                       default='rating')
     order = RadioField('Порядок', choices=[('asc', 'По возрастанию'), ('desc', 'По убыванию')], default='desc')
     query = HiddenField()

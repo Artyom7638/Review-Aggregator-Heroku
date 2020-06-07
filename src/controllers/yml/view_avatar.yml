@@ -1,0 +1,29 @@
+Фото профиля
+  ---
+  parameters:
+  - in: path
+    name: id
+    description: ID пользователя (не менее 1)
+    type: integer
+    minimum: 1
+    required: true
+
+  produces:
+  - image/jpeg
+  - image/png
+  - text/html
+
+  responses:
+    200:
+      description: |-
+        Возвращает фото профиля пользователя. Если пользователь не загружал фото профиля или файл не найден, возвращает стандартное фото профиля.
+      content:
+        - image/jpeg
+        - image/png
+    404:
+      description: |-
+        Возвращает ошибку 404 если пользователь с таким id не существует или является модератором.
+      content:
+        text/html:
+          schema:
+            type: string

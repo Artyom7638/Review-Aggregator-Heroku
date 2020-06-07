@@ -1,7 +1,13 @@
 import os
+import time
+from datetime import datetime
+
 from PIL import Image
-from flask import Blueprint, render_template, abort, url_for, redirect, request, send_file
+from flasgger import swag_from
+from flask import Blueprint, render_template, abort, url_for, redirect, request, send_file, jsonify
 from flask_login import current_user, login_required
+from werkzeug.http import http_date
+
 from database import db
 from src.config import Config
 from src.controllers.review import is_allowed_to_review
@@ -23,6 +29,7 @@ profile = Blueprint('profile', __name__, template_folder=os.path.join(Config.TEM
 
 
 @profile.route('/<int:id>')
+@swag_from('yml/profile_page.yml')
 def profile_page(id):
     user = Client.query.get_or_404(id)
     if user.type == 'moderator':  # по идее не требуется так как выше уже сразу client а не user запрашиваетcя
@@ -51,13 +58,15 @@ def profile_page(id):
 
 @profile.route('/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
+@swag_from('yml/profile_edit_get.yml', methods=['GET'])
+@swag_from('yml/profile_edit_post.yml', methods=['POST'])
 def profile_edit(id):
     user = Client.query.get_or_404(id)
     if user != current_user:
         abort(403)
     if not user.is_not_blocked:
         abort(403)
-    if not current_user.email_confirmed:
+    if not current_user.email_confirmed:  # нет проверки что не модератор, так как выше уже клиент запрашивается сразу
         abort(403)
     if user.type == 'master':
         edit_form = MasterProfileEditForm()
@@ -83,8 +92,9 @@ def profile_edit(id):
 
 
 @profile.route('/<int:id>/avatar')
+@swag_from('yml/view_avatar.yml')
 def avatar(id):
-    user = Client.query.get_or_404(id)
+    user = Client.query.get_or_404(id)  # нет проверки что не модератор, так как выше уже клиент запрашивается сразу
     path = user.get_avatar_path()
     if path and os.path.isfile(path):
         return send_file(path)
@@ -93,9 +103,19 @@ def avatar(id):
         return send_file(path)
 
 
+'''
+@profile.after_request
+def add_header(response):
+    if request.endpoint == 'profile.avatar':
+        response.headers['Last-Modified'] = http_date(time.time())
+    return response
+'''
+
+
 @profile.route('/photos/<int:id>')
+@swag_from('yml/view_photo.yml')
 def photo(id):
-    photo = Photo.query.get_or_404(id)
+    photo = Photo.query.get_or_404(id)  # нет проверки что не модератор, так как выше уже клиент запрашивается сразу
     path = photo.get_photo_path()
     if path and os.path.isfile(path):
         return send_file(path)
@@ -104,22 +124,27 @@ def photo(id):
 
 @profile.route('/<int:id>/upload-avatar', methods=['GET', 'POST'])
 @login_required
+@swag_from('yml/upload_avatar_get.yml', methods=['GET'])
+@swag_from('yml/upload_avatar_post.yml', methods=['POST'])
 def upload_avatar(id):
-    photo_form = PhotoUploadForm()
+    photo_form = PhotoUploadForm()  # нет проверки что не модератор, так как выше уже клиент запрашивается сразу
     return upload_image(id, photo_form, avatar=True)
 
 
 @profile.route('/<int:id>/upload-photo', methods=['GET', 'POST'])
 @login_required
+@swag_from('yml/upload_photo_get.yml', methods=['GET'])
+@swag_from('yml/upload_photo_post.yml', methods=['POST'])
 def upload_photo(id):
-    photo_form = PhotoUploadForm()
+    photo_form = PhotoUploadForm()  # нет проверки что не модератор, так как выше уже клиент запрашивается сразу
     return upload_image(id, photo_form, avatar=False)
 
 
 @profile.route('/photos/<int:id>/delete')
 @login_required
+@swag_from('yml/delete_photo.yml')
 def delete_photo(id):
-    photo = Photo.query.get_or_404(id)
+    photo = Photo.query.get_or_404(id)  # нет проверки что не модератор, так как выше уже клиент запрашивается сразу
     master = Master.query.get(photo.master_id)
     if master != current_user:
         abort(403)
@@ -197,6 +222,7 @@ def upload_image_file(file, user, photo_form, avatar=False):
         db.session.commit()
         os.remove(os.path.join(folder, 'temp' + '.' + extension))
         return True
+    image.close()
     os.remove(os.path.join(folder, 'temp' + '.' + extension))
     photo_form.errors['photo'] = ['Изображение должно быть хотя бы 300х300 пикселей']
     return False

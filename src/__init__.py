@@ -70,7 +70,7 @@ with app.app_context():
     db.session.commit()
 bcrypt.init_app(app)
 mail.init_app(app)
-Talisman(app, content_security_policy=None)
+Talisman(app, content_security_policy=None)  # должно быть отключено на локальном сервере для работы Сваггера
 # sslify = SSLify(app)
 app.register_blueprint(main)
 app.register_blueprint(search_blueprint)
@@ -96,10 +96,20 @@ swagger_config = {
     "static_url_path": "/flasgger_static",
     # "static_folder": "static",  # must be set by user
     "swagger_ui": True,
-    "specs_route": "/apidocs/", 'uiversion': 3
+    "specs_route": "/apidocs/", 'uiversion': 3, # 'openapi': '3.0.2',
+    "title": 'Beauty You API', 'hide_top_bar': True
 }
+
+template = dict(
+    info={
+        'title': 'Beauty You API',
+        'version': '0.7',
+        'description': '',
+        'termsOfService': ''
+    },
+)
 # swagger = Swagger(app)
-swagger = Swagger(app, config=swagger_config)
+swagger = Swagger(app, config=swagger_config, template=template)
 
 
 def _force_https(app):

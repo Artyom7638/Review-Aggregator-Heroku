@@ -3,9 +3,8 @@
   parameters:
   - in: path
     name: token
-    schema:
-      type: string
-    description: Token подтверждения почты
+    type: string
+    description: JSON Web Token для подтверждения почты, сгенерированный по алгоритму HS256 и содержащий id пользователя и exp (определяет момент истечения срока годности токена).
     required: true
 
   produces:

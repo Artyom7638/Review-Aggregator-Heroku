@@ -3,18 +3,24 @@
   parameters:
   - in: query
     name: next
-    schema:
-      type: string
+    type: string
     description: URL на который перенаправить после авторизации (относительно корня сайта). Например, "/search".
   - in: formData
     name: email
     type: string
-    description: Электронная почта
+    minLength: 5
+    maxLength: 50
+    format: email
+    pattern: '^.+@.+\..+$'
+    description: Электронная почта (от 5 до 50 символов)
     required: true
   - in: formData
     name: password
     type: string
-    description: Пароль
+    minLength: 5
+    maxLength: 50
+    format: password
+    description: Пароль (от 5 до 50 символов)
     required: true
 
   consumes:

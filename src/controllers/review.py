@@ -1,3 +1,4 @@
+from flasgger import swag_from
 from flask import Blueprint, abort, url_for, redirect, flash
 from flask_login import login_required, current_user
 from sqlalchemy import func
@@ -12,6 +13,7 @@ review = Blueprint('review', __name__,)
 
 @review.route('/users/<int:id>/review', methods=['POST'])
 @login_required
+@swag_from('yml/post_review.yml')
 def post_review(id):
     user = Master.query.get_or_404(id)
     allowed_to_review = is_allowed_to_review(user) and current_user.email_confirmed

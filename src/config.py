@@ -14,7 +14,7 @@ class Config:
     UPLOAD_EXTENSIONS = {'png', 'jpg', 'jpeg'}
     UPLOAD_FOLDER = os.path.join(ROOT, 'photos')
     IMAGES_RESOLUTION = (800, 800)
-    MAX_CONTENT_LENGTH = 1024 * 1024 * 10  # 1024^2 = MB
+    MAX_CONTENT_LENGTH = 1024 * 1024 * 3  # 1024^2 = MB
     MAX_PHOTOS_SPACE_PER_MASTER = 20  # MB
     REVIEWS_PER_PAGE = 3
     SEARCH_MASTERS_PER_PAGE = 6

@@ -3,8 +3,7 @@
   parameters:
   - in: query
     name: next
-    schema:
-      type: string
+    type: string
     description: URL на который перенаправить после авторизации (относительно корня сайта). Например, "/search".
 
   produces:

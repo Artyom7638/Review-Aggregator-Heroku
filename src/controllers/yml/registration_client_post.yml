@@ -4,27 +4,41 @@
   - in: formData
     name: email
     type: string
-    description: Электронная почта
+    minLength: 5
+    maxLength: 50
+    format: email
+    pattern: '^.+@.+\..+$'
+    description: Электронная почта (от 5 до 50 символов)
     required: true
   - in: formData
     name: password
     type: string
-    description: Пароль
+    minLength: 5
+    maxLength: 50
+    format: password
+    description: Пароль (от 5 до 50 символов)
     required: true
   - in: formData
     name: repeat_password
     type: string
-    description: Повторите пароль
+    minLength: 5
+    maxLength: 50
+    format: password
+    description: Повторите пароль (от 5 до 50 символов)
     required: true
   - in: formData
     name: name
     type: string
-    description: Имя
+    minLength: 2
+    maxLength: 25
+    description: Имя (от 2 до 25 символов)
     required: true
   - in: formData
     name: surname
     type: string
-    description: Фамилия
+    minLength: 2
+    maxLength: 25
+    description: Фамилия (от 2 до 25 символов)
     required: true
 
   consumes:

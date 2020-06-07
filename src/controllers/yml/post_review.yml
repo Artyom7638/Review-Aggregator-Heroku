@@ -1,0 +1,40 @@
+Опубликовать отзыв
+  ---
+  parameters:
+  - in: path
+    name: id
+    description: ID мастера, о котором отзыв (не менее 1)
+    type: integer
+    minimum: 1
+    required: true
+  - in: formData
+    name: content
+    type: string
+    minLength: 10
+    maxLength: 1000
+    description: Текст отзыва (от 10 до 1000 символов)
+    required: true
+  - in: formData
+    name: rating
+    type: integer
+    enum: [1, 2, 3, 4, 5]
+    description: Оценка
+    required: true
+
+  consumes:
+    application/x-www-form-urlencoded
+  produces:
+  - text/html
+
+  responses:
+    302:
+      description: |-
+        Если удалось сохранить отзыв, перенаправляет на страницу мастера, о котором отзыв.
+        Перенаправляет на страницу мастера, о котором отзыв, если форма не прошла валидацию.
+        Если пользователь не авторизован, перенаправляет на страницу авторизации.
+    403:
+      description: |-
+        Возвращает ошибку 403, если пользователь не авторизован, id не является id мастера, id мастера совпадает с id пользователя, пользователь является модератором, пользователь заблокирован или пользователь уже оставлял отзыв об этом мастере.
+    404:
+      description: |-
+        Возвращает ошибку 404, если мастера с таким id не существует.
