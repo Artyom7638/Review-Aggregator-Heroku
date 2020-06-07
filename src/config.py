@@ -6,7 +6,7 @@ class Config:
     TEMPLATE_FOLDER = os.path.join(ROOT, 'src', 'templates')
     # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(ROOT, 'database.db')
     # SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://user:password@localhost/schema'
-    SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://b090720cd8f1d9:4580a67d@eu-cdbr-west-03.cleardb.net/heroku_bdc795ab95daab9'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('CLEARDB_DATABASE_URL')
     SQLALCHEMY_ENGINE_OPTIONS = {
         "pool_pre_ping": True
     }
@@ -24,8 +24,8 @@ class Config:
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
-    MAIL_USERNAME = 'name'
-    MAIL_PASSWORD = 'password'
-    EMAIL_ADDRESS = 'name@gmail.com'  # необходимо чтоб знать с какой почты отправлять
+    MAIL_USERNAME = os.environ.get('LOGIN', 'name')
+    MAIL_PASSWORD = os.environ.get('PASSWORD', 'password')
+    EMAIL_ADDRESS = os.environ.get('EMAIL_ADDRESS', 'name@gmail.com')  # необходимо чтоб знать с какой почты отправлять
     EMAIL_CONFIRMATIONS_DISABLED = False
     WTF_CSRF_ENABLED = False
