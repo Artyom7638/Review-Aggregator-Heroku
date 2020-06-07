@@ -6,7 +6,7 @@ class Config:
     TEMPLATE_FOLDER = os.path.join(ROOT, 'src', 'templates')
     # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(ROOT, 'database.db')
     # SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://user:password@localhost/schema'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('CLEARDB_DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector' + os.environ.get('CLEARDB_DATABASE_URL')
     SQLALCHEMY_ENGINE_OPTIONS = {
         "pool_pre_ping": True
     }
