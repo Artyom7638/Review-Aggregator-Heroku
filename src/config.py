@@ -29,6 +29,7 @@ class Config:
     MAIL_PASSWORD = os.environ.get('PASSWORD', 'password')
     '''
     EMAIL_ADDRESS = os.environ.get('EMAIL_ADDRESS', 'name@gmail.com')  # необходимо чтоб знать с какой почты отправлять
+    SENDGRID_USERNAME = os.environ.get('SENDGRID_USERNAME')
     SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', 'None')
     EMAIL_CONFIRMATIONS_DISABLED = False
     WTF_CSRF_ENABLED = False

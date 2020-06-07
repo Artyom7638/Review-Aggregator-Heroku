@@ -156,28 +156,34 @@ def send_email_confirmation():
                recipients=recipients, text_body=render_template('email_confirmation.txt', user=current_user, token=token),
                html_body=render_template('email_confirmation.html', user=current_user, token=token))
     '''
-    sg = sendgrid.SendGridAPIClient(api_key=Config.SENDGRID_API_KEY)
-    # from_email = Email(Config.EMAIL_ADDRESS, "BeautyYou")
-    from_email = Email('BeautyYou@sendgrid.com', "BeautyYou")
-    to_email = To(current_user.email)
-    subject = "Подтверждение почты для BeautyYou"
-    plain_text_content = PlainTextContent(render_template('email_confirmation.txt', user=current_user, token=token))
-    html_content = HtmlContent(render_template('email_confirmation.html', user=current_user, token=token))
-    mail = Mail(from_email, to_email, subject, plain_text_content, html_content)
-    response = sg.client.mail.send.post(request_body=mail.get())
+    send_email('Подтверждение почты для BeautyYou', sender=("BeautyYou", Config.EMAIL_ADDRESS),
+               recipients=recipients, text_body=render_template('email_confirmation.txt', user=current_user, token=token),
+               html_body=render_template('email_confirmation.html', user=current_user, token=token))
     return redirect(url_for('main.index'))
 
 
-def send_async_email(msg, context):
+def send_async_email(msg, context, sg=None, mail=None):
     with context:
-        mail.send(msg)
+        # mail.send(msg)
+        response = sg.client.mail.send.post(request_body=mail.get())
 
 
 def send_email(subject, sender, recipients, text_body, html_body):
+    sg = sendgrid.SendGridAPIClient(api_key=Config.SENDGRID_API_KEY)
+    # from_email = Email(Config.EMAIL_ADDRESS, "BeautyYou")
+    from_email = Email(Config.SENDGRID_USERNAME, "BeautyYou")
+    to_email = To(recipients[0])
+    subject = subject
+    plain_text_content = PlainTextContent(text_body)
+    html_content = HtmlContent(render_template(html_body))
+    mail = Mail(from_email, to_email, subject, plain_text_content, html_content)
+    '''
     msg = Message(subject, sender=sender, recipients=recipients)
     msg.body = text_body
     msg.html = html_body
     Thread(target=send_async_email, args=(msg, current_app.app_context())).start()
+    '''
+    Thread(target=send_async_email, args=(None, current_app.app_context(), sg, mail)).start()
 
 
 def get_token(user, expires_in=3600):  # 3600 секунд
