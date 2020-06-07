@@ -3,6 +3,8 @@ import os
 from flasgger import swag_from
 from flask import Blueprint, render_template, redirect, url_for, request, current_app
 from flask_login import current_user, login_user, logout_user, login_required
+from sendgrid import sendgrid, Email, To, Content, Mail, PlainTextContent, HtmlContent
+
 from database import db
 from src import Config
 from src.forms.auth.client_registration_form import ClientRegistrationForm
@@ -73,8 +75,8 @@ def client_registration():
             if Config.EMAIL_CONFIRMATIONS_DISABLED:
                 client.email_confirmed = True
             else:
-                send_email_confirmation()
                 client.email_confirmation_sent_date = datetime.now()
+                send_email_confirmation()
             db.session.commit()
             return redirect(url_for('main.index'))
         registration_form.errors['email'] = ['На данную почту уже зарегистрирован пользователь']
@@ -103,8 +105,8 @@ def master_registration():
             if Config.EMAIL_CONFIRMATIONS_DISABLED:
                 master.email_confirmed = True
             else:
-                send_email_confirmation()
                 master.email_confirmation_sent_date = datetime.now()
+                send_email_confirmation()
             db.session.commit()
             return redirect(url_for('main.index'))
         registration_form.errors['email'] = ['На данную почту уже зарегистрирован пользователь']
@@ -149,9 +151,20 @@ def resend_email():
 def send_email_confirmation():
     token = get_token(current_user)
     recipients = [current_user.email]
+    '''
     send_email('Подтверждение почты для BeautyYou', sender=("BeautyYou", Config.EMAIL_ADDRESS),
                recipients=recipients, text_body=render_template('email_confirmation.txt', user=current_user, token=token),
                html_body=render_template('email_confirmation.html', user=current_user, token=token))
+    '''
+    sg = sendgrid.SendGridAPIClient(api_key=Config.SENDGRID_API_KEY)
+    # from_email = Email(Config.EMAIL_ADDRESS, "BeautyYou")
+    from_email = Email('BeautyYou@sendgrid.com', "BeautyYou")
+    to_email = To(current_user.email)
+    subject = "Подтверждение почты для BeautyYou"
+    plain_text_content = PlainTextContent(render_template('email_confirmation.txt', user=current_user, token=token))
+    html_content = HtmlContent(render_template('email_confirmation.html', user=current_user, token=token))
+    mail = Mail(from_email, to_email, subject, plain_text_content, html_content)
+    response = sg.client.mail.send.post(request_body=mail.get())
     return redirect(url_for('main.index'))
 
 

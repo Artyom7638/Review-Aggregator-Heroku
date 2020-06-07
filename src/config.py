@@ -21,11 +21,14 @@ class Config:
     SECRET_KEY = os.urandom(32)
     BCRYPT_LOG_ROUNDS = 11
     MIN_AMOUNT_OF_REVIEWS_FOR_RATING = 1
+    '''
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('LOGIN', 'name')
     MAIL_PASSWORD = os.environ.get('PASSWORD', 'password')
+    '''
     EMAIL_ADDRESS = os.environ.get('EMAIL_ADDRESS', 'name@gmail.com')  # необходимо чтоб знать с какой почты отправлять
+    SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', 'None')
     EMAIL_CONFIRMATIONS_DISABLED = False
     WTF_CSRF_ENABLED = False
