@@ -51,7 +51,7 @@
                         {% else %}
 
                         <div class="col pad-zero">
-                            <a class="txt-clr-white text-regular text-icon-container" href="{{ url_for('auth.login') }}">
+                            <a class="txt-clr-white text-regular text-icon-container" href="{{ url_for('auth.login') }}" onclick="ym(64691707,'reachGoal','loginClick'); return true;">
                             <img src="{{ url_for('static', filename='imgs/login.svg') }}" class="filter-white icon-xs large-only">
                                 Войти
                             </a>
