@@ -151,11 +151,6 @@ def resend_email():
 def send_email_confirmation():
     token = get_token(current_user)
     recipients = [current_user.email]
-    '''
-    send_email('Подтверждение почты для BeautyYou', sender=("BeautyYou", Config.EMAIL_ADDRESS),
-               recipients=recipients, text_body=render_template('email_confirmation.txt', user=current_user, token=token),
-               html_body=render_template('email_confirmation.html', user=current_user, token=token))
-    '''
     send_email('Подтверждение почты для BeautyYou', sender=("BeautyYou", Config.EMAIL_ADDRESS),
                recipients=recipients, text_body=render_template('email_confirmation.txt', user=current_user, token=token),
                html_body=render_template('email_confirmation.html', user=current_user, token=token))
@@ -170,8 +165,8 @@ def send_async_email(msg, context, sg=None, mail=None):
 
 def send_email(subject, sender, recipients, text_body, html_body):
     sg = sendgrid.SendGridAPIClient(api_key=Config.SENDGRID_API_KEY)
-    # from_email = Email(Config.EMAIL_ADDRESS, "BeautyYou")
-    from_email = Email(Config.SENDGRID_USERNAME, "BeautyYou")
+    from_email = Email(Config.EMAIL_ADDRESS, "BeautyYou")
+    # from_email = Email(Config.SENDGRID_USERNAME, "BeautyYou")
     to_email = To(recipients[0])
     subject = subject
     plain_text_content = PlainTextContent(text_body)
