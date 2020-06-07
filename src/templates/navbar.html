@@ -10,11 +10,11 @@
                 <div class="col align-self-center">
                     <form class="row" action="{{ url_for('search.smart_search') }}" method="post" name="search_form" id="search_form">
                         <div class="col-9 v-line-r-p pad-zero">
-                            {{ search_form.query(class="col txt-suggest", placeholder=search_form.query.description, maxlength=100) }}
+                            {{ search_form.query(class="col txt-suggest", placeholder=search_form.query.description, maxlength=100, onfocus="ym(64691707,'reachGoal','typeText'); return true;") }}
                         </div>
                         <div class="col-3 pad-zero">
                             <div class="row cursor-ptr margin-zero-lr" onclick="document.getElementById('{{ search_form.submit.id }}').click();">
-                                <div class="col text-center no-decor">
+                                <div class="col text-center no-decor" onclick="ym(64691707,'reachGoal','srchBttnClck'); return true;">
                                     <a class="txt-clr-purple header-s text-icon-container">
                                         <img src="{{ url_for('static', filename='imgs/search.svg') }}" class="filter-purple icon-xs large-only">
                                         Поиск
