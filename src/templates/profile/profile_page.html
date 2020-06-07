@@ -189,7 +189,7 @@
                                 <div class="input-auto bgr-plain-purple txt-clr-white text-small cursor-ptr" {% if allowed_to_review and current_user.email_confirmed %} onclick="switchBlock('review_form', 'flex')" {% endif %}>
                                     {% if allowed_to_review %}
                                         {% if current_user.email_confirmed %}
-                                            <div class="margin-lr-xs margin-bot-xs margin-top-xs">
+                                            <div class="margin-lr-xs margin-bot-xs margin-top-xs" onclick="ym(64691707,'reachGoal','addReviewBttnClck'); return true;">
                                                 Добавить отзыв
                                             </div>
                                         {% else %}
@@ -264,7 +264,7 @@
                         <img src="{{ url_for('static', filename='imgs/close.svg') }}" class="filter-white icon-xs margin-right-s cursor-ptr" onclick="switchBlock('review_form', 'none')">
                     </div>
                     <div class="row margin-zero-lr justify-content-center margin-top-s">
-                        {{ review_form.content(class="content-area", placeholder="Напишите здесь текст Вашего отзыва...", minlength="10", maxlength="1000" ) }}
+                        {{ review_form.content(class="content-area", placeholder="Напишите здесь текст Вашего отзыва...", minlength="10", maxlength="1000", onfocus="ym(64691707,'reachGoal','typeReviewText'); return true;" ) }}
                     </div>
                     <div class="row align-items-center w80 justify-content-between margin-lr-auto margin-top-m margin-bot-s">
                         <div class="col pad-zero">
@@ -296,7 +296,7 @@
                         </div>
                         <div class="col-md-auto pad-zero bgr-plain-white input-m">
                             <div class="row margin-zero-lr justify-content-end h100">
-                                {{ review_form.submit(class="col align-self-center text-regular auto-mg-t-b txt-clr-purple") }}
+                                {{ review_form.submit(class="col align-self-center text-regular auto-mg-t-b txt-clr-purple", onclick="ym(64691707,'reachGoal','confirmReview'); return true;") }}
                             </div>
                         </div>
                     </div>
