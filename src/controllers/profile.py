@@ -207,7 +207,10 @@ def upload_image_file(file, user, photo_form, avatar=False):
             left = 0
             right = width
         cropped = image.crop((left, top, right, bottom))
-        cropped.thumbnail(Config.IMAGES_RESOLUTION, Image.LANCZOS)
+        if avatar:
+            cropped.thumbnail(Config.AVATARS_RESOLUTION, Image.LANCZOS)
+        else:
+            cropped.thumbnail(Config.WORK_PHOTOS_RESOLUTION, Image.LANCZOS)
         if avatar:
             user.avatar_path = 'avatar' + '.' + extension
             path = os.path.join(folder, 'avatar' + '.' + extension)
