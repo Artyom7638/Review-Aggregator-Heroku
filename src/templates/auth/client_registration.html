@@ -38,7 +38,7 @@
 							<div class="row margin-bot-top-10 w100">
 								<div class="col input-lg bgr-plain-white">
 									<div class="row h100">
-                                        {{ registration_form.password(class="col align-self-center txt-suggest", oninput="isFirstPasswordEqual(this);", placeholder=registration_form.password.label.text, maxlength="50", minlength="5") }}
+                                        {{ registration_form.password(class="col align-self-center txt-suggest", oninput="isFirstPasswordEqual(this);", placeholder=registration_form.password.label.text, maxlength="50", minlength="8") }}
 									</div>
 								</div>
 								<div class="col">
@@ -54,7 +54,7 @@
 							<div class="row margin-bot-top-10 w100">
 								<div class="col input-lg bgr-plain-white">
 									<div class="row h100">
-                                        {{ registration_form.repeat_password(class="col align-self-center txt-suggest", oninput="isSecondPasswordEqual(this);", placeholder=registration_form.repeat_password.label.text, maxlength="50", minlength="5") }}
+                                        {{ registration_form.repeat_password(class="col align-self-center txt-suggest", oninput="isSecondPasswordEqual(this);", placeholder=registration_form.repeat_password.label.text, maxlength="50", minlength="8") }}
 									</div>
 								</div>
 								<div class="col">
