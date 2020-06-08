@@ -9,9 +9,9 @@ from src.models.client import Client
 
 class ClientRegistrationForm(NameSurnameForm):
     email = EmailField('Почта', validators=[InputRequired(), Email(), Length(min=5, max=50)])
-    password = PasswordField('Пароль', validators=[InputRequired(), Length(min=5, max=50)])
+    password = PasswordField('Пароль', validators=[InputRequired(), Length(min=8, max=50)])
     repeat_password = PasswordField('Повторите пароль', validators=[InputRequired(), EqualTo('password'),
-                                                                    Length(min=5, max=50)])
+                                                                    Length(min=8, max=50)])
     register = SubmitField('Зарегистрироваться')
 
     def validate_email(self, field):
