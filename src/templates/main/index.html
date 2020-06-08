@@ -125,7 +125,11 @@
                                         </div>
                                         <!-- Текст отзыва -->
                                         <div class="text-small txt-clr-black">
-                                            {{ review.content }}
+                                            {% if review.content|length > 66 %}
+                                            {{ review.content|truncate(66)|join("...") }}
+                                            {% else %}
+											{{ review.content }}
+											{% endif %}
                                         </div>
                                         <div class="rating row align-items-center margin-zero-lr">
                                             <!-- -->
