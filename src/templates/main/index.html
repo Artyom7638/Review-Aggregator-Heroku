@@ -126,7 +126,7 @@
                                         <!-- Текст отзыва -->
                                         <div class="text-small txt-clr-black">
                                             {% if review.content|length > 66 %}
-                                            {{ review.content|truncate(66)|join("...") }}
+                                            {{ review.content|truncate(66) ~ "..." }}
                                             {% else %}
 											{{ review.content }}
 											{% endif %}
