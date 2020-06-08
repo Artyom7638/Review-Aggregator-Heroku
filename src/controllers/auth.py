@@ -135,9 +135,11 @@ def confirm_email(token):
 @login_required
 @swag_from('yml/resend_email.yml')
 def resend_email():
+    '''
     if current_user.email_confirmed:
         return redirect(url_for('main.index'))
-    delta = datetime.now() - current_user.email_confirmation_sent_date
+    '''
+    delta = datetime.now() - current_user.email_confirmation_sent_date if current_user.email_confirmation_sent_date else datetime.now() - datetime(2009, 10, 5, 18, 00)
     successfully_sent = False
     if delta.total_seconds() > 600:
         send_email_confirmation()
