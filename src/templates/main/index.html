@@ -60,7 +60,7 @@
 				<div class="row content-space-between">
                     {% for master in masters %}
                         <div class="col col-32 pad-zero">
-                            <div class="row margin-zero-lr">
+                            <div class="row margin-zero-lr h100">
                                 <div class="content-area bgr-plain-white row margin-zero-lr content-space-between">
                                     <div class="col-6 pad-zero">
                                         <a href="{{ url_for('profile.profile_page', id=master.id) }}">
@@ -71,8 +71,8 @@
                                         <div class="header-md pad-zero">
                                             <a href="{{ url_for('profile.profile_page', id=master.id) }}">{{ master.name + ' ' + master.surname }}</a>
                                         </div>
-                                        <div class="txt-clr-black">
-                                            {{ master.short_description }}
+                                        <div class="txt-clr-black h70">
+                                            {{ master.short_description|truncate(50, False, '...') }}
                                         </div>
                                         <div class="rating row align-items-center margin-zero-lr">
                                             {% if master.average_rating %}
