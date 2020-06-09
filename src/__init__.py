@@ -57,20 +57,21 @@ def init_db_categories_and_services():
 
 app = Flask(__name__)
 app.config.from_object(Config)
-db.init_app(app)
+if not Config.TESTING:
+    db.init_app(app)
+    with app.app_context():
+        db.create_all()
+        if not Category.query.all():
+            init_db_categories_and_services()
+        if not Moderator.query.filter_by(email='admin@ya.ru').first():
+            moder = Moderator(email='admin@ya.ru')
+            moder.set_password('mod_password')
+            db.session.add(moder)
+        else:
+            moder = Moderator.query.filter_by(email='admin@ya.ru').first()
+            moder.set_password('mod_password')
+        db.session.commit()
 login_manager.init_app(app)
-with app.app_context():
-    db.create_all()
-    if not Category.query.all():
-        init_db_categories_and_services()
-    if not Moderator.query.filter_by(email='admin@ya.ru').first():
-        moder = Moderator(email='admin@ya.ru')
-        moder.set_password('mod_password')
-        db.session.add(moder)
-    else:
-        moder = Moderator.query.filter_by(email='admin@ya.ru').first()
-        moder.set_password('mod_password')
-    db.session.commit()
 bcrypt.init_app(app)
 mail.init_app(app)
 Talisman(app, content_security_policy=None)  # должно быть отключено на локальном сервере для работы Сваггера

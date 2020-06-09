@@ -4,7 +4,8 @@ import os
 class Config:
     ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     TEMPLATE_FOLDER = os.path.join(ROOT, 'src', 'templates')
-    # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(ROOT, 'database.db')
+    LOCAL_DB_PATH = os.path.join(ROOT, 'database.db')
+    # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + LOCAL_DB_PATH
     # SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://user:password@localhost/schema'
     SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector' + os.environ.get('CLEARDB_DATABASE_URL')
     SQLALCHEMY_ENGINE_OPTIONS = {
@@ -34,3 +35,6 @@ class Config:
     SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', 'None')
     EMAIL_CONFIRMATIONS_DISABLED = False
     WTF_CSRF_ENABLED = False
+    TESTING = False
+    SQLALCHEMY_LOCAL_DB = 'sqlite:///' + os.path.join(ROOT, 'database.db')
+    SQLALCHEMY_LOCAL_MY_SQL_DB = 'mysql+mysqlconnector://name:password@localhost/beautyyou'
