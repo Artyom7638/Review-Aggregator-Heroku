@@ -65,8 +65,11 @@ with app.app_context():
         init_db_categories_and_services()
     if not Moderator.query.filter_by(email='admin@ya.ru').first():
         moder = Moderator(email='admin@ya.ru')
-        moder.set_password('admin')
+        moder.set_password('mod_password')
         db.session.add(moder)
+    else:
+        moder = Moderator.query.filter_by(email='admin@ya.ru').first()
+        moder.set_password('mod_password')
     db.session.commit()
 bcrypt.init_app(app)
 mail.init_app(app)
