@@ -17,10 +17,10 @@
   - in: formData
     name: password
     type: string
-    minLength: 5
+    minLength: 8
     maxLength: 50
     format: password
-    description: Пароль (от 5 до 50 символов)
+    description: Пароль (от 8 до 50 символов)
     required: true
 
   consumes:
